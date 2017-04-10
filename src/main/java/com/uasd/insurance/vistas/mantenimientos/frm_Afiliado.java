@@ -55,7 +55,6 @@ public class frm_Afiliado extends javax.swing.JInternalFrame {
      */
     public frm_Afiliado() throws Exception {
         initComponents();
-        
         afiliadoDao = new AfiliadoDao();
         afiliadoDto = new AfiliadoDto();
         
@@ -72,6 +71,9 @@ public class frm_Afiliado extends javax.swing.JInternalFrame {
         jcmbTipoCobertura.setVisible(false);
         jlblTipoCobertura.setVisible(false);
         jcmbProvincia.setSelectedIndex(1);
+        EnableFields(false);
+        Utilities.SelectFirst(jtblAfiliado);
+        PasarACampos();
     }
     
     public void LlenarCombos() throws SQLException{
@@ -380,7 +382,6 @@ public class frm_Afiliado extends javax.swing.JInternalFrame {
         jtxtSeguroSocial.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
 
         jLabel8.setFont(new java.awt.Font("Palatino Linotype", 2, 18)); // NOI18N
-        jLabel8.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sulenni\\Downloads\\user (3).png")); // NOI18N
         jLabel8.setText("FORMULARIO AFILIADO");
 
         jlblOcupacion.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
@@ -448,7 +449,18 @@ public class frm_Afiliado extends javax.swing.JInternalFrame {
 
         jftxtTelefono.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
 
+        jdtcFechaNacimiento.setDateFormatString("d-MM-yyyy");
         jdtcFechaNacimiento.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
+        jdtcFechaNacimiento.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jdtcFechaNacimientoFocusLost(evt);
+            }
+        });
+        jdtcFechaNacimiento.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jdtcFechaNacimientoPropertyChange(evt);
+            }
+        });
 
         jftxtIdentificacion.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
 
@@ -519,7 +531,6 @@ public class frm_Afiliado extends javax.swing.JInternalFrame {
         });
 
         jbttImprimir.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
-        jbttImprimir.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sulenni\\Downloads\\printer.png")); // NOI18N
         jbttImprimir.setText("Imprimir");
         jbttImprimir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -528,7 +539,6 @@ public class frm_Afiliado extends javax.swing.JInternalFrame {
         });
 
         jbttGuardar.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
-        jbttGuardar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sulenni\\Downloads\\confirm.png")); // NOI18N
         jbttGuardar.setText("Guardar");
         jbttGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -537,7 +547,6 @@ public class frm_Afiliado extends javax.swing.JInternalFrame {
         });
 
         jbttSalir.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
-        jbttSalir.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sulenni\\Downloads\\cancel.png")); // NOI18N
         jbttSalir.setText("Salir");
         jbttSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -546,7 +555,6 @@ public class frm_Afiliado extends javax.swing.JInternalFrame {
         });
 
         jbttNuevo.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
-        jbttNuevo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sulenni\\Downloads\\plus (1).png")); // NOI18N
         jbttNuevo.setText("Nuevo");
         jbttNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -555,7 +563,6 @@ public class frm_Afiliado extends javax.swing.JInternalFrame {
         });
 
         jbttNuevo1.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
-        jbttNuevo1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sulenni\\Downloads\\prohibition.png")); // NOI18N
         jbttNuevo1.setText("Eliminar");
         jbttNuevo1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -808,7 +815,6 @@ public class frm_Afiliado extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(jtblAfiliado);
 
         jLabel1.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sulenni\\Downloads\\search.png")); // NOI18N
         jLabel1.setText("Consultas");
 
         jtxtBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -1021,6 +1027,7 @@ public class frm_Afiliado extends javax.swing.JInternalFrame {
         }else{
             JOptionPane.showMessageDialog(null, "Todos los campos son obligatorios.!.!. ");
         }
+        Utilities.SelectFirst(jtblAfiliado);
     }//GEN-LAST:event_jbttGuardarActionPerformed
 
     private void jcmbIdentificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmbIdentificacionActionPerformed
@@ -1064,113 +1071,9 @@ public class frm_Afiliado extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jtxtBuscarActionPerformed
 
     private void jtblAfiliadoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblAfiliadoMousePressed
-        jtblAfiliado.setSelectionBackground(Color.BLUE);
-        jtblAfiliado.setSelectionForeground(Color.white);
-              
-        jlblNoPoliza.setText(Integer.toString((int) jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 0)));
-        jftxtIdentificacion.setText((String) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 1)));
-        jtxtNombre.setText((String) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 2)));
-        jlblNoContrato.setText((String) jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 3));
-        //ID
-        jtxtSeguroSocial.setText(Integer.toString((int) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 5))));
-        int id = 0;
-            for (int i = 0;i<jcmbIdentificacion.getItemCount();i++) {
-                
-                Object[] ob = (Object[]) jcmbIdentificacion.getItemAt(i);
-                id= (int)ob[0];
-                if(id==(Integer.parseInt(Integer.toString((int) jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 6))))){
-                    jcmbIdentificacion.setSelectedIndex(i);
-                }
-            }
-        
-            for (int i = 0;i<jcmbSexo.getItemCount();i++) {
-                
-                Object[] ob = (Object[]) jcmbSexo.getItemAt(i);
-                id= (int)ob[0];
-                if(id==(int) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 7))){
-                    jcmbSexo.setSelectedIndex(i);
-                }
-            }
-        
-        jdtcFechaNacimiento.setDate((java.util.Date) jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 8));
-        jtxtEdad.setText(Integer.toString((int) jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 9)));
-        jtxtEdad.setText(Utilities.CalcularEdad(jdtcFechaNacimiento.getDate()).toString());
-            for (int i = 0;i<jcmbTipoSangre.getItemCount();i++) {
-                
-                Object[] ob = (Object[]) jcmbTipoSangre.getItemAt(i);
-                id= (int)ob[0];
-                if(id==(int) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 10))){
-                    jcmbTipoSangre.setSelectedIndex(i);
-                }
-            }
-        jtxtDireccion.setText((String) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 11)));
-            for (int i = 0;i<jcmbCiudad.getItemCount();i++) {
-                
-                Object[] ob = (Object[]) jcmbCiudad.getItemAt(i);
-                id= (int)ob[0];
-                if(id==(int) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 12))){
-                    jcmbCiudad.setSelectedIndex(i);
-                }
-            }
-        
-            for (int i = 0;i<jcmbProvincia.getItemCount();i++) {
-                
-                Object[] ob = (Object[]) jcmbProvincia.getItemAt(i);
-                id= (int)ob[0];
-                if(id==(int) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 13))){
-                    jcmbProvincia.setSelectedIndex(i);
-                }
-            }
-            
-            for (int i = 0;i<jcmbTipoAfiliacion.getItemCount();i++) {
-                
-                Object[] ob = (Object[]) jcmbTipoAfiliacion.getItemAt(i);
-                id= (int)ob[0];
-                if(id==(int) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 14))){
-                    jcmbTipoAfiliacion.setSelectedIndex(i);
-                }
-            }
-        
-            for (int i = 0;i<jcmbTipoPlan.getItemCount();i++) {
-                
-                Object[] ob = (Object[]) jcmbTipoPlan.getItemAt(i);
-                id= (int)ob[0];
-                if(id==(int) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 15))){
-                    jcmbTipoPlan.setSelectedIndex(i);
-                }
-            }
-            
-            for (int i = 0;i<jcmbTipoCobertura.getItemCount();i++) {
-                
-                Object[] ob = (Object[]) jcmbTipoCobertura.getItemAt(i);
-                id= (int)ob[0];
-                if(id==(int) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 16))){
-                    jcmbTipoCobertura.setSelectedIndex(i);
-                }
-            }
-        
-        jtxtCedTitular.setText((String) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 17)));
-        
-            for (int i = 0;i<jcmbTipoParentezco.getItemCount();i++) {
-                
-                Object[] ob = (Object[]) jcmbTipoParentezco.getItemAt(i);
-                id= (int)ob[0];
-                if(id==(int) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 18))){
-                    jcmbTipoParentezco.setSelectedIndex(i);
-                }
-            }
-            
-            for (int i = 0;i<jcmbOcupacion.getItemCount();i++) {
-                
-                Object[] ob = (Object[]) jcmbOcupacion.getItemAt(i);
-                id= (int)ob[0];
-                if(id==(int) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 19))){
-                    jcmbOcupacion.setSelectedIndex(i);
-                }
-            }
-      
-        jftxtTelefono.setText((String) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 20)));
-        
+//        jtblAfiliado.setSelectionBackground(Color.BLUE);
+//        jtblAfiliado.setSelectionForeground(Color.white);
+        PasarACampos();      
         llenarAfiliado();
     }//GEN-LAST:event_jtblAfiliadoMousePressed
 
@@ -1244,6 +1147,8 @@ public class frm_Afiliado extends javax.swing.JInternalFrame {
     }
     private void jbttNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttNuevoActionPerformed
         LimpiarCampos();
+        EnableFields(true);
+        jcmbProvincia.setSelectedIndex(1);
 //        try {
 //            jlblNoPoliza.setText(afiliadoDao.GenerarPoliza());
 //        } catch (SQLException ex) {
@@ -1265,6 +1170,8 @@ public class frm_Afiliado extends javax.swing.JInternalFrame {
         }
         
         RedisenarTablaAfiliado();
+        Utilities.SelectFirst(jtblAfiliado);
+        PasarACampos();
     }//GEN-LAST:event_jtxtBuscarKeyTyped
 
     private void jbttNuevo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttNuevo1ActionPerformed
@@ -1277,6 +1184,8 @@ public class frm_Afiliado extends javax.swing.JInternalFrame {
         }
        
         RedisenarTablaAfiliado();
+        Utilities.SelectFirst(jtblAfiliado);
+        
     }//GEN-LAST:event_jbttNuevo1ActionPerformed
 
     private void jtblAfiliadoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtblAfiliadoKeyReleased
@@ -1431,7 +1340,41 @@ public class frm_Afiliado extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jcmbCiudadActionPerformed
 
+    private void jdtcFechaNacimientoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jdtcFechaNacimientoFocusLost
+        jtxtEdad.setText(Integer.toString(Utilities.CalcularEdad(jdtcFechaNacimiento.getDate())));
+    }//GEN-LAST:event_jdtcFechaNacimientoFocusLost
 
+    private void jdtcFechaNacimientoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jdtcFechaNacimientoPropertyChange
+        if(evt.getPropertyName()=="date"&&jdtcFechaNacimiento.getDate()!=null){
+            jtxtEdad.setText(Integer.toString(Utilities.CalcularEdad(jdtcFechaNacimiento.getDate())));
+        }
+        
+    }//GEN-LAST:event_jdtcFechaNacimientoPropertyChange
+
+    private void EnableFields(boolean status){
+        jtxtCedTitular.setEnabled(status);
+        jtxtDireccion.setEnabled(status);
+        jtxtEdad.setEnabled(false);
+        jtxtNombre.setEnabled(status);
+        jtxtSeguroSocial.setEnabled(status);
+        jcmbCiudad.setEnabled(status);
+        jcmbIdentificacion.setEnabled(status);
+        jcmbOcupacion.setEnabled(status);
+        jcmbProvincia.setEnabled(status);
+        jcmbSexo.setEnabled(status);
+        jcmbTipoAfiliacion.setEnabled(status);
+        jcmbTipoCobertura.setEnabled(status);
+        jcmbTipoParentezco.setEnabled(status);
+        jcmbTipoPlan.setEnabled(status);
+        jcmbTipoSangre.setEnabled(status);
+        jftxtIdentificacion.setEnabled(status);
+        jftxtTelefono.setEnabled(status);
+        jdtcFechaNacimiento.setEnabled(status);
+    }
+
+    private void SelectFirst(){
+        jtblAfiliado.setRowSelectionInterval(0, 0);
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel8;
@@ -1488,4 +1431,112 @@ public class frm_Afiliado extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtxtNombre;
     private javax.swing.JTextField jtxtSeguroSocial;
     // End of variables declaration//GEN-END:variables
+
+    private void PasarACampos() {
+    
+        jlblNoPoliza.setText(Integer.toString((int) jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 0)));
+        jftxtIdentificacion.setText((String) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 1)));
+        jtxtNombre.setText((String) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 2)));
+        jlblNoContrato.setText((String) jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 3));
+        //ID
+        jtxtSeguroSocial.setText(Integer.toString((int) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 5))));
+        int id = 0;
+            for (int i = 0;i<jcmbIdentificacion.getItemCount();i++) {
+                
+                Object[] ob = (Object[]) jcmbIdentificacion.getItemAt(i);
+                id= (int)ob[0];
+                if(id==(Integer.parseInt(Integer.toString((int) jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 6))))){
+                    jcmbIdentificacion.setSelectedIndex(i);
+                }
+            }
+        
+            for (int i = 0;i<jcmbSexo.getItemCount();i++) {
+                
+                Object[] ob = (Object[]) jcmbSexo.getItemAt(i);
+                id= (int)ob[0];
+                if(id==(int) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 7))){
+                    jcmbSexo.setSelectedIndex(i);
+                }
+            }
+        
+        jdtcFechaNacimiento.setDate((java.util.Date) jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 8));
+        jtxtEdad.setText(Integer.toString((int) jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 9)));
+        jtxtEdad.setText(Utilities.CalcularEdad(jdtcFechaNacimiento.getDate()).toString());
+            for (int i = 0;i<jcmbTipoSangre.getItemCount();i++) {
+                
+                Object[] ob = (Object[]) jcmbTipoSangre.getItemAt(i);
+                id= (int)ob[0];
+                if(id==(int) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 10))){
+                    jcmbTipoSangre.setSelectedIndex(i);
+                }
+            }
+        jtxtDireccion.setText((String) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 11)));
+            for (int i = 0;i<jcmbCiudad.getItemCount();i++) {
+                
+                Object[] ob = (Object[]) jcmbCiudad.getItemAt(i);
+                id= (int)ob[0];
+                if(id==(int) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 12))){
+                    jcmbCiudad.setSelectedIndex(i);
+                }
+            }
+        
+            for (int i = 0;i<jcmbProvincia.getItemCount();i++) {
+                
+                Object[] ob = (Object[]) jcmbProvincia.getItemAt(i);
+                id= (int)ob[0];
+                if(id==(int) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 13))){
+                    jcmbProvincia.setSelectedIndex(i);
+                }
+            }
+            
+            for (int i = 0;i<jcmbTipoAfiliacion.getItemCount();i++) {
+                
+                Object[] ob = (Object[]) jcmbTipoAfiliacion.getItemAt(i);
+                id= (int)ob[0];
+                if(id==(int) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 14))){
+                    jcmbTipoAfiliacion.setSelectedIndex(i);
+                }
+            }
+        
+            for (int i = 0;i<jcmbTipoPlan.getItemCount();i++) {
+                
+                Object[] ob = (Object[]) jcmbTipoPlan.getItemAt(i);
+                id= (int)ob[0];
+                if(id==(int) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 15))){
+                    jcmbTipoPlan.setSelectedIndex(i);
+                }
+            }
+            
+            for (int i = 0;i<jcmbTipoCobertura.getItemCount();i++) {
+                
+                Object[] ob = (Object[]) jcmbTipoCobertura.getItemAt(i);
+                id= (int)ob[0];
+                if(id==(int) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 16))){
+                    jcmbTipoCobertura.setSelectedIndex(i);
+                }
+            }
+        
+        jtxtCedTitular.setText((String) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 17)));
+        
+            for (int i = 0;i<jcmbTipoParentezco.getItemCount();i++) {
+                
+                Object[] ob = (Object[]) jcmbTipoParentezco.getItemAt(i);
+                id= (int)ob[0];
+                if(id==(int) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 18))){
+                    jcmbTipoParentezco.setSelectedIndex(i);
+                }
+            }
+            
+            for (int i = 0;i<jcmbOcupacion.getItemCount();i++) {
+                
+                Object[] ob = (Object[]) jcmbOcupacion.getItemAt(i);
+                id= (int)ob[0];
+                if(id==(int) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 19))){
+                    jcmbOcupacion.setSelectedIndex(i);
+                }
+            }
+      
+        jftxtTelefono.setText((String) (jtblAfiliado.getModel().getValueAt(jtblAfiliado.getSelectedRow(), 20)));
+            
+    }
 }

@@ -72,7 +72,7 @@ public class DB {
         
     }
     public DB() throws SQLException{
-        String host = "localhost";
+        String host = "192.168.1.13";
         String db = "seguro";
         String url = "jdbc:postgresql://"+host+"/"+db;
         String user = "postgres";

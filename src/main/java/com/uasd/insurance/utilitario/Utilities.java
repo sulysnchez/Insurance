@@ -6,6 +6,7 @@
 package com.uasd.insurance.utilitario;
 
 import java.util.Date;
+import javax.swing.JTable;
 
 /**
  *
@@ -22,5 +23,8 @@ public class Utilities {
             difAno-=1;
         }
         return difAno;
+    }
+    public static void SelectFirst(JTable table){
+        table.setRowSelectionInterval(0, 0);
     }
 }
