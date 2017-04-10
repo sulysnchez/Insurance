@@ -8,7 +8,9 @@ package com.itla.insurance.dao;
 import com.itla.insurance.dto.AfiliadoDto;
 import com.itla.insurance.dto.AnalisisDto;
 import com.itla.insurance.dto.CiudadDto;
+import com.itla.insurance.dto.EspecialidadDto;
 import com.itla.insurance.dto.EstudioDto;
+import com.itla.insurance.dto.InstitucionDto;
 import com.itla.insurance.dto.OcupacionDto;
 import com.itla.insurance.dto.PrestadoresDto;
 import com.itla.insurance.dto.ProvinciaDto;
@@ -20,6 +22,7 @@ import com.itla.insurance.dto.Tipo_CoberturaDto;
 import com.itla.insurance.dto.Tipo_IdentificacionDto;
 import com.itla.insurance.dto.Tipo_ParentezcoDto;
 import com.itla.insurance.dto.Tipo_PlanDto;
+import com.itla.insurance.dto.Tipo_PssDto;
 import com.itla.insurance.dto.Tipo_SangreDto;
 import java.sql.Connection;
 import java.sql.Date;
@@ -337,28 +340,56 @@ public class AfiliadoDao {
         return ocupaciones;
     }
     
-    public List<Tipo_SangreDto> GetAllTipo_Sangre() throws SQLException{
-        PreparedStatement LlenarTipo_Sangre = null;
-        String sqlLlenarTipo_Sangre = "select id, nombre from tipo_sangre order by id asc";
+    
+    public List<Tipo_PssDto> GetAllTipoPss() throws SQLException{
+        PreparedStatement LlenarTipoPss = null;
+        String sqlLlenarTipoPss = "select id, nombre from tipo_pss order by id asc";
         ResultSet rs = null;
-        List<Tipo_SangreDto> tipossangre = new ArrayList<Tipo_SangreDto>();
-        Tipo_SangreDto tiposangre;
+        List<Tipo_PssDto> tiposPss = new ArrayList<Tipo_PssDto>();
+        Tipo_PssDto tipoPss;
         
         DB.conexion.setAutoCommit(false);
-        LlenarTipo_Sangre = DB.conexion.prepareStatement(sqlLlenarTipo_Sangre);
+        LlenarTipoPss= DB.conexion.prepareStatement(sqlLlenarTipoPss);
         
-        rs = LlenarTipo_Sangre.executeQuery();
+        rs = LlenarTipoPss.executeQuery();
         
         while(rs.next()){
-            tiposangre = new Tipo_SangreDto();
+            tipoPss = new Tipo_PssDto();
             
-            tiposangre.setId(rs.getInt(1));
-            tiposangre.setNombre(rs.getString(2));
+            tipoPss.setId(rs.getInt(1));
+            tipoPss.setNombre(rs.getString(2));
             
-            tipossangre.add(tiposangre);
+            tiposPss.add(tipoPss);
         }
               
-        return tipossangre;
+        return tiposPss;
+    }
+    
+    
+    public List<InstitucionDto> GetAllInstitucion() throws SQLException{
+        PreparedStatement LlenarInstitucion = null;
+        String sqlLlenarInstitucion = "select id, nombre, telefono, direccion from institucion order by id asc";
+        ResultSet rs = null;
+        List<InstitucionDto> instituciones = new ArrayList<InstitucionDto>();
+        InstitucionDto institucion;
+        
+        DB.conexion.setAutoCommit(false);
+        LlenarInstitucion = DB.conexion.prepareStatement(sqlLlenarInstitucion);
+        
+        rs = LlenarInstitucion.executeQuery();
+        
+        while(rs.next()){
+            institucion = new InstitucionDto();
+            
+            institucion.setId(rs.getInt(1));
+            institucion.setNombre(rs.getString(2));
+            institucion.setTelefono(rs.getString(3));
+            institucion.setDireccion(rs.getString(4));
+            
+            instituciones.add(institucion);
+        }
+              
+        return instituciones;
     }
     
     public List<Tipo_AfiliacionDto> GetAllTipo_Afiliacion() throws SQLException{
@@ -456,6 +487,31 @@ public class AfiliadoDao {
               
         return tiposparentezco;
     }
+    
+    public List<Tipo_SangreDto> GetAllTipo_Sangre() throws SQLException{
+        PreparedStatement LlenarTipo_Sangre = null;
+        String sqlLlenarTipo_Sangre = "select id, nombre from tipo_sangre order by id asc";
+        ResultSet rs = null;
+        List<Tipo_SangreDto> tipossangre = new ArrayList<Tipo_SangreDto>();
+        Tipo_SangreDto tiposangre;
+        
+        DB.conexion.setAutoCommit(false);
+        LlenarTipo_Sangre = DB.conexion.prepareStatement(sqlLlenarTipo_Sangre);
+        
+        rs = LlenarTipo_Sangre.executeQuery();
+        
+        while(rs.next()){
+            tiposangre = new Tipo_SangreDto();
+            
+            tiposangre.setId(rs.getInt(1));
+            tiposangre.setNombre(rs.getString(2));
+            
+            tipossangre.add(tiposangre);
+        }
+              
+        return tipossangre;
+    } 
+    
     public List<AfiliadoDto> GetAllAfiliado() throws SQLException{
         PreparedStatement LlenarAfiliado = null;
         String sqlLlenarAfiliado = "SELECT id, no_poliza, nombre, direccion, telefono, sexo, no_identificacion, \n" +
@@ -1124,8 +1180,32 @@ public class AfiliadoDao {
         return analisisr;
     }
     
+    public List<EspecialidadDto> GetAllEspecialidad() throws SQLException{
+        PreparedStatement LlenarAnalisis = null;
+        String sqlLlenarAnalisis = "select nombre, id from especialidad order by id asc";
+        ResultSet rs = null;
+        List<EspecialidadDto> especialidades = new ArrayList<EspecialidadDto>();
+        EspecialidadDto especialidad;
+        
+        DB.conexion.setAutoCommit(false);
+        LlenarAnalisis = DB.conexion.prepareStatement(sqlLlenarAnalisis);
+        
+        rs = LlenarAnalisis.executeQuery();
+        
+        while(rs.next()){
+            especialidad = new EspecialidadDto();
+            
+            especialidad.setNombre(rs.getString(1));
+            especialidad.setId(rs.getInt(2));
+            
+            especialidades.add(especialidad);
+        }
+              
+        return especialidades;
+    }
+    
     public DefaultTableModel getModelAnalisis(List<AnalisisDto> lista){
-        DefaultTableModel modelo = new DefaultTableModel();
+            DefaultTableModel modelo = new DefaultTableModel();
         
         modelo.addColumn("Nombre");
         modelo.addColumn("Id");

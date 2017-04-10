@@ -112,7 +112,6 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         jpnlReclamacion.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel1.setFont(new java.awt.Font("Palatino Linotype", 2, 18)); // NOI18N
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sulenni\\Downloads\\notebook.png")); // NOI18N
         jLabel1.setText("FORMULARIO RECLAMACION");
 
         jtblServicio.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
@@ -134,7 +133,7 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
 
         jlblNoReclamacion.setFont(new java.awt.Font("Palatino Linotype", 1, 18)); // NOI18N
         jlblNoReclamacion.setForeground(new java.awt.Color(153, 0, 0));
-        jlblNoReclamacion.setText("1");
+        jlblNoReclamacion.setText("0");
 
         jlblPoliza.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
         jlblPoliza.setText("No. Póliza");
@@ -214,16 +213,12 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
             }
         });
 
-        jbttBuscaEstudio.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sulenni\\Downloads\\next-page.png")); // NOI18N
         jbttBuscaEstudio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbttBuscaEstudioActionPerformed(evt);
             }
         });
 
-        jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sulenni\\Downloads\\magnifying-glass (1).png")); // NOI18N
-
-        jbttBuscaEstudio1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sulenni\\Downloads\\minus-symbol.png")); // NOI18N
         jbttBuscaEstudio1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbttBuscaEstudio1ActionPerformed(evt);
@@ -325,7 +320,6 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jbttImprimir.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
-        jbttImprimir.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sulenni\\Downloads\\printer.png")); // NOI18N
         jbttImprimir.setText("Imprimir");
         jbttImprimir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -334,7 +328,6 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         });
 
         jbttNuevo.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
-        jbttNuevo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sulenni\\Downloads\\plus (1).png")); // NOI18N
         jbttNuevo.setText("Nuevo");
         jbttNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -343,7 +336,6 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         });
 
         jbttGuardar.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
-        jbttGuardar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sulenni\\Downloads\\confirm.png")); // NOI18N
         jbttGuardar.setText("Guardar");
         jbttGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -352,7 +344,6 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         });
 
         jbttSalir.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
-        jbttSalir.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sulenni\\Downloads\\cancel.png")); // NOI18N
         jbttSalir.setText("Salir");
         jbttSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -408,7 +399,6 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         jScrollPane3.setViewportView(jTable1);
 
         jLabel4.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
-        jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sulenni\\Downloads\\search.png")); // NOI18N
         jLabel4.setText("Consultas");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);

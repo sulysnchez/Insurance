@@ -8,6 +8,7 @@ package com.uasd.insurance.vistas.principal;
 import com.uasd.insurance.utilitario.ReportGenerator;
 import com.uasd.insurance.vistas.mantenimientos.frm_Afiliado;
 import com.uasd.insurance.vistas.mantenimientos.frm_Analisis;
+import com.uasd.insurance.vistas.mantenimientos.frm_Prestadores;
 import com.uasd.insurance.vistas.transacciones.frm_Reclamacion;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -55,6 +56,7 @@ public class frm_Principal extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMnPrestador = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
@@ -97,7 +99,6 @@ public class frm_Principal extends javax.swing.JFrame {
 
         jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK));
         jMenuItem3.setFont(new java.awt.Font("Palatino Linotype", 2, 14)); // NOI18N
-        jMenuItem3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sulenni\\Downloads\\microscope.png")); // NOI18N
         jMenuItem3.setText("Análisis");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -108,7 +109,6 @@ public class frm_Principal extends javax.swing.JFrame {
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK));
         jMenuItem1.setFont(new java.awt.Font("Palatino Linotype", 2, 14)); // NOI18N
-        jMenuItem1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sulenni\\Downloads\\user (3).png")); // NOI18N
         jMenuItem1.setText("Afiliado");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -117,6 +117,16 @@ public class frm_Principal extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem1);
 
+        jMnPrestador.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_MASK));
+        jMnPrestador.setFont(new java.awt.Font("Palatino Linotype", 2, 14)); // NOI18N
+        jMnPrestador.setText("Prestador");
+        jMnPrestador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnPrestadorActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMnPrestador);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("TRANSACCIONES");
@@ -124,7 +134,6 @@ public class frm_Principal extends javax.swing.JFrame {
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.ALT_MASK));
         jMenuItem2.setFont(new java.awt.Font("Palatino Linotype", 2, 14)); // NOI18N
-        jMenuItem2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sulenni\\Downloads\\notebook.png")); // NOI18N
         jMenuItem2.setText("Reclamación");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -194,8 +203,14 @@ public class frm_Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
     
     public void agregarFormulario(JInternalFrame frm){
+        Dimension desktopSize = jDesktopPane1.getSize();
+        Dimension FrameSize = frm.getSize();
+        
+        
         jDesktopPane1.add(frm);
         frm.setVisible(true);
+        
+        frm.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
     }
     
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -248,6 +263,11 @@ public class frm_Principal extends javax.swing.JFrame {
         ReportGenerator.allPrestadores2();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void jMnPrestadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnPrestadorActionPerformed
+        frm_Prestadores frmPrestador = new frm_Prestadores(this);
+        agregarFormulario(frmPrestador);
+    }//GEN-LAST:event_jMnPrestadorActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -299,5 +319,6 @@ public class frm_Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMnPrestador;
     // End of variables declaration//GEN-END:variables
 }

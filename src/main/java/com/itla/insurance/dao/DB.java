@@ -72,11 +72,11 @@ public class DB {
         
     }
     public DB() throws SQLException{
-        String host = "192.168.1.13";
+        String host = "localhost:5433";
         String db = "seguro";
         String url = "jdbc:postgresql://"+host+"/"+db;
         String user = "postgres";
-        String pass = "12345670";
+        String pass = "1234";
         try{
             conexion=DriverManager.getConnection(url,user,pass);
         }catch(SQLException ex){
