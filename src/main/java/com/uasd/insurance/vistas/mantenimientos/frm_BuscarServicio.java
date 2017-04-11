@@ -47,6 +47,7 @@ public class frm_BuscarServicio extends javax.swing.JInternalFrame {
     private void LlenarPrestadorServicioSelected(){
         prestadorServicioSeleccionado.setNombre_servicio((String)jtblServicios.getModel().getValueAt(jtblServicios.getSelectedRow(), 0));
         prestadorServicioSeleccionado.setId_servicio((Integer)jtblServicios.getModel().getValueAt(jtblServicios.getSelectedRow(), 1));
+        prestadorServicioSeleccionado.setId(0);
 //        if((Integer)jtblServicios.getModel().getValueAt(jtblServicios.getSelectedRow(), 1)<=(Float.parseFloat(jtxtPrecio.getText()))){
             prestadorServicioSeleccionado.setPrecio(Float.parseFloat(jtxtPrecio.getText()));
 //        }
@@ -161,6 +162,7 @@ public class frm_BuscarServicio extends javax.swing.JInternalFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         LlenarPrestadorServicioSelected();
+        
         EnviarServicio();
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed

@@ -12,6 +12,7 @@ import com.itla.insurance.dto.EspecialidadDto;
 import com.itla.insurance.dto.EstudioDto;
 import com.itla.insurance.dto.InstitucionDto;
 import com.itla.insurance.dto.OcupacionDto;
+import com.itla.insurance.dto.Prestador_ServicioDto;
 import com.itla.insurance.dto.PrestadoresDto;
 import com.itla.insurance.dto.ProvinciaDto;
 import com.itla.insurance.dto.ReclamacionDto;
@@ -243,29 +244,82 @@ public class AfiliadoDao {
               
         return sexospersona;
     }
+//    
+//    public List<SexoDto> GetAllSexo() throws SQLException{
+//        PreparedStatement LlenarSexo = null;
+//        String sqlLlenarSexo = "select id, nombre from sexo order by id asc";
+//        ResultSet rs = null;
+//        List<SexoDto> sexospersona = new ArrayList<SexoDto>();
+//        SexoDto sexopersona;
+//        
+//        DB.conexion.setAutoCommit(false);
+//        LlenarSexo = DB.conexion.prepareStatement(sqlLlenarSexo);
+//        
+//        rs = LlenarSexo.executeQuery();
+//        
+//        while(rs.next()){
+//            sexopersona = new SexoDto();
+//            
+//            sexopersona.setId(rs.getInt(1));
+//            sexopersona.setNombre(rs.getString(2));
+//            
+//            sexospersona.add(sexopersona);
+//        }
+//              
+//        return sexospersona;
+//    }
     
-    public List<CiudadDto> GetAllCiudad() throws SQLException{
-        PreparedStatement LlenarCiudad = null;
-        String sqlLlenarCiudad = "select id, nombre from ciudad order by id asc";
+    public List<Prestador_ServicioDto> GetAllPrestadorServicio() throws SQLException{
+        PreparedStatement psPrestadorServicio = null;
+        String sqlPrestadorServicio = "SELECT id_prestador, id_analisis, precio, id FROM prestador_servicio order by id asc";
         ResultSet rs = null;
-        List<CiudadDto> ciudades = new ArrayList<CiudadDto>();
-        CiudadDto ciudad;
+        List<Prestador_ServicioDto> prestadorServicios = new ArrayList<Prestador_ServicioDto>();
+        Prestador_ServicioDto PrestadorServicio;
         
         DB.conexion.setAutoCommit(false);
-        LlenarCiudad = DB.conexion.prepareStatement(sqlLlenarCiudad);
+        psPrestadorServicio = DB.conexion.prepareStatement(sqlPrestadorServicio);
         
-        rs = LlenarCiudad.executeQuery();
+        rs = psPrestadorServicio.executeQuery();
         
         while(rs.next()){
-            ciudad = new CiudadDto();
+            PrestadorServicio = new Prestador_ServicioDto();
             
-            ciudad.setId(rs.getInt(1));
-            ciudad.setNombre(rs.getString(2));
+            PrestadorServicio.setId_prestador(rs.getInt(1));
+            PrestadorServicio.setId_servicio(rs.getInt(2));
+            PrestadorServicio.setPrecio(rs.getFloat(3));
             
-            ciudades.add(ciudad);
+            
+            
+            prestadorServicios.add(PrestadorServicio);
         }
               
-        return ciudades;
+        return prestadorServicios;
+    }
+    
+        public List<Prestador_ServicioDto> GetAllPrestadorServicioByPrestador(int idPrestador) throws SQLException{
+        PreparedStatement psPrestadorServicio = null;
+        String sqlPrestadorServicio = "SELECT id_prestador, id_analisis, precio, id FROM prestador_servicio WHERE id_prestador = ? order by id asc";
+        ResultSet rs = null;
+        List<Prestador_ServicioDto> prestadorServicios = new ArrayList<Prestador_ServicioDto>();
+        Prestador_ServicioDto PrestadorServicio;
+        
+        DB.conexion.setAutoCommit(false);
+        psPrestadorServicio = DB.conexion.prepareStatement(sqlPrestadorServicio);
+        psPrestadorServicio.setInt(1, idPrestador);
+        rs = psPrestadorServicio.executeQuery();
+        
+        while(rs.next()){
+            PrestadorServicio = new Prestador_ServicioDto();
+            
+            PrestadorServicio.setId_prestador(rs.getInt(1));
+            PrestadorServicio.setId_servicio(rs.getInt(2));
+            PrestadorServicio.setPrecio(rs.getFloat(3));
+            PrestadorServicio.setNombre_servicio(GetAnalisisById(PrestadorServicio.getId_servicio()).getNombre());
+            PrestadorServicio.setId(rs.getInt(4));
+            prestadorServicios.add(PrestadorServicio);
+        }
+              
+        return prestadorServicios;
     }
     public List<CiudadDto> GetAllCiudadByProvincia(Integer idProvincia) throws SQLException{
        
@@ -945,7 +999,7 @@ public class AfiliadoDao {
             
             estudio.setId(rs.getInt(1));
             estudio.setNombre(rs.getString(2));
-            estudio.setPrecio(rs.getInt(3));
+            estudio.setPrecio(rs.getFloat(3));
             
             estudios.add(estudio);
         }
@@ -968,7 +1022,7 @@ public class AfiliadoDao {
             
             estudio.setId(rs.getInt(1));
             estudio.setNombre(rs.getString(2));
-            estudio.setPrecio(rs.getInt(3));
+            estudio.setPrecio(rs.getFloat(3));
             
         }
               
@@ -1070,6 +1124,8 @@ public class AfiliadoDao {
             prestador.setId(rs.getInt("id"));
             prestador.setTelefono(rs.getString("telefono"));
              
+            prestador.setServicios(GetAllPrestadorServicioByPrestador(prestador.getId()));
+            
             prestadores.add(prestador);
         }
               
@@ -1104,6 +1160,10 @@ public class AfiliadoDao {
             prestador.setId(rs.getInt("id"));
             prestador.setTelefono(rs.getString("telefono"));
              
+            
+            prestador.setServicios(GetAllPrestadorServicioByPrestador(prestador.getId()));
+            
+            
         }
               
         return prestador;
@@ -1155,6 +1215,118 @@ public class AfiliadoDao {
         return null;
     }
     
+    public String UpdatePrestadorServicio(Prestador_ServicioDto preser) throws Exception{
+    
+        PreparedStatement actualizaAnalisis = null;
+        String sqlUpdate = null;
+        
+        sqlUpdate = "UPDATE prestador_servicio\n" +
+                    " SET id_prestador=?, id_analisis=?, precio=?\n" +
+                    " WHERE id = ?;";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            actualizaAnalisis = DB.conexion.prepareStatement(sqlUpdate);
+            actualizaAnalisis.setInt(1,  preser.getId_prestador());
+            actualizaAnalisis.setInt(2, preser.getId_servicio());
+            actualizaAnalisis.setFloat(3, preser.getPrecio());
+            actualizaAnalisis.setInt(4, preser.getId());
+            
+            actualizaAnalisis.executeUpdate();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        
+        return null;
+    }    
+    public String InsertPrestadorServicio(Prestador_ServicioDto preser) throws Exception{
+    
+        PreparedStatement actualizaAnalisis = null;
+        String sqlUpdate = null;
+        
+        sqlUpdate = "INSERT INTO prestador_servicio\n" +
+                    " (id_prestador, id_analisis, precio) values(?,?,?)";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            actualizaAnalisis = DB.conexion.prepareStatement(sqlUpdate);
+            actualizaAnalisis.setInt(1,  preser.getId_prestador());
+            actualizaAnalisis.setInt(2, preser.getId_servicio());
+            actualizaAnalisis.setFloat(3, preser.getPrecio());
+            
+            actualizaAnalisis.executeUpdate();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        
+        return null;
+    }
+    
+    public PrestadoresDto UpdatePrestador(PrestadoresDto prestador) throws Exception{
+    
+        PreparedStatement actualizaAnalisis = null;
+        String sqlUpdate = null;
+        
+        sqlUpdate = "UPDATE prestadores\n" +
+"   SET nombre=?, id_especialidad=?, id_institucion=?, telefono=?, codigo=?, \n" +
+"       id_tipo_pss=?\n" +
+" WHERE id=?;";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            actualizaAnalisis = DB.conexion.prepareStatement(sqlUpdate);
+            actualizaAnalisis.setString(1,  prestador.getNombre());
+            actualizaAnalisis.setInt(2, prestador.getId_especialidad());
+            actualizaAnalisis.setInt(3, prestador.getId_institucion());
+            actualizaAnalisis.setString(4, prestador.getTelefono());
+            actualizaAnalisis.setString(5, prestador.getCodigo());
+            actualizaAnalisis.setInt(6, prestador.getId_tipo_pss());
+            actualizaAnalisis.setInt(7, prestador.getId());
+            
+            actualizaAnalisis.executeUpdate();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        return prestador;
+    }
+    public PrestadoresDto InsertPrestador(PrestadoresDto prestador) throws Exception{
+    
+        PreparedStatement psInsertar = null;
+        String sqlUpdate = null;
+        
+        sqlUpdate = "INSERT INTO prestadores\n" +
+                    "(nombre, id_especialidad, id_institucion, telefono, codigo, \n" +
+                    "id_tipo_pss) values(?,?,?,?,?,?)";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            psInsertar = DB.conexion.prepareStatement(sqlUpdate);
+            psInsertar.setString(1,  prestador.getNombre());
+            psInsertar.setInt(2, prestador.getId_especialidad());
+            psInsertar.setInt(3, prestador.getId_institucion());
+            psInsertar.setString(4, prestador.getTelefono());
+            psInsertar.setString(5, prestador.getCodigo());
+            psInsertar.setInt(6, prestador.getId_tipo_pss());
+            
+            psInsertar.execute();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        return prestador;
+    }
+    
     public List<AnalisisDto> GetAllAnalisis() throws SQLException{
         PreparedStatement LlenarAnalisis = null;
         String sqlLlenarAnalisis = "select nombre, id, precio from analisis order by id asc";
@@ -1178,6 +1350,57 @@ public class AfiliadoDao {
         }
               
         return analisisr;
+    }
+    
+    public List<AnalisisDto> GetAllAnalisisByPrestador(int idPrestador) throws SQLException{
+        PreparedStatement LlenarAnalisis = null;
+        String sqlLlenarAnalisis = "select a.nombre, a.id, p.precio from analisis a join prestador_servicio p on a.id=p.id_analisis\n" +
+                                   "where p.id_prestador=?\n" +
+                                   "\n" +
+                                   "order by id asc";
+        ResultSet rs = null;
+        List<AnalisisDto> analisisr = new ArrayList<AnalisisDto>();
+        AnalisisDto analisis;
+        
+        DB.conexion.setAutoCommit(false);
+        LlenarAnalisis = DB.conexion.prepareStatement(sqlLlenarAnalisis);
+        LlenarAnalisis.setInt(1, idPrestador);
+        rs = LlenarAnalisis.executeQuery();
+        
+        while(rs.next()){
+            analisis = new AnalisisDto();
+            
+            analisis.setNombre(rs.getString(1));
+            analisis.setId(rs.getInt(2));
+            analisis.setPrecio(rs.getFloat(3));
+            
+            analisisr.add(analisis);
+        }
+              
+        return analisisr;
+    }
+    
+    public AnalisisDto GetAnalisisById(int idAnalisis) throws SQLException{
+        PreparedStatement LlenarAnalisis = null;
+        String sqlLlenarAnalisis = "select nombre, id, precio from analisis WHERE id = ? order by id asc";
+        ResultSet rs = null;
+        AnalisisDto analisis = null;
+        
+        DB.conexion.setAutoCommit(false);
+        LlenarAnalisis = DB.conexion.prepareStatement(sqlLlenarAnalisis);
+        LlenarAnalisis.setInt(1, idAnalisis);
+        rs = LlenarAnalisis.executeQuery();
+        
+        while(rs.next()){
+            analisis = new AnalisisDto();
+            
+            analisis.setNombre(rs.getString(1));
+            analisis.setId(rs.getInt(2));
+            analisis.setPrecio(rs.getFloat(3));
+            
+        }
+              
+        return analisis;
     }
     
     public List<EspecialidadDto> GetAllEspecialidad() throws SQLException{
@@ -1305,14 +1528,14 @@ public class AfiliadoDao {
             
             insertarServicio.setInt(1,  servicio.getId_afiliado());
             insertarServicio.setInt(2,  servicio.getId_prestador());
-            insertarServicio.setInt(3,  servicio.getMonto_reclamado());
-            insertarServicio.setInt(4,  servicio.getMonto_pagar());
-            insertarServicio.setInt(5,  servicio.getMonto_doferencia());
+            insertarServicio.setFloat(3,  servicio.getMonto_reclamado());
+            insertarServicio.setFloat(4,  servicio.getMonto_pagar());
+            insertarServicio.setFloat(5,  servicio.getMonto_doferencia());
             insertarServicio.setInt(6,  servicio.getId_cobertura());
             insertarServicio.setInt(7,  servicio.getId_servicio());
             insertarServicio.setInt(8,  servicio.getNo_autorizacion());
             insertarServicio.setInt(9,  servicio.getNo_reclamacion());
-            insertarServicio.setInt(10,  servicio.getMonto_total());
+            insertarServicio.setFloat(10,  servicio.getMonto_total());
             
             insertarServicio.execute();
             
@@ -1341,14 +1564,14 @@ public class AfiliadoDao {
 
                 insertarServicio.setInt(1,  servicio.getId_afiliado());
                 insertarServicio.setInt(2,  servicio.getId_prestador());
-                insertarServicio.setInt(3,  servicio.getMonto_reclamado());
-                insertarServicio.setInt(4,  servicio.getMonto_pagar());
-                insertarServicio.setInt(5,  servicio.getMonto_doferencia());
+                insertarServicio.setFloat(3,  servicio.getMonto_reclamado());
+                insertarServicio.setFloat(4,  servicio.getMonto_pagar());
+                insertarServicio.setFloat(5,  servicio.getMonto_doferencia());
                 insertarServicio.setInt(6,  servicio.getId_cobertura());
                 insertarServicio.setInt(7,  servicio.getId_servicio());
                 insertarServicio.setInt(8,  servicio.getNo_autorizacion());
                 insertarServicio.setInt(9,  servicio.getNo_reclamacion());
-                insertarServicio.setInt(10,  servicio.getMonto_total());
+                insertarServicio.setFloat(10,  servicio.getMonto_total());
 
                 insertarServicio.execute();
 

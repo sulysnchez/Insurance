@@ -12,7 +12,7 @@ package com.itla.insurance.dto;
 public class EstudioDto {
     private int id;
     private String nombre;
-    private int precio;
+    private Float precio;
 
     /**
      * @return the id
@@ -45,14 +45,14 @@ public class EstudioDto {
     /**
      * @return the precio
      */
-    public int getPrecio() {
+    public Float getPrecio() {
         return precio;
     }
 
     /**
      * @param precio the precio to set
      */
-    public void setPrecio(int precio) {
+    public void setPrecio(Float precio) {
         this.precio = precio;
     }
 }

@@ -68,8 +68,8 @@ public class frm_Afiliado extends javax.swing.JInternalFrame {
        
         RedisenarTablaAfiliado();
         enableDependienteControls(false);
-        jcmbTipoCobertura.setVisible(false);
-        jlblTipoCobertura.setVisible(false);
+//        jcmbTipoCobertura.setVisible(false);
+//        jlblTipoCobertura.setVisible(false);
         jcmbProvincia.setSelectedIndex(1);
         EnableFields(false);
         Utilities.SelectFirst(jtblAfiliado);

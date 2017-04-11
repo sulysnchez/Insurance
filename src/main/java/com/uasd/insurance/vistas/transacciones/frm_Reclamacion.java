@@ -57,10 +57,10 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         servicios = new ArrayList<ServicioDto>();
         this.principal = principal;
         
-        jlblNoReclamacion.setText(afiliadoDao.GenerarContrato());
+//        jlblNoReclamacion.setText(afiliadoDao.GenerarContrato());
         
         jtblServicio.setModel(afiliadoDao.getModelEstudioSeleccionado());
-        jtblListaEstudio.setModel(afiliadoDao.getModelEstudio(afiliadoDao.GetAllEstudio()));
+//        jtblListaEstudio.setModel(afiliadoDao.getModelEstudio(afiliadoDao.GetAllEstudio()));
         
         RedisenarTablaEstudio();
         RedisenarTablaServicio();
@@ -498,12 +498,12 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
            servicioEstudio = new ServicioDto();
            servicioEstudio.setId_servicio((int) jtblServicio.getModel().getValueAt(i, 1));
            servicioEstudio.setCodigo(jlblNoReclamacion.getText());
-           servicioEstudio.setMonto_reclamado((int) jtblServicio.getModel().getValueAt(i, 2));
-           servicioEstudio.setMonto_doferencia((int) jtblServicio.getModel().getValueAt(i, 3));
-           servicioEstudio.setMonto_pagar((int) jtblServicio.getModel().getValueAt(i, 4));
+           servicioEstudio.setMonto_reclamado((Float) jtblServicio.getModel().getValueAt(i, 2));
+           servicioEstudio.setMonto_doferencia((Float) jtblServicio.getModel().getValueAt(i, 3));
+           servicioEstudio.setMonto_pagar((Float) jtblServicio.getModel().getValueAt(i, 4));
            servicioEstudio.setNo_reclamacion(Integer.parseInt(jlblNoReclamacion.getText()));
            servicioEstudio.setNo_autorizacion(Integer.parseInt(jlblNoReclamacion.getText()));
-           servicioEstudio.setMonto_total((int) jtblServicio.getModel().getValueAt(i, 2));
+           servicioEstudio.setMonto_total((Float) jtblServicio.getModel().getValueAt(i, 2));
            
 
             //apagar
@@ -566,7 +566,7 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
     private void jtblListaEstudioMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblListaEstudioMousePressed
         estudioDto.setNombre((String) (jtblListaEstudio.getModel().getValueAt(jtblListaEstudio.getSelectedRow(), 0)));
         estudioDto.setId((int) (jtblListaEstudio.getModel().getValueAt(jtblListaEstudio.getSelectedRow(), 1)));
-        estudioDto.setPrecio((int) (jtblListaEstudio.getModel().getValueAt(jtblListaEstudio.getSelectedRow(), 2)));
+        estudioDto.setPrecio((Float) (jtblListaEstudio.getModel().getValueAt(jtblListaEstudio.getSelectedRow(), 2)));
     }//GEN-LAST:event_jtblListaEstudioMousePressed
 
     private void jbttPrestadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttPrestadorActionPerformed
@@ -664,6 +664,13 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         jtxtIdPrestador.setText(prestadorDto.getCodigo());
         jtxtNombrePrestador.setText(prestadorDto.getNombre());
         this.prestadorDto=prestadorDto;
+        
+        try {
+            //Llenar tabla de analisis que ofrece ese prestador
+            jtblListaEstudio.setModel(afiliadoDao.getModelAnalisis(afiliadoDao.GetAllAnalisisByPrestador(prestadorDto.getId())));
+        } catch (SQLException ex) {
+            Logger.getLogger(frm_Reclamacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void RedisenarTablaEstudio() {
@@ -694,8 +701,8 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         registro[1] = estudioDto.getId();
         registro[2] = estudioDto.getPrecio();
         int porciento;
-        int diferencia;
-        int apagar;
+        float diferencia;
+        float apagar;
         
         Tipo_CoberturaDto cober;
         
@@ -718,10 +725,14 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
                 ((DefaultTableModel) jtblServicio.getModel()).addRow(registro);
             }
             else { //si el rowcount es diferente a cero agrega el estudio a la tabla servicio
-                int cell = (int)jtblServicio.getModel().getValueAt(i-1, 1);
-                if (idSeleccion==cell) {
-                    b=false;      
+                try {
+                    int cell = (int)jtblServicio.getModel().getValueAt(i-1, 1);
+                    if (idSeleccion==cell) {
+                        b=false;      
+                    }
+                } catch (Exception e) {
                 }
+                
             }
         }
         

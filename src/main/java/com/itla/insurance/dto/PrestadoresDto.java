@@ -5,6 +5,9 @@
  */
 package com.itla.insurance.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Sulenni
@@ -17,7 +20,13 @@ public class PrestadoresDto {
     private String telefono;
     private String codigo;
     private int id_tipo_pss;
+    private List<Prestador_ServicioDto> Servicios;
 
+    public PrestadoresDto() {
+        Servicios = new ArrayList<>();
+    }
+
+    
     /**
      * @return the id
      */
@@ -114,5 +123,19 @@ public class PrestadoresDto {
      */
     public void setId_tipo_pss(int id_tipo_pss) {
         this.id_tipo_pss = id_tipo_pss;
+    }
+
+    /**
+     * @return the Servicios
+     */
+    public List<Prestador_ServicioDto> getServicios() {
+        return Servicios;
+    }
+
+    /**
+     * @param Servicios the Servicios to set
+     */
+    public void setServicios(List<Prestador_ServicioDto> Servicios) {
+        this.Servicios = Servicios;
     }
 }

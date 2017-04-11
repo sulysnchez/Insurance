@@ -53,6 +53,7 @@ public class Prestador_ServicioDto {
         this.precio = precio;
     }
     
+    private int id;
     private int id_prestador;
     private int id_servicio;
     private float precio;
@@ -70,5 +71,19 @@ public class Prestador_ServicioDto {
      */
     public void setNombre_servicio(String nombre_servicio) {
         this.nombre_servicio = nombre_servicio;
+    }
+
+    /**
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+        this.id = id;
     }
 }

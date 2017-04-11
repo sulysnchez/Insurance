@@ -13,12 +13,12 @@ public class ServicioDto {
     private int id;
     private int id_afiliado;
     private int id_prestador;
-    private int monto_reclamado;
-    private int monto_pagar;
-    private int monto_doferencia;
+    private float monto_reclamado;
+    private float monto_pagar;
+    private float monto_doferencia;
     private int no_autorizacion;
     private int no_reclamacion;
-    private int monto_total;
+    private float monto_total;
     private String codigo;
     private int id_cobertura;
     private int id_servicio;
@@ -68,42 +68,42 @@ public class ServicioDto {
     /**
      * @return the monto_reclamado
      */
-    public int getMonto_reclamado() {
+    public float getMonto_reclamado() {
         return monto_reclamado;
     }
 
     /**
      * @param monto_reclamado the monto_reclamado to set
      */
-    public void setMonto_reclamado(int monto_reclamado) {
+    public void setMonto_reclamado(float monto_reclamado) {
         this.monto_reclamado = monto_reclamado;
     }
 
     /**
      * @return the monto_pagar
      */
-    public int getMonto_pagar() {
+    public float getMonto_pagar() {
         return monto_pagar;
     }
 
     /**
      * @param monto_pagar the monto_pagar to set
      */
-    public void setMonto_pagar(int monto_pagar) {
+    public void setMonto_pagar(float monto_pagar) {
         this.monto_pagar = monto_pagar;
     }
 
     /**
      * @return the monto_doferencia
      */
-    public int getMonto_doferencia() {
+    public float getMonto_doferencia() {
         return monto_doferencia;
     }
 
     /**
      * @param monto_doferencia the monto_doferencia to set
      */
-    public void setMonto_doferencia(int monto_doferencia) {
+    public void setMonto_doferencia(float monto_doferencia) {
         this.monto_doferencia = monto_doferencia;
     }
 
@@ -180,14 +180,14 @@ public class ServicioDto {
     /**
      * @return the monto_total
      */
-    public int getMonto_total() {
+    public float getMonto_total() {
         return monto_total;
     }
 
     /**
      * @param monto_total the monto_total to set
      */
-    public void setMonto_total(int monto_total) {
+    public void setMonto_total(float monto_total) {
         this.monto_total = monto_total;
     }
 }

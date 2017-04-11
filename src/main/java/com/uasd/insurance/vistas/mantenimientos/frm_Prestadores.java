@@ -18,8 +18,11 @@ import com.uasd.insurance.utilitario.MyListRendeder;
 import com.uasd.insurance.vistas.principal.frm_Principal;
 import java.awt.Dimension;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTree;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -69,6 +72,7 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
         LlenarTablaPrestadores();
         LlenarPrestadorSeleccionado();
         DisenarTablaServicios();
+        PasarATablaServicios();
     }
    
     private void LlenarTablaPrestadores(){
@@ -83,6 +87,7 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
     }
     private void SeleccionarPrimero(){
         jtblPrestadores.setRowSelectionInterval(0, 0);
+        LlenarPrestadorSeleccionado();
     }
     private void RedisenarTablaServicios(){
         jtblPrestadores.removeColumn(jtblPrestadores.getColumnModel().getColumn(2));
@@ -100,12 +105,37 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
         prestadorSeleccionado.setId_tipo_pss((Integer) jtblPrestadores.getModel().getValueAt(jtblPrestadores.getSelectedRow(), 4));
         prestadorSeleccionado.setId(((Integer) jtblPrestadores.getModel().getValueAt(jtblPrestadores.getSelectedRow(), 5)));
         prestadorSeleccionado.setTelefono((String) jtblPrestadores.getModel().getValueAt(jtblPrestadores.getSelectedRow(), 6));
+        
+        try {
+            prestadorSeleccionado.setServicios(afiliadoDao.GetPrestadorById(prestadorSeleccionado.getId()).getServicios());
+        } catch (SQLException ex) {
+            Logger.getLogger(frm_Prestadores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         PasarACampos(prestadorSeleccionado);
     }
     private void PasarACampos(PrestadoresDto prest){
         jtxtCodigo.setText(prest.getCodigo());
         jtxtNombre.setText(prest.getNombre());
         PasarACombos();
+        PasarATablaServicios();
+    }
+    private void PasarATablaServicios(){
+        LimpiarTablaServicios();
+        
+        for (Prestador_ServicioDto servicio : prestadorSeleccionado.getServicios()) {
+            Object[] registro = new Object[5];
+            registro[0] = servicio.getId_servicio();
+            registro[1] = servicio.getNombre_servicio();
+            registro[2] = servicio.getPrecio();
+            registro[3] = prestadorSeleccionado.getId();
+            registro[4] = servicio.getId();
+            
+        
+            ((DefaultTableModel) jTable1.getModel()).addRow(registro);
+            
+            
+        }
     }
     private void PasarACombos(){
          int id = 0;
@@ -138,7 +168,7 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
     }
     private void HabilitarCampos(boolean estatus){
         
-        jtxtCodigo.setEnabled(false);
+        jtxtCodigo.setEnabled(estatus);
         jtxtNombre.setEnabled(estatus);
         jcmbEspecialidad.setEnabled(estatus);
         jcmbInstitucion.setEnabled(estatus);
@@ -151,6 +181,8 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
         modelo.addColumn("IdServicio");
         modelo.addColumn("Servicio");
         modelo.addColumn("Precio");
+        modelo.addColumn("IdPrestador");
+        modelo.addColumn("Id");
         
         jTable1.setModel(modelo);
         
@@ -160,13 +192,36 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
     public void AgregarServicio(Prestador_ServicioDto preser){
         
         
-        Object[] registro = new Object[4];
-        registro[0] = preser.getId_prestador();
-        registro[1] = preser.getId_servicio();
+        Object[] registro = new Object[5];
+        
+        registro[0] = preser.getId_servicio();
+        registro[1] = preser.getNombre_servicio();
         registro[2] = preser.getPrecio();
         registro[3] = prestadorSeleccionado.getId();
+        registro[4] = preser.getId();
         
+        prestadorSeleccionado.getServicios().add(preser);
         ((DefaultTableModel) jTable1.getModel()).addRow(registro);
+    }
+    public List<Prestador_ServicioDto> ExtraerServicios(){
+        
+        List<Prestador_ServicioDto> lista = new ArrayList<Prestador_ServicioDto>();
+        Prestador_ServicioDto preser;
+        for (int i = 0; i < ((DefaultTableModel)jTable1.getModel()).getRowCount(); i++) {
+            
+            preser = new Prestador_ServicioDto();
+            preser.setId_servicio((Integer)jTable1.getModel().getValueAt(i, 0));
+            preser.setNombre_servicio((String)jTable1.getModel().getValueAt(i, 1));
+            preser.setPrecio((Float)jTable1.getModel().getValueAt(i, 2));
+            preser.setId_prestador((Integer)jTable1.getModel().getValueAt(i, 3));
+            preser.setId((Integer)jTable1.getModel().getValueAt(i, 4));
+            
+            lista.add(preser);
+            
+        }
+        
+        return lista;
+        
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -533,7 +588,16 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jcmbInstitucionActionPerformed
 
     private void jbttNuevo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttNuevo2ActionPerformed
-        // TODO add your handling code here:
+        prestadorSeleccionado = new PrestadoresDto();
+        
+        jtxtCodigo.setText("");
+        jtxtNombre.setText("");
+        jcmbEspecialidad.setSelectedIndex(0);
+        jcmbInstitucion.setSelectedIndex(0);
+        jcmbTipoPSS.setSelectedIndex(0);
+        
+        LimpiarTablaServicios();
+    
     }//GEN-LAST:event_jbttNuevo2ActionPerformed
 
     private void jbttNuevo3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttNuevo3ActionPerformed
@@ -541,7 +605,73 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbttNuevo3ActionPerformed
 
     private void jbttGuardar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttGuardar1ActionPerformed
-        // TODO add your handling code here:
+        prestadorSeleccionado.setCodigo(jtxtCodigo.getText());
+        prestadorSeleccionado.setNombre(jtxtNombre.getText());
+        
+        int id;
+        Object[] ob; 
+
+        ob = (Object[]) jcmbEspecialidad.getSelectedItem();
+        id = (int) ob[0];
+        prestadorSeleccionado.setId_especialidad(id);
+        
+        ob = (Object[]) jcmbInstitucion.getSelectedItem();
+        id = (int) ob[0];
+        prestadorSeleccionado.setId_institucion(id);
+        
+        ob = (Object[]) jcmbTipoPSS.getSelectedItem();
+        id = (int) ob[0];
+        prestadorSeleccionado.setId_tipo_pss(id);
+        
+        prestadorSeleccionado.setServicios(ExtraerServicios());
+        if(prestadorSeleccionado.getId()==0){
+            try {
+                
+                prestadorSeleccionado = afiliadoDao.InsertPrestador(prestadorSeleccionado);
+                
+                //LlenarTablaPrestadores();
+        
+                for (Prestador_ServicioDto servicio : prestadorSeleccionado.getServicios()) {
+                    if(servicio.getId()==0){
+                        
+                            afiliadoDao.InsertPrestadorServicio(servicio);
+                        
+                    }else{
+                        
+                            afiliadoDao.UpdatePrestadorServicio(servicio);
+                       
+                    }
+                }
+        
+            } catch (Exception ex) {
+                Logger.getLogger(frm_Prestadores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            try {
+                
+                prestadorSeleccionado = afiliadoDao.UpdatePrestador(prestadorSeleccionado);
+                
+                //LlenarTablaPrestadores();
+        
+                for (Prestador_ServicioDto servicio : prestadorSeleccionado.getServicios()) {
+                    if(servicio.getId()==0){
+                        
+                            afiliadoDao.InsertPrestadorServicio(servicio);
+                        
+                    }else{
+                        
+                            afiliadoDao.UpdatePrestadorServicio(servicio);
+                       
+                    }
+                }
+                
+            } catch (Exception ex) {
+                Logger.getLogger(frm_Prestadores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        
+        
     }//GEN-LAST:event_jbttGuardar1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -637,5 +767,15 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
             Logger.getLogger(frm_Prestadores.class.getName()).log(Level.SEVERE, null, ex);
         }
        
+    }
+
+    private void LimpiarTablaServicios() {
+        
+        DefaultTableModel dtm = ((DefaultTableModel)jTable1.getModel());
+        int rowCount  = dtm.getRowCount();
+        
+        for (int i = rowCount-1; i>=0; i--) {
+            dtm.removeRow(i);
+        }
     }
 }
