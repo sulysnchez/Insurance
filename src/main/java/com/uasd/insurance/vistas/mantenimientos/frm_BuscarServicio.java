@@ -6,6 +6,7 @@
 package com.uasd.insurance.vistas.mantenimientos;
 
 import com.itla.insurance.dao.AfiliadoDao;
+import com.itla.insurance.dto.Prestador_ServicioDto;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,6 +19,7 @@ public class frm_BuscarServicio extends javax.swing.JInternalFrame {
 
     frm_Prestadores frmPrestadores;
     AfiliadoDao afiliadoDao;
+    Prestador_ServicioDto prestadorServicioSeleccionado;
     /**
      * Creates new form frm_BuscarServicio
      */
@@ -33,6 +35,7 @@ public class frm_BuscarServicio extends javax.swing.JInternalFrame {
     public frm_BuscarServicio(frm_Prestadores frm) {
         initComponents();
         frmPrestadores = frm;
+        prestadorServicioSeleccionado = new Prestador_ServicioDto();
         try {
             afiliadoDao = new AfiliadoDao();
         } catch (Exception ex) {
@@ -41,6 +44,17 @@ public class frm_BuscarServicio extends javax.swing.JInternalFrame {
         LlenarAnalisis();
     }
 
+    private void LlenarPrestadorServicioSelected(){
+        prestadorServicioSeleccionado.setNombre_servicio((String)jtblServicios.getModel().getValueAt(jtblServicios.getSelectedRow(), 0));
+        prestadorServicioSeleccionado.setId_servicio((Integer)jtblServicios.getModel().getValueAt(jtblServicios.getSelectedRow(), 1));
+        prestadorServicioSeleccionado.setId(0);
+//        if((Integer)jtblServicios.getModel().getValueAt(jtblServicios.getSelectedRow(), 1)<=(Float.parseFloat(jtxtPrecio.getText()))){
+            prestadorServicioSeleccionado.setPrecio(Float.parseFloat(jtxtPrecio.getText()));
+//        }
+    }
+    private void EnviarServicio(){
+        frmPrestadores.AgregarServicio(prestadorServicioSeleccionado);
+    }
     private void LlenarAnalisis(){
         try {
             
@@ -87,6 +101,11 @@ public class frm_BuscarServicio extends javax.swing.JInternalFrame {
                 "Title 1"
             }
         ));
+        jtblServicios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jtblServiciosMouseReleased(evt);
+            }
+        });
         jScrollPane3.setViewportView(jtblServicios);
 
         jlblNombre6.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
@@ -95,6 +114,11 @@ public class frm_BuscarServicio extends javax.swing.JInternalFrame {
         jtxtPrecio.setMinimumSize(new java.awt.Dimension(55, 28));
 
         jButton3.setText(" Agregar servicio");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -131,6 +155,17 @@ public class frm_BuscarServicio extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jtblServiciosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblServiciosMouseReleased
+        //LlenarPrestadorServicioSelected();
+    }//GEN-LAST:event_jtblServiciosMouseReleased
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        LlenarPrestadorServicioSelected();
+        
+        EnviarServicio();
+        this.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -30,6 +30,14 @@
 				</textElement>
 				<text><![CDATA[REPORTE DE PRESTADORES/MEDICOS]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="20" y="27" width="63" height="20" uuid="891e934d-16ab-49d2-a581-aef83c3bc09d"/>
+				<text><![CDATA[Static text]]></text>
+			</staticText>
+			<image>
+				<reportElement x="459" y="14" width="40" height="33" uuid="27e10e91-8a06-47dd-8d2c-32a7a2ce2d12"/>
+				<imageExpression><![CDATA["C:\\Users\\Chu\\Desktop\\fotos\\10928866_1566397536962251_6880226083321410636_n.jpg"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
