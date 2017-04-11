@@ -30,23 +30,23 @@
 	<title>
 		<band height="70" splitType="Stretch">
 			<staticText>
-				<reportElement style="Title" x="140" y="17" width="263" height="33" forecolor="#666666" uuid="74c53d41-35af-4f42-a7d6-9a5e79c988cf"/>
+				<reportElement style="Title" x="140" y="17" width="263" height="33" forecolor="#000000" uuid="74c53d41-35af-4f42-a7d6-9a5e79c988cf"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Monospaced" size="18"/>
+					<font fontName="Serif" size="18"/>
 				</textElement>
 				<text><![CDATA[REPORTE DE AFILIADOS]]></text>
 			</staticText>
-			<image>
-				<reportElement x="107" y="17" width="34" height="33" uuid="fa0d1743-7658-4661-80c8-f1b0c01cc5a8"/>
-				<imageExpression><![CDATA["C:\\Users\\Sulenni\\Downloads\\user.png"]]></imageExpression>
-			</image>
+			<staticText>
+				<reportElement x="17" y="17" width="100" height="33" uuid="05823927-2dbc-48dc-98d9-6ee1547c98ab"/>
+				<text><![CDATA[Static text]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="36" splitType="Stretch">
+		<band height="41" splitType="Stretch">
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1" uuid="e4e2bd35-079d-48ed-baba-29f4d962010a"/>
 				<graphicElement>
@@ -54,29 +54,44 @@
 				</graphicElement>
 			</line>
 			<staticText>
-				<reportElement style="Column header" x="0" y="19" width="55" height="15" uuid="e868c502-3ebc-4e8e-910c-586a8ba0d23d"/>
+				<reportElement style="Column header" x="0" y="15" width="78" height="19" forecolor="#000000" uuid="e868c502-3ebc-4e8e-910c-586a8ba0d23d"/>
+				<textElement>
+					<font fontName="Serif" size="12"/>
+				</textElement>
 				<text><![CDATA[Póliza]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="62" y="19" width="55" height="15" uuid="f1aa06ff-d88e-4e1b-a487-cc9a231e07b8"/>
+				<reportElement style="Column header" x="62" y="15" width="78" height="19" forecolor="#000000" uuid="f1aa06ff-d88e-4e1b-a487-cc9a231e07b8"/>
+				<textElement>
+					<font fontName="Serif" size="12"/>
+				</textElement>
 				<text><![CDATA[Nombre]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="287" y="19" width="55" height="15" uuid="5b635f6d-c8f4-4584-9274-1259bfbfe228"/>
+				<reportElement style="Column header" x="287" y="15" width="78" height="19" forecolor="#000000" uuid="5b635f6d-c8f4-4584-9274-1259bfbfe228"/>
+				<textElement>
+					<font fontName="Serif" size="12"/>
+				</textElement>
 				<text><![CDATA[Dirección]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="455" y="17" width="99" height="15" uuid="e27bae89-08ab-4f91-84e0-f21da819127a"/>
+				<reportElement style="Column header" x="455" y="13" width="122" height="19" forecolor="#000000" uuid="e27bae89-08ab-4f91-84e0-f21da819127a"/>
+				<textElement>
+					<font fontName="Serif" size="12"/>
+				</textElement>
 				<text><![CDATA[Teléfono]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="194" y="19" width="81" height="15" uuid="d1023065-7fba-46d3-9d6e-ad0b13b09b1b"/>
-				<text><![CDATA[Identificacion]]></text>
+				<reportElement style="Column header" x="194" y="15" width="104" height="19" forecolor="#000000" uuid="d1023065-7fba-46d3-9d6e-ad0b13b09b1b"/>
+				<textElement>
+					<font fontName="Serif" size="12"/>
+				</textElement>
+				<text><![CDATA[Identificación]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="31" splitType="Stretch">
+		<band height="24" splitType="Stretch">
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="0dc57a8f-dc85-486e-9d22-3aa9dfc66660"/>
 				<graphicElement>
@@ -84,44 +99,44 @@
 				</graphicElement>
 			</line>
 			<textField>
-				<reportElement style="Detail" x="0" y="0" width="55" height="15" uuid="13f93b3c-6645-4edc-a958-3da197db1fea"/>
+				<reportElement style="Detail" x="0" y="0" width="55" height="15" forecolor="#333333" uuid="13f93b3c-6645-4edc-a958-3da197db1fea"/>
 				<textElement>
-					<font fontName="Monospaced" size="8"/>
+					<font fontName="Serif" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{no_poliza}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Detail" x="62" y="0" width="55" height="15" uuid="1bfd48e3-56f2-4ddb-aec5-c9d5f02913ac"/>
+				<reportElement style="Detail" x="62" y="0" width="55" height="15" forecolor="#333333" uuid="1bfd48e3-56f2-4ddb-aec5-c9d5f02913ac"/>
 				<textElement>
-					<font fontName="Monospaced" size="8"/>
+					<font fontName="Serif" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Detail" x="286" y="2" width="158" height="15" uuid="28efe6e8-b1b2-428e-b5ec-68e6eea019de"/>
+				<reportElement style="Detail" x="286" y="2" width="158" height="15" forecolor="#333333" uuid="28efe6e8-b1b2-428e-b5ec-68e6eea019de"/>
 				<textElement>
-					<font fontName="Monospaced" size="8"/>
+					<font fontName="Serif" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Detail" x="455" y="2" width="88" height="14" uuid="36e360e0-e141-4807-b106-e204e87f55bd"/>
+				<reportElement style="Detail" x="455" y="2" width="88" height="14" forecolor="#333333" uuid="36e360e0-e141-4807-b106-e204e87f55bd"/>
 				<textElement>
-					<font fontName="Monospaced" size="8"/>
+					<font fontName="Serif" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Detail" x="193" y="2" width="87" height="14" uuid="6ed1eec2-92b2-4582-ac2d-a2f32c25c0a8"/>
+				<reportElement style="Detail" x="193" y="2" width="87" height="14" forecolor="#333333" uuid="6ed1eec2-92b2-4582-ac2d-a2f32c25c0a8"/>
 				<textElement>
-					<font fontName="Monospaced" size="8"/>
+					<font fontName="Serif" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{no_identificacion}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="45" splitType="Stretch">
+		<band height="29" splitType="Stretch">
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="fe576d3e-9844-4f66-b0a1-fe540c3b21ae"/>
 				<graphicElement>

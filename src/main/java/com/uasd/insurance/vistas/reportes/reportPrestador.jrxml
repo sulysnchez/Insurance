@@ -24,9 +24,9 @@
 	<title>
 		<band height="70" splitType="Stretch">
 			<staticText>
-				<reportElement style="Title" x="95" y="14" width="338" height="33" uuid="3f9a7813-e0b2-4a3f-960d-f37e6365d5cd"/>
+				<reportElement style="Title" x="95" y="14" width="354" height="33" uuid="3f9a7813-e0b2-4a3f-960d-f37e6365d5cd"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Monospaced" size="18"/>
+					<font fontName="Serif" size="18"/>
 				</textElement>
 				<text><![CDATA[REPORTE DE PRESTADORES/MEDICOS]]></text>
 			</staticText>
@@ -44,25 +44,37 @@
 				</graphicElement>
 			</line>
 			<staticText>
-				<reportElement style="Column header" x="0" y="19" width="138" height="15" uuid="35d886ec-4e1d-4d3c-a0b2-af581d18e730"/>
-				<text><![CDATA[nombre]]></text>
+				<reportElement style="Column header" x="0" y="14" width="138" height="20" forecolor="#000000" uuid="35d886ec-4e1d-4d3c-a0b2-af581d18e730"/>
+				<textElement>
+					<font fontName="Serif"/>
+				</textElement>
+				<text><![CDATA[NOMBRE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="151" y="19" width="117" height="15" uuid="51906036-2b5f-43de-8d32-ef4af1a4cee3"/>
-				<text><![CDATA[telefono]]></text>
+				<reportElement style="Column header" x="151" y="14" width="117" height="20" forecolor="#000000" uuid="51906036-2b5f-43de-8d32-ef4af1a4cee3"/>
+				<textElement>
+					<font fontName="Serif"/>
+				</textElement>
+				<text><![CDATA[TELÉFONO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="276" y="19" width="138" height="15" uuid="a9a9cc1d-9136-4f67-8c3a-1f5f33bda307"/>
-				<text><![CDATA[codigo]]></text>
+				<reportElement style="Column header" x="276" y="14" width="138" height="20" forecolor="#000000" uuid="a9a9cc1d-9136-4f67-8c3a-1f5f33bda307"/>
+				<textElement>
+					<font fontName="Serif"/>
+				</textElement>
+				<text><![CDATA[CÓDIGO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="414" y="19" width="138" height="15" uuid="bf7de28f-c17b-48e0-b3e5-08a77bd3992f"/>
-				<text><![CDATA[pss]]></text>
+				<reportElement style="Column header" x="414" y="14" width="138" height="20" forecolor="#000000" uuid="bf7de28f-c17b-48e0-b3e5-08a77bd3992f"/>
+				<textElement>
+					<font fontName="Serif"/>
+				</textElement>
+				<text><![CDATA[PSS]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="16" splitType="Stretch">
+		<band height="28" splitType="Stretch">
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="e7d143fc-ede7-49d1-ab13-a11720af4519"/>
 				<graphicElement>
@@ -70,19 +82,31 @@
 				</graphicElement>
 			</line>
 			<textField>
-				<reportElement style="Detail" x="0" y="0" width="138" height="15" uuid="2024d84f-19c8-46c2-9fdd-2a8965147dd4"/>
+				<reportElement style="Detail" x="0" y="0" width="138" height="20" forecolor="#333333" uuid="2024d84f-19c8-46c2-9fdd-2a8965147dd4"/>
+				<textElement>
+					<font fontName="Serif" size="10"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Detail" x="151" y="0" width="117" height="15" uuid="6cbacaae-0296-4aef-aac6-18c0cc9cf9bf"/>
+				<reportElement style="Detail" x="151" y="0" width="117" height="20" forecolor="#333333" uuid="6cbacaae-0296-4aef-aac6-18c0cc9cf9bf"/>
+				<textElement>
+					<font fontName="Serif" size="10"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Detail" x="276" y="0" width="138" height="15" uuid="c775aa75-35ca-4555-87ac-0a127bd059a6"/>
+				<reportElement style="Detail" x="276" y="0" width="138" height="20" forecolor="#333333" uuid="c775aa75-35ca-4555-87ac-0a127bd059a6"/>
+				<textElement>
+					<font fontName="Serif" size="10"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Detail" x="414" y="0" width="138" height="15" uuid="63ba2dfc-3105-42c6-a29a-fec9cce65ae2"/>
+				<reportElement style="Detail" x="414" y="0" width="138" height="20" forecolor="#333333" uuid="63ba2dfc-3105-42c6-a29a-fec9cce65ae2"/>
+				<textElement>
+					<font fontName="Serif" size="10"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{pss}]]></textFieldExpression>
 			</textField>
 		</band>
