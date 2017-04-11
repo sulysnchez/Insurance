@@ -10,6 +10,7 @@ import com.itla.insurance.dto.AfiliadoDto;
 import com.itla.insurance.dto.AnalisisDto;
 import com.itla.insurance.dto.EspecialidadDto;
 import com.itla.insurance.dto.InstitucionDto;
+import com.itla.insurance.dto.Prestador_ServicioDto;
 import com.itla.insurance.dto.PrestadoresDto;
 import com.itla.insurance.dto.Tipo_IdentificacionDto;
 import com.itla.insurance.dto.Tipo_PssDto;
@@ -19,6 +20,7 @@ import java.awt.Dimension;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -46,6 +48,7 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
         HabilitarCampos(true);
         LlenarCombos();
         LlenarTablaPrestadores();
+        DisenarTablaServicios();
     }
 
     public frm_Prestadores(frm_Principal principal) {
@@ -65,6 +68,7 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
         LlenarCombos();
         LlenarTablaPrestadores();
         LlenarPrestadorSeleccionado();
+        DisenarTablaServicios();
     }
    
     private void LlenarTablaPrestadores(){
@@ -104,13 +108,31 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
         PasarACombos();
     }
     private void PasarACombos(){
-        int id = 0;
+         int id = 0;
             for (int i = 0;i<jcmbEspecialidad.getItemCount();i++) {
                 
                 Object[] ob = (Object[]) jcmbEspecialidad.getItemAt(i);
                 id= (int)ob[0];
-                if(id==(Integer.parseInt(Integer.toString((int) jtblPrestadores.getModel().getValueAt(jtblPrestadores.getSelectedRow(), 5))))){
+                if(id==prestadorSeleccionado.getId_especialidad()){ 
                     jcmbEspecialidad.setSelectedIndex(i);
+                }
+            }
+            id = 0;
+            for (int i = 0;i<jcmbInstitucion.getItemCount();i++) {
+                
+                Object[] ob = (Object[]) jcmbInstitucion.getItemAt(i);
+                id= (int)ob[0];
+                if(id==prestadorSeleccionado.getId_institucion()){ 
+                    jcmbInstitucion.setSelectedIndex(i);
+                }
+            }
+            id = 0;
+            for (int i = 0;i<jcmbTipoPSS.getItemCount();i++) {
+                
+                Object[] ob = (Object[]) jcmbTipoPSS.getItemAt(i);
+                id= (int)ob[0];
+                if(id==prestadorSeleccionado.getId_tipo_pss()){ 
+                    jcmbTipoPSS.setSelectedIndex(i);
                 }
             }
     }
@@ -121,6 +143,30 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
         jcmbEspecialidad.setEnabled(estatus);
         jcmbInstitucion.setEnabled(estatus);
         jcmbTipoPSS.setEnabled(estatus);
+    }
+    
+    private void DisenarTablaServicios(){
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        modelo.addColumn("IdServicio");
+        modelo.addColumn("Servicio");
+        modelo.addColumn("Precio");
+        
+        jTable1.setModel(modelo);
+        
+        
+        jTable1.removeColumn(jtblPrestadores.getColumnModel().getColumn(1));
+    }
+    public void AgregarServicio(Prestador_ServicioDto preser){
+        
+        
+        Object[] registro = new Object[4];
+        registro[0] = preser.getId_prestador();
+        registro[1] = preser.getId_servicio();
+        registro[2] = preser.getPrecio();
+        registro[3] = prestadorSeleccionado.getId();
+        
+        ((DefaultTableModel) jTable1.getModel()).addRow(registro);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -153,9 +199,6 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jbttNuevo = new javax.swing.JButton();
-        jbttNuevo1 = new javax.swing.JButton();
-        jbttGuardar = new javax.swing.JButton();
         jbttNuevo2 = new javax.swing.JButton();
         jbttNuevo3 = new javax.swing.JButton();
         jbttGuardar1 = new javax.swing.JButton();
@@ -312,30 +355,6 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
             }
         });
 
-        jbttNuevo.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
-        jbttNuevo.setText("Nuevo");
-        jbttNuevo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbttNuevoActionPerformed(evt);
-            }
-        });
-
-        jbttNuevo1.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
-        jbttNuevo1.setText("Eliminar");
-        jbttNuevo1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbttNuevo1ActionPerformed(evt);
-            }
-        });
-
-        jbttGuardar.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
-        jbttGuardar.setText("Guardar");
-        jbttGuardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbttGuardarActionPerformed(evt);
-            }
-        });
-
         jbttNuevo2.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
         jbttNuevo2.setText("Nuevo");
         jbttNuevo2.addActionListener(new java.awt.event.ActionListener() {
@@ -382,15 +401,6 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jbttGuardar1)))
                 .addContainerGap())
-            .addGroup(pnListaServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pnListaServiciosLayout.createSequentialGroup()
-                    .addGap(17, 17, 17)
-                    .addComponent(jbttNuevo)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jbttNuevo1)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jbttGuardar)
-                    .addContainerGap(18, Short.MAX_VALUE)))
         );
         pnListaServiciosLayout.setVerticalGroup(
             pnListaServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -408,14 +418,6 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
                     .addComponent(jbttNuevo3)
                     .addComponent(jbttNuevo2))
                 .addContainerGap(14, Short.MAX_VALUE))
-            .addGroup(pnListaServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pnListaServiciosLayout.createSequentialGroup()
-                    .addGap(83, 83, 83)
-                    .addGroup(pnListaServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jbttGuardar)
-                        .addComponent(jbttNuevo1)
-                        .addComponent(jbttNuevo))
-                    .addContainerGap(83, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout pnDatosLayout = new javax.swing.GroupLayout(pnDatos);
@@ -452,6 +454,16 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
                 "Title 1"
             }
         ));
+        jtblPrestadores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jtblPrestadoresMouseReleased(evt);
+            }
+        });
+        jtblPrestadores.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtblPrestadoresKeyPressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(jtblPrestadores);
 
         jPanel1.add(jScrollPane2, java.awt.BorderLayout.PAGE_END);
@@ -520,21 +532,6 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jcmbInstitucionActionPerformed
 
-    private void jbttNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttNuevoActionPerformed
-
-       
-
-    }//GEN-LAST:event_jbttNuevoActionPerformed
-
-    private void jbttNuevo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttNuevo1ActionPerformed
-
-      
-    }//GEN-LAST:event_jbttNuevo1ActionPerformed
-
-    private void jbttGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttGuardarActionPerformed
-       
-    }//GEN-LAST:event_jbttGuardarActionPerformed
-
     private void jbttNuevo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttNuevo2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jbttNuevo2ActionPerformed
@@ -552,6 +549,14 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
         principal.agregarFormulario(frm);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jtblPrestadoresMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblPrestadoresMouseReleased
+        LlenarPrestadorSeleccionado();
+    }//GEN-LAST:event_jtblPrestadoresMouseReleased
+
+    private void jtblPrestadoresKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtblPrestadoresKeyPressed
+        LlenarPrestadorSeleccionado();
+    }//GEN-LAST:event_jtblPrestadoresKeyPressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -562,10 +567,7 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JButton jbttGuardar;
     private javax.swing.JButton jbttGuardar1;
-    private javax.swing.JButton jbttNuevo;
-    private javax.swing.JButton jbttNuevo1;
     private javax.swing.JButton jbttNuevo2;
     private javax.swing.JButton jbttNuevo3;
     private javax.swing.JComboBox jcmbEspecialidad;
