@@ -25,6 +25,8 @@ public class Utilities {
         return difAno;
     }
     public static void SelectFirst(JTable table){
-        table.setRowSelectionInterval(0, 0);
+        if(table.getRowCount() > 0) {
+            table.setRowSelectionInterval(0, 0);
+        }
     }
 }

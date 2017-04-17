@@ -36,17 +36,17 @@
 				</textElement>
 				<text><![CDATA[REPORTE DE AFILIADOS]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="17" y="17" width="100" height="33" uuid="05823927-2dbc-48dc-98d9-6ee1547c98ab"/>
-				<text><![CDATA[Static text]]></text>
-			</staticText>
+			<image>
+				<reportElement x="136" y="25" width="27" height="22" uuid="d3011950-2ae2-4ac6-9894-f5ec3a2c80e0"/>
+				<imageExpression><![CDATA["C:\\Users\\Sulenni\\Downloads\\user.png"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="41" splitType="Stretch">
+		<band height="44" splitType="Stretch">
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1" uuid="e4e2bd35-079d-48ed-baba-29f4d962010a"/>
 				<graphicElement>
@@ -54,39 +54,39 @@
 				</graphicElement>
 			</line>
 			<staticText>
-				<reportElement style="Column header" x="0" y="15" width="78" height="19" forecolor="#000000" uuid="e868c502-3ebc-4e8e-910c-586a8ba0d23d"/>
+				<reportElement style="Column header" x="0" y="13" width="55" height="19" forecolor="#000000" uuid="e868c502-3ebc-4e8e-910c-586a8ba0d23d"/>
 				<textElement>
 					<font fontName="Serif" size="12"/>
 				</textElement>
-				<text><![CDATA[Póliza]]></text>
+				<text><![CDATA[PÓLIZA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="62" y="15" width="78" height="19" forecolor="#000000" uuid="f1aa06ff-d88e-4e1b-a487-cc9a231e07b8"/>
+				<reportElement style="Column header" x="62" y="13" width="78" height="19" forecolor="#000000" uuid="f1aa06ff-d88e-4e1b-a487-cc9a231e07b8"/>
 				<textElement>
 					<font fontName="Serif" size="12"/>
 				</textElement>
-				<text><![CDATA[Nombre]]></text>
+				<text><![CDATA[NOMBRE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="287" y="15" width="78" height="19" forecolor="#000000" uuid="5b635f6d-c8f4-4584-9274-1259bfbfe228"/>
+				<reportElement style="Column header" x="313" y="13" width="78" height="19" forecolor="#000000" uuid="5b635f6d-c8f4-4584-9274-1259bfbfe228"/>
 				<textElement>
 					<font fontName="Serif" size="12"/>
 				</textElement>
-				<text><![CDATA[Dirección]]></text>
+				<text><![CDATA[DIRECCIÓN]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="Column header" x="455" y="13" width="122" height="19" forecolor="#000000" uuid="e27bae89-08ab-4f91-84e0-f21da819127a"/>
 				<textElement>
 					<font fontName="Serif" size="12"/>
 				</textElement>
-				<text><![CDATA[Teléfono]]></text>
+				<text><![CDATA[TELÉFONO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="194" y="15" width="104" height="19" forecolor="#000000" uuid="d1023065-7fba-46d3-9d6e-ad0b13b09b1b"/>
+				<reportElement style="Column header" x="194" y="13" width="104" height="19" forecolor="#000000" uuid="d1023065-7fba-46d3-9d6e-ad0b13b09b1b"/>
 				<textElement>
 					<font fontName="Serif" size="12"/>
 				</textElement>
-				<text><![CDATA[Identificación]]></text>
+				<text><![CDATA[IDENTIFICACIÓN]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -106,14 +106,14 @@
 				<textFieldExpression><![CDATA[$F{no_poliza}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Detail" x="62" y="0" width="55" height="15" forecolor="#333333" uuid="1bfd48e3-56f2-4ddb-aec5-c9d5f02913ac"/>
+				<reportElement style="Detail" x="62" y="0" width="118" height="15" forecolor="#333333" uuid="1bfd48e3-56f2-4ddb-aec5-c9d5f02913ac"/>
 				<textElement>
 					<font fontName="Serif" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Detail" x="286" y="2" width="158" height="15" forecolor="#333333" uuid="28efe6e8-b1b2-428e-b5ec-68e6eea019de"/>
+				<reportElement style="Detail" x="313" y="2" width="131" height="15" forecolor="#333333" uuid="28efe6e8-b1b2-428e-b5ec-68e6eea019de"/>
 				<textElement>
 					<font fontName="Serif" size="10"/>
 				</textElement>

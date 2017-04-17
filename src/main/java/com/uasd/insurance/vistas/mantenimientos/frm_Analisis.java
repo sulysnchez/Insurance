@@ -48,7 +48,7 @@ public class frm_Analisis extends javax.swing.JInternalFrame {
         
         //MOSTRAR NUMERO DE POLIZA Y CONTRATO
       //  jlblIdAnalisis.setText(afiliadoDao.GenerarIdAnalisis());
-        
+        jlblIdAnalisis.setText("");
         jtblAnalisis.setModel(afiliadoDao.getModelAnalisis(afiliadoDao.GetAllAnalisis()));
         RedisenarTablaAnalisis();
     }
@@ -113,6 +113,7 @@ public class frm_Analisis extends javax.swing.JInternalFrame {
 
         jlblIdAnalisis.setFont(new java.awt.Font("Palatino Linotype", 1, 18)); // NOI18N
         jlblIdAnalisis.setForeground(new java.awt.Color(153, 0, 0));
+        jlblIdAnalisis.setText("1");
 
         jlblAnalisis.setFont(new java.awt.Font("Palatino Linotype", 2, 18)); // NOI18N
         jlblAnalisis.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sulenni\\Downloads\\microscope.png")); // NOI18N
@@ -165,9 +166,9 @@ public class frm_Analisis extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jlblAnalisis)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlblIdAnalisis, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                    .addComponent(jlblIdAnalisis, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -301,14 +302,13 @@ public class frm_Analisis extends javax.swing.JInternalFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                         .addComponent(jtxtBuscarAnalisis, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4)
-                        .addGap(0, 5, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jLabel4)))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -369,11 +369,13 @@ public class frm_Analisis extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbttNuevoActionPerformed
 
     private void jbttGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttGuardarActionPerformed
-        for (Component component : jPanel1.getComponents()) {
-            if (component instanceof JTextField){
-                JTextField tf = (JTextField)component;
-                if(tf.getText().isEmpty()){
+//        for (Component component : jPanel1.getComponents()) {
+//            if (component instanceof JTextField){
+//                JTextField tf = (JTextField)component;
+                if(jtxtNombre.getText().isEmpty()){
                     JOptionPane.showMessageDialog(null, "No puede guardar el nombre en blanco.!.!. ");
+                } else if(jtxtPrecio.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "No puede guardar el precio en blanco.!.!. ");
                 } else{
                     
                     if (jlblIdAnalisis.getText().isEmpty()){
@@ -421,8 +423,8 @@ public class frm_Analisis extends javax.swing.JInternalFrame {
 //                    jtxtNombre.setText((String) (jtblAnalisis.getModel().getValueAt(jtblAnalisis.getSelectedRow(), 0)));
 //                    jlblIdAnalisis.setText(Integer.toString((int) jtblAnalisis.getModel().getValueAt(jtblAnalisis.getSelectedRow(), 1)));
 //                   // LimpiarCampos();
-                }
-            }
+//                }
+//            }
         }
         
         
@@ -464,47 +466,6 @@ public class frm_Analisis extends javax.swing.JInternalFrame {
 
     private void jbttImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttImprimirActionPerformed
         ReportGenerator.allAnalisis();
-//        String rutaReporteAnalisis = "C:\\Users\\Sulenni\\Documents\\NetBeansProjects\\Insurance\\src\\main\\java\\com\\uasd\\insurance\\vistas\\reportes\\reporteAnalisis.jrxml";
-//        JasperReport reporte = null;
-//
-//        try {
-//            reporte = JasperCompileManager.compileReport(rutaReporteAnalisis);
-//        } catch (JRException ex) {
-//            Logger.getLogger(frm_Analisis.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//        DB datos;
-//        try {
-//            datos = new DB();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(frm_Analisis.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//        Map<String,Object> parametro = new HashMap<String, Object>();
-//        JasperPrint imprimir = null;
-//
-//        try {
-//            imprimir = JasperFillManager.fillReport(reporte, parametro, DB.conexion);
-//        } catch (JRException ex) {
-//            Logger.getLogger(frm_Afiliado.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//        File nombre = new File("C:/Users/Sulenni/Documents/");
-//        nombre.mkdirs();
-//
-//        try {
-//            JasperExportManager.exportReportToPdfFile(imprimir, "C:/Users/Sulenni/Documents/ReporteAnalisis.pdf");
-//        } catch (JRException ex) {
-//            Logger.getLogger(frm_Afiliado.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//        File  ruta = new File ("C:/Users/Sulenni/Documents/ReporteAnalisis.pdf");
-//
-//        try {
-//            Desktop.getDesktop().open(ruta);
-//        } catch (IOException ex) {
-//            Logger.getLogger(frm_Afiliado.class.getName()).log(Level.SEVERE, null, ex);
-//        }
     }//GEN-LAST:event_jbttImprimirActionPerformed
 
     private void jbttNuevo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttNuevo1ActionPerformed
@@ -527,6 +488,7 @@ public class frm_Analisis extends javax.swing.JInternalFrame {
 
             jtxtNombre.setText((String) (jtblAnalisis.getModel().getValueAt(jtblAnalisis.getSelectedRow(), 0)));
             jlblIdAnalisis.setText(Integer.toString((int) jtblAnalisis.getModel().getValueAt(jtblAnalisis.getSelectedRow(), 1)));
+            jtxtPrecio.setText(Float.toString((float) jtblAnalisis.getModel().getValueAt(jtblAnalisis.getSelectedRow(), 2)));
 
             analisisDto.setId(Integer.parseInt(jlblIdAnalisis.getText()));
             analisisDto.setNombre(jtxtNombre.getText());

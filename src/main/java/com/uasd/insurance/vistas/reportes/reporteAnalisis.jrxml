@@ -19,8 +19,10 @@
 	<title>
 		<band height="70" splitType="Stretch">
 			<staticText>
-				<reportElement style="Title" x="0" y="13" width="305" height="33" uuid="d0324f37-3e19-4807-b07c-e57fd3d0bb6f"/>
-				<textElement verticalAlignment="Middle"/>
+				<reportElement style="Title" x="177" y="18" width="218" height="38" uuid="d0324f37-3e19-4807-b07c-e57fd3d0bb6f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="18"/>
+				</textElement>
 				<text><![CDATA[REPORTE DE ANÁLISIS]]></text>
 			</staticText>
 		</band>
@@ -29,7 +31,7 @@
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="36" splitType="Stretch">
+		<band height="41" splitType="Stretch">
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1" uuid="194cd708-b533-4f0e-a42e-1e0636a25b38"/>
 				<graphicElement>
@@ -37,17 +39,23 @@
 				</graphicElement>
 			</line>
 			<staticText>
-				<reportElement style="Column header" x="0" y="19" width="277" height="15" uuid="9f489de0-fc69-4a34-abe4-f9f7f84add7a"/>
-				<text><![CDATA[id]]></text>
+				<reportElement style="Column header" x="0" y="13" width="277" height="20" forecolor="#000000" uuid="b29154d6-2be6-4642-a8e1-a69e8dc49d44"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Serif"/>
+				</textElement>
+				<text><![CDATA[NOMBRE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="277" y="19" width="277" height="15" uuid="b29154d6-2be6-4642-a8e1-a69e8dc49d44"/>
-				<text><![CDATA[nombre]]></text>
+				<reportElement style="Column header" x="277" y="13" width="277" height="20" forecolor="#000000" uuid="9f489de0-fc69-4a34-abe4-f9f7f84add7a"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Serif"/>
+				</textElement>
+				<text><![CDATA[PRECIO]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="16" splitType="Stretch">
+		<band height="24" splitType="Stretch">
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="b929f4b1-aa4a-4656-ba10-c3b3d85d0dcd"/>
 				<graphicElement>
@@ -55,11 +63,10 @@
 				</graphicElement>
 			</line>
 			<textField>
-				<reportElement style="Detail" x="0" y="0" width="277" height="15" uuid="8f300a3a-152c-4cc4-b581-800c66595230"/>
-				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement style="Detail" x="277" y="0" width="277" height="15" uuid="01192194-a50e-44bf-8d6a-6a5ebd72ba24"/>
+				<reportElement style="Detail" x="0" y="0" width="277" height="20" forecolor="#333333" uuid="01192194-a50e-44bf-8d6a-6a5ebd72ba24"/>
+				<textElement>
+					<font fontName="Serif"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 			</textField>
 		</band>

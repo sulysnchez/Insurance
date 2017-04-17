@@ -30,14 +30,6 @@
 				</textElement>
 				<text><![CDATA[REPORTE DE PRESTADORES/MEDICOS]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="20" y="27" width="63" height="20" uuid="891e934d-16ab-49d2-a581-aef83c3bc09d"/>
-				<text><![CDATA[Static text]]></text>
-			</staticText>
-			<image>
-				<reportElement x="459" y="14" width="40" height="33" uuid="27e10e91-8a06-47dd-8d2c-32a7a2ce2d12"/>
-				<imageExpression><![CDATA["C:\\Users\\Chu\\Desktop\\fotos\\10928866_1566397536962251_6880226083321410636_n.jpg"]]></imageExpression>
-			</image>
 		</band>
 	</title>
 	<pageHeader>
@@ -52,28 +44,21 @@
 				</graphicElement>
 			</line>
 			<staticText>
-				<reportElement style="Column header" x="0" y="14" width="138" height="20" forecolor="#000000" uuid="35d886ec-4e1d-4d3c-a0b2-af581d18e730"/>
+				<reportElement style="Column header" x="295" y="12" width="138" height="20" forecolor="#000000" uuid="35d886ec-4e1d-4d3c-a0b2-af581d18e730"/>
 				<textElement>
 					<font fontName="Serif"/>
 				</textElement>
 				<text><![CDATA[NOMBRE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="151" y="14" width="117" height="20" forecolor="#000000" uuid="51906036-2b5f-43de-8d32-ef4af1a4cee3"/>
-				<textElement>
-					<font fontName="Serif"/>
-				</textElement>
-				<text><![CDATA[TELÉFONO]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Column header" x="276" y="14" width="138" height="20" forecolor="#000000" uuid="a9a9cc1d-9136-4f67-8c3a-1f5f33bda307"/>
+				<reportElement style="Column header" x="0" y="12" width="138" height="20" forecolor="#000000" uuid="a9a9cc1d-9136-4f67-8c3a-1f5f33bda307"/>
 				<textElement>
 					<font fontName="Serif"/>
 				</textElement>
 				<text><![CDATA[CÓDIGO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="414" y="14" width="138" height="20" forecolor="#000000" uuid="bf7de28f-c17b-48e0-b3e5-08a77bd3992f"/>
+				<reportElement style="Column header" x="149" y="12" width="138" height="20" forecolor="#000000" uuid="bf7de28f-c17b-48e0-b3e5-08a77bd3992f"/>
 				<textElement>
 					<font fontName="Serif"/>
 				</textElement>
@@ -90,32 +75,25 @@
 				</graphicElement>
 			</line>
 			<textField>
-				<reportElement style="Detail" x="0" y="0" width="138" height="20" forecolor="#333333" uuid="2024d84f-19c8-46c2-9fdd-2a8965147dd4"/>
+				<reportElement style="Detail" x="149" y="8" width="138" height="20" forecolor="#333333" uuid="63ba2dfc-3105-42c6-a29a-fec9cce65ae2"/>
 				<textElement>
 					<font fontName="Serif" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{pss}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Detail" x="151" y="0" width="117" height="20" forecolor="#333333" uuid="6cbacaae-0296-4aef-aac6-18c0cc9cf9bf"/>
-				<textElement>
-					<font fontName="Serif" size="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement style="Detail" x="276" y="0" width="138" height="20" forecolor="#333333" uuid="c775aa75-35ca-4555-87ac-0a127bd059a6"/>
+				<reportElement style="Detail" x="0" y="8" width="138" height="20" forecolor="#333333" uuid="c775aa75-35ca-4555-87ac-0a127bd059a6"/>
 				<textElement>
 					<font fontName="Serif" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Detail" x="414" y="0" width="138" height="20" forecolor="#333333" uuid="63ba2dfc-3105-42c6-a29a-fec9cce65ae2"/>
+				<reportElement style="Detail" x="295" y="0" width="138" height="20" forecolor="#333333" uuid="2024d84f-19c8-46c2-9fdd-2a8965147dd4"/>
 				<textElement>
 					<font fontName="Serif" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{pss}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

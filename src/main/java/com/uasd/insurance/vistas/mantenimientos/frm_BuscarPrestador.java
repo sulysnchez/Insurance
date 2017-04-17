@@ -185,7 +185,7 @@ public class frm_BuscarPrestador extends javax.swing.JInternalFrame {
 
     private void jtxtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtBuscarKeyTyped
         try {
-            jtblAfiliado.setModel(afiliadoDao.filtraModelPrestadores(jtxtBuscar.getText()));
+            jtblAfiliado.setModel(afiliadoDao.getModelPrestador(afiliadoDao.filtraModelPrestadores(jtxtBuscar.getText())));
 
             //RedisenarTablaAfiliado();
         } catch (SQLException ex) {

@@ -228,9 +228,9 @@ public class frm_Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jtxtPassKeyReleased
 
     private void jtxtUserKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtUserKeyReleased
-        if(evt.getKeyCode()==10){
-            logIn();
-        }
+//        if(evt.getKeyCode()==10){
+//            logIn();
+//        }
     }//GEN-LAST:event_jtxtUserKeyReleased
 
     /**

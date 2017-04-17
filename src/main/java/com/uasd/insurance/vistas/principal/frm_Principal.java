@@ -147,7 +147,8 @@ public class frm_Principal extends javax.swing.JFrame {
         jMenu5.setText("REPORTES");
         jMenu5.setFont(new java.awt.Font("Palatino Linotype", 3, 14)); // NOI18N
 
-        jMenuItem4.setText("Analisis");
+        jMenuItem4.setFont(new java.awt.Font("Palatino Linotype", 2, 14)); // NOI18N
+        jMenuItem4.setText("Análisis");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem4ActionPerformed(evt);
@@ -155,6 +156,7 @@ public class frm_Principal extends javax.swing.JFrame {
         });
         jMenu5.add(jMenuItem4);
 
+        jMenuItem5.setFont(new java.awt.Font("Palatino Linotype", 2, 14)); // NOI18N
         jMenuItem5.setText("Afiliados");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -163,6 +165,7 @@ public class frm_Principal extends javax.swing.JFrame {
         });
         jMenu5.add(jMenuItem5);
 
+        jMenuItem6.setFont(new java.awt.Font("Palatino Linotype", 2, 14)); // NOI18N
         jMenuItem6.setText("Prestadores");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -171,6 +174,7 @@ public class frm_Principal extends javax.swing.JFrame {
         });
         jMenu5.add(jMenuItem6);
 
+        jMenuItem7.setFont(new java.awt.Font("Palatino Linotype", 2, 14)); // NOI18N
         jMenuItem7.setText("Prestadores 2");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

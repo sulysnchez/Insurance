@@ -122,7 +122,10 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Analisis"/>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Palatino Linotype" size="14" style="2"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="An&#xe1;lisis"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem4ActionPerformed"/>
@@ -130,6 +133,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem5">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Palatino Linotype" size="14" style="2"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Afiliados"/>
               </Properties>
               <Events>
@@ -138,6 +144,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem6">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Palatino Linotype" size="14" style="2"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Prestadores"/>
               </Properties>
               <Events>
@@ -146,6 +155,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem7">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Palatino Linotype" size="14" style="2"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Prestadores 2"/>
               </Properties>
               <Events>

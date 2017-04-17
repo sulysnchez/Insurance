@@ -70,7 +70,7 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
         HabilitarCampos(true);
         LlenarCombos();
         LlenarTablaPrestadores();
-        LlenarPrestadorSeleccionado();
+        //LlenarPrestadorSeleccionado();
         DisenarTablaServicios();
         PasarATablaServicios();
     }
@@ -188,6 +188,9 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
         
         
         jTable1.removeColumn(jtblPrestadores.getColumnModel().getColumn(1));
+        jTable1.removeColumn(jTable1.getColumnModel().getColumn(0));
+        jTable1.removeColumn(jTable1.getColumnModel().getColumn(2));
+        jTable1.removeColumn(jTable1.getColumnModel().getColumn(2));
     }
     public void AgregarServicio(Prestador_ServicioDto preser){
         
@@ -254,23 +257,27 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jtxtBuscaPrestadores = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtblPrestadores = new javax.swing.JTable();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
         jbttNuevo2 = new javax.swing.JButton();
         jbttNuevo3 = new javax.swing.JButton();
         jbttGuardar1 = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jtblPrestadores = new javax.swing.JTable();
-        jPanel2 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-
-        setClosable(true);
-        setIconifiable(true);
+        jbttSalir = new javax.swing.JButton();
 
         pnPrincipal.setLayout(new java.awt.BorderLayout());
 
+        pnServicios.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        pnDatos.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         pnDatos.setPreferredSize(new java.awt.Dimension(300, 487));
 
         jlblAnalisis.setFont(new java.awt.Font("Palatino Linotype", 2, 18)); // NOI18N
+        jlblAnalisis.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sulenni\\Downloads\\medicine (2).png")); // NOI18N
         jlblAnalisis.setText("FORMULARIO PRESTADORES");
 
         jlblNombre.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
@@ -323,34 +330,29 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
             .addGroup(pnCamposLayout.createSequentialGroup()
                 .addGroup(pnCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnCamposLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 44, Short.MAX_VALUE)
                         .addComponent(jlblAnalisis))
                     .addGroup(pnCamposLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(pnCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnCamposLayout.createSequentialGroup()
                                 .addGroup(pnCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jlblNombre4)
-                                    .addComponent(jlblNombre3))
-                                .addGroup(pnCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(pnCamposLayout.createSequentialGroup()
-                                        .addGap(15, 15, 15)
-                                        .addComponent(jcmbInstitucion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(pnCamposLayout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jcmbTipoPSS, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(pnCamposLayout.createSequentialGroup()
-                                .addGroup(pnCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jlblNombre1)
                                     .addComponent(jlblNombre))
-                                .addGap(18, 18, 18)
+                                .addGap(33, 33, 33)
                                 .addGroup(pnCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jtxtNombre)
                                     .addComponent(jtxtCodigo)))
                             .addGroup(pnCamposLayout.createSequentialGroup()
-                                .addComponent(jlblNombre2)
-                                .addGap(18, 18, 18)
-                                .addComponent(jcmbEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGroup(pnCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jlblNombre4)
+                                    .addComponent(jlblNombre3)
+                                    .addComponent(jlblNombre2))
+                                .addGap(6, 6, 6)
+                                .addGroup(pnCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jcmbEspecialidad, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jcmbInstitucion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jcmbTipoPSS, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                 .addContainerGap())
         );
         pnCamposLayout.setVerticalGroup(
@@ -358,11 +360,11 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
             .addGroup(pnCamposLayout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(jlblAnalisis)
-                .addGap(18, 18, 18)
+                .addGap(19, 19, 19)
                 .addGroup(pnCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlblNombre1)
-                    .addComponent(jtxtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jtxtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlblNombre1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlblNombre)
                     .addComponent(jtxtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -376,16 +378,19 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
                     .addComponent(jcmbInstitucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jcmbTipoPSS, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcmbTipoPSS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jlblNombre3))
-                .addGap(0, 12, Short.MAX_VALUE))
+                .addGap(12, 12, 12))
         );
+
+        pnListaServicios.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jlblServicio.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
         jlblServicio.setText("Servicios");
 
         pnTablaServiciosAsignados.setLayout(new java.awt.BorderLayout());
 
+        jTable1.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
@@ -410,30 +415,6 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
             }
         });
 
-        jbttNuevo2.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
-        jbttNuevo2.setText("Nuevo");
-        jbttNuevo2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbttNuevo2ActionPerformed(evt);
-            }
-        });
-
-        jbttNuevo3.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
-        jbttNuevo3.setText("Eliminar");
-        jbttNuevo3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbttNuevo3ActionPerformed(evt);
-            }
-        });
-
-        jbttGuardar1.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
-        jbttGuardar1.setText("Guardar");
-        jbttGuardar1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbttGuardar1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout pnListaServiciosLayout = new javax.swing.GroupLayout(pnListaServicios);
         pnListaServicios.setLayout(pnListaServiciosLayout);
         pnListaServiciosLayout.setHorizontalGroup(
@@ -447,14 +428,7 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnListaServiciosLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jbttNuevo2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jbttNuevo3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jbttGuardar1)))
+                        .addComponent(jButton1)))
                 .addContainerGap())
         );
         pnListaServiciosLayout.setVerticalGroup(
@@ -466,13 +440,8 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnTablaServiciosAsignados, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(pnListaServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbttGuardar1)
-                    .addComponent(jbttNuevo3)
-                    .addComponent(jbttNuevo2))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addComponent(pnTablaServiciosAsignados, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pnDatosLayout = new javax.swing.GroupLayout(pnDatos);
@@ -496,7 +465,14 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.setLayout(new java.awt.BorderLayout());
+
+        jtxtBuscaPrestadores.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtxtBuscaPrestadoresKeyTyped(evt);
+            }
+        });
 
         jtblPrestadores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -521,7 +497,9 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
         });
         jScrollPane2.setViewportView(jtblPrestadores);
 
-        jPanel1.add(jScrollPane2, java.awt.BorderLayout.PAGE_END);
+        jLabel4.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sulenni\\Downloads\\magnifying-glass.png")); // NOI18N
+        jLabel4.setText("Consultas");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -529,18 +507,95 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jtxtBuscaPrestadores)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel4)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(jtxtBuscaPrestadores)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        jPanel1.add(jPanel2, java.awt.BorderLayout.PAGE_START);
+        jPanel1.add(jPanel2, java.awt.BorderLayout.CENTER);
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel3.setPreferredSize(new java.awt.Dimension(641, 71));
+
+        jbttNuevo2.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
+        jbttNuevo2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sulenni\\Downloads\\plus (1).png")); // NOI18N
+        jbttNuevo2.setText("Nuevo");
+        jbttNuevo2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbttNuevo2ActionPerformed(evt);
+            }
+        });
+
+        jbttNuevo3.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
+        jbttNuevo3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sulenni\\Downloads\\prohibition.png")); // NOI18N
+        jbttNuevo3.setText("Eliminar");
+        jbttNuevo3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbttNuevo3ActionPerformed(evt);
+            }
+        });
+
+        jbttGuardar1.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
+        jbttGuardar1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sulenni\\Downloads\\confirm.png")); // NOI18N
+        jbttGuardar1.setText("Guardar");
+        jbttGuardar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbttGuardar1ActionPerformed(evt);
+            }
+        });
+
+        jbttSalir.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
+        jbttSalir.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sulenni\\Downloads\\cancel.png")); // NOI18N
+        jbttSalir.setText("Salir");
+        jbttSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbttSalirActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(377, 377, 377)
+                .addComponent(jbttNuevo2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jbttNuevo3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jbttGuardar1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jbttSalir)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jbttSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbttGuardar1)
+                    .addComponent(jbttNuevo3)
+                    .addComponent(jbttNuevo2))
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout pnServiciosLayout = new javax.swing.GroupLayout(pnServicios);
         pnServicios.setLayout(pnServiciosLayout);
@@ -548,20 +603,26 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
             pnServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnServiciosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pnDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+                .addGroup(pnServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 875, Short.MAX_VALUE)
+                    .addGroup(pnServiciosLayout.createSequentialGroup()
+                        .addComponent(pnDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         pnServiciosLayout.setVerticalGroup(
             pnServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnServiciosLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(pnDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(pnServiciosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(pnServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(pnServiciosLayout.createSequentialGroup()
+                        .addComponent(pnDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19))
         );
 
         pnPrincipal.add(pnServicios, java.awt.BorderLayout.CENTER);
@@ -571,135 +632,150 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jtxtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtNombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtxtNombreActionPerformed
+    private void jtblPrestadoresKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtblPrestadoresKeyPressed
+        LlenarPrestadorSeleccionado();
+    }//GEN-LAST:event_jtblPrestadoresKeyPressed
 
-    private void jcmbEspecialidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmbEspecialidadActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jcmbEspecialidadActionPerformed
-
-    private void jcmbTipoPSSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmbTipoPSSActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jcmbTipoPSSActionPerformed
-
-    private void jcmbInstitucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmbInstitucionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jcmbInstitucionActionPerformed
-
-    private void jbttNuevo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttNuevo2ActionPerformed
-        prestadorSeleccionado = new PrestadoresDto();
-        
-        jtxtCodigo.setText("");
-        jtxtNombre.setText("");
-        jcmbEspecialidad.setSelectedIndex(0);
-        jcmbInstitucion.setSelectedIndex(0);
-        jcmbTipoPSS.setSelectedIndex(0);
-        
-        LimpiarTablaServicios();
-    
-    }//GEN-LAST:event_jbttNuevo2ActionPerformed
-
-    private void jbttNuevo3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttNuevo3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbttNuevo3ActionPerformed
+    private void jtblPrestadoresMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblPrestadoresMouseReleased
+        LlenarPrestadorSeleccionado();
+    }//GEN-LAST:event_jtblPrestadoresMouseReleased
 
     private void jbttGuardar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttGuardar1ActionPerformed
         prestadorSeleccionado.setCodigo(jtxtCodigo.getText());
         prestadorSeleccionado.setNombre(jtxtNombre.getText());
-        
+
         int id;
-        Object[] ob; 
+        Object[] ob;
 
         ob = (Object[]) jcmbEspecialidad.getSelectedItem();
         id = (int) ob[0];
         prestadorSeleccionado.setId_especialidad(id);
-        
+
         ob = (Object[]) jcmbInstitucion.getSelectedItem();
         id = (int) ob[0];
         prestadorSeleccionado.setId_institucion(id);
-        
+
         ob = (Object[]) jcmbTipoPSS.getSelectedItem();
         id = (int) ob[0];
         prestadorSeleccionado.setId_tipo_pss(id);
-        
+
         prestadorSeleccionado.setServicios(ExtraerServicios());
         if(prestadorSeleccionado.getId()==0){
             try {
-                
+
                 prestadorSeleccionado = afiliadoDao.InsertPrestador(prestadorSeleccionado);
-                
+
                 //LlenarTablaPrestadores();
-        
+
                 for (Prestador_ServicioDto servicio : prestadorSeleccionado.getServicios()) {
                     if(servicio.getId()==0){
-                        
-                            afiliadoDao.InsertPrestadorServicio(servicio);
-                        
+
+                        afiliadoDao.InsertPrestadorServicio(servicio);
+
                     }else{
-                        
-                            afiliadoDao.UpdatePrestadorServicio(servicio);
-                       
+
+                        afiliadoDao.UpdatePrestadorServicio(servicio);
+
                     }
                 }
-        
+
             } catch (Exception ex) {
                 Logger.getLogger(frm_Prestadores.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else{
             try {
-                
+
                 prestadorSeleccionado = afiliadoDao.UpdatePrestador(prestadorSeleccionado);
-                
+
                 //LlenarTablaPrestadores();
-        
+
                 for (Prestador_ServicioDto servicio : prestadorSeleccionado.getServicios()) {
                     if(servicio.getId()==0){
-                        
-                            afiliadoDao.InsertPrestadorServicio(servicio);
-                        
+
+                        afiliadoDao.InsertPrestadorServicio(servicio);
+
                     }else{
-                        
-                            afiliadoDao.UpdatePrestadorServicio(servicio);
-                       
+
+                        afiliadoDao.UpdatePrestadorServicio(servicio);
+
                     }
                 }
-                
+
             } catch (Exception ex) {
                 Logger.getLogger(frm_Prestadores.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-        
-        
+        LlenarTablaPrestadores();
     }//GEN-LAST:event_jbttGuardar1ActionPerformed
+
+    private void jbttNuevo3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttNuevo3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbttNuevo3ActionPerformed
+
+    private void jbttNuevo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttNuevo2ActionPerformed
+        prestadorSeleccionado = new PrestadoresDto();
+
+        jtxtCodigo.setText("");
+        jtxtNombre.setText("");
+        jcmbEspecialidad.setSelectedIndex(0);
+        jcmbInstitucion.setSelectedIndex(0);
+        jcmbTipoPSS.setSelectedIndex(0);
+
+        LimpiarTablaServicios();
+
+    }//GEN-LAST:event_jbttNuevo2ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         frm_BuscarServicio frm = new frm_BuscarServicio(this);
         principal.agregarFormulario(frm);
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jtblPrestadoresMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblPrestadoresMouseReleased
-        LlenarPrestadorSeleccionado();
-    }//GEN-LAST:event_jtblPrestadoresMouseReleased
+    private void jcmbInstitucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmbInstitucionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcmbInstitucionActionPerformed
 
-    private void jtblPrestadoresKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtblPrestadoresKeyPressed
-        LlenarPrestadorSeleccionado();
-    }//GEN-LAST:event_jtblPrestadoresKeyPressed
+    private void jcmbTipoPSSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmbTipoPSSActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcmbTipoPSSActionPerformed
+
+    private void jcmbEspecialidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmbEspecialidadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcmbEspecialidadActionPerformed
+
+    private void jtxtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtxtNombreActionPerformed
+
+    private void jbttSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttSalirActionPerformed
+        dispose();
+    }//GEN-LAST:event_jbttSalirActionPerformed
+
+    private void jtxtBuscaPrestadoresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtBuscaPrestadoresKeyTyped
+        try {
+            
+                jtblPrestadores.setModel(afiliadoDao.getModelPrestador(afiliadoDao.filtraModelPrestadores(jtxtBuscaPrestadores.getText())));
+            } catch (SQLException ex) {
+                Logger.getLogger(frm_Prestadores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            RedisenarTablaServicios();
+            PasarATablaServicios();
+    }//GEN-LAST:event_jtxtBuscaPrestadoresKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JButton jbttGuardar1;
     private javax.swing.JButton jbttNuevo2;
     private javax.swing.JButton jbttNuevo3;
+    private javax.swing.JButton jbttSalir;
     private javax.swing.JComboBox jcmbEspecialidad;
     private javax.swing.JComboBox jcmbInstitucion;
     private javax.swing.JComboBox jcmbTipoPSS;
@@ -711,6 +787,7 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jlblNombre4;
     private javax.swing.JLabel jlblServicio;
     private javax.swing.JTable jtblPrestadores;
+    private javax.swing.JTextField jtxtBuscaPrestadores;
     private javax.swing.JTextField jtxtCodigo;
     private javax.swing.JTextField jtxtNombre;
     private javax.swing.JPanel pnCampos;

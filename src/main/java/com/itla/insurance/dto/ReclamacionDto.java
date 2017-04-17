@@ -14,7 +14,9 @@ public class ReclamacionDto {
     private int id_tipo_servicio;
     private String diagnostico;
     private int id_afiliado;
+    private String nombre_afiliado;
     private int id_prestador;
+    private String nombre_prestador;
 
     /**
      * @return the id
@@ -71,6 +73,20 @@ public class ReclamacionDto {
     public void setId_afiliado(int id_afiliado) {
         this.id_afiliado = id_afiliado;
     }
+    
+    /**
+     * @return the nombre_afiliado
+     */
+    public String getNombre_afiliado() {
+        return nombre_afiliado;
+    }
+
+    /**
+     * @param nombre_afiliado the nombre_afiliado to set
+     */
+    public void setNombre_afiliado(String nombre_afiliado) {
+        this.nombre_afiliado = nombre_afiliado;
+    }
 
     /**
      * @return the id_prestador
@@ -84,5 +100,19 @@ public class ReclamacionDto {
      */
     public void setId_prestador(int id_prestador) {
         this.id_prestador = id_prestador;
+    }
+    
+    /**
+     * @return the nombre_prestador
+     */
+    public String getNombre_prestador() {
+        return nombre_prestador;
+    }
+
+    /**
+     * @param nombre_prestador the nombre_prestador to set
+     */
+    public void setNombre_prestador(String nombre_prestador) {
+        this.nombre_prestador = nombre_prestador;
     }
 }

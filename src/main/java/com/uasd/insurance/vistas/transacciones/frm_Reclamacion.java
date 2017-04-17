@@ -36,11 +36,14 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
     EstudioDto estudioDto;
     PrestadoresDto prestadorDto;
     List<ServicioDto> servicios;
+    
     frm_Principal principal;
+    DefaultTableModel modeloServicioPrestador;
     
     public frm_Reclamacion() throws Exception {
         initComponents();
         afiliadoDao = new AfiliadoDao();
+        modeloServicioPrestador = new DefaultTableModel();
         //afiliadoDto = new AfiliadoDto();
         jlblNoReclamacion.setText(afiliadoDao.GenerarContrato());
         
@@ -65,6 +68,8 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         RedisenarTablaEstudio();
         RedisenarTablaServicio();
         jTable1.setModel(afiliadoDao.getModelReclamacion(afiliadoDao.GetAllReclamacion()));
+        RedisenarTablaReclamacion();
+
     }
 
     /**
@@ -96,22 +101,26 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         jbttBuscaEstudio = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jbttBuscaEstudio1 = new javax.swing.JButton();
+        jlblTotal = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jbttImprimir = new javax.swing.JButton();
         jbttNuevo = new javax.swing.JButton();
         jbttGuardar = new javax.swing.JButton();
         jbttSalir = new javax.swing.JButton();
+        jbttNuevo1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jLabel4 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(204, 204, 204));
 
         jpnlReclamacion.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel1.setFont(new java.awt.Font("Palatino Linotype", 2, 18)); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/doctor (2).png"))); // NOI18N
         jLabel1.setText("FORMULARIO RECLAMACION");
 
         jtblServicio.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
@@ -185,13 +194,13 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         jtblListaEstudio.setFont(new java.awt.Font("Palatino Linotype", 0, 12)); // NOI18N
         jtblListaEstudio.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Nombre", "Id", "Precio"
             }
         ));
         jtblListaEstudio.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -213,17 +222,27 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
             }
         });
 
+        jbttBuscaEstudio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/next-page.png"))); // NOI18N
         jbttBuscaEstudio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbttBuscaEstudioActionPerformed(evt);
             }
         });
 
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/magnifying-glass (1).png"))); // NOI18N
+
         jbttBuscaEstudio1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbttBuscaEstudio1ActionPerformed(evt);
             }
         });
+
+        jlblTotal.setFont(new java.awt.Font("Palatino Linotype", 1, 18)); // NOI18N
+        jlblTotal.setForeground(new java.awt.Color(153, 0, 0));
+        jlblTotal.setText("0.0");
+
+        jLabel4.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
+        jLabel4.setText("Total:");
 
         javax.swing.GroupLayout jpnlReclamacionLayout = new javax.swing.GroupLayout(jpnlReclamacion);
         jpnlReclamacion.setLayout(jpnlReclamacionLayout);
@@ -268,10 +287,16 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
                         .addGroup(jpnlReclamacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jbttBuscaEstudio1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnlReclamacionLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
                         .addContainerGap())))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnlReclamacionLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jlblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jpnlReclamacionLayout.setVerticalGroup(
@@ -304,17 +329,22 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
                 .addGap(36, 36, 36)
                 .addGroup(jpnlReclamacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpnlReclamacionLayout.createSequentialGroup()
+                        .addGroup(jpnlReclamacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtxtBuscaEstudio, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(24, 24, 24))
+                    .addGroup(jpnlReclamacionLayout.createSequentialGroup()
                         .addGroup(jpnlReclamacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jbttBuscaEstudio, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jbttBuscaEstudio1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jpnlReclamacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jpnlReclamacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jtxtBuscaEstudio, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addGroup(jpnlReclamacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGroup(jpnlReclamacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jlblTotal)
+                    .addComponent(jLabel4)))
         );
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -328,6 +358,7 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         });
 
         jbttNuevo.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
+        jbttNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/plus (1).png"))); // NOI18N
         jbttNuevo.setText("Nuevo");
         jbttNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -336,6 +367,7 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         });
 
         jbttGuardar.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
+        jbttGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/confirm.png"))); // NOI18N
         jbttGuardar.setText("Guardar");
         jbttGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -344,10 +376,21 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         });
 
         jbttSalir.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
+        jbttSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/cancel.png"))); // NOI18N
         jbttSalir.setText("Salir");
         jbttSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbttSalirActionPerformed(evt);
+            }
+        });
+
+        jbttNuevo1.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
+        jbttNuevo1.setForeground(new java.awt.Color(102, 102, 102));
+        jbttNuevo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/prohibition.png"))); // NOI18N
+        jbttNuevo1.setText("Eliminar");
+        jbttNuevo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbttNuevo1ActionPerformed(evt);
             }
         });
 
@@ -360,6 +403,8 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
                 .addComponent(jbttImprimir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jbttNuevo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jbttNuevo1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jbttGuardar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -374,7 +419,8 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
                     .addComponent(jbttGuardar)
                     .addComponent(jbttSalir)
                     .addComponent(jbttNuevo)
-                    .addComponent(jbttImprimir))
+                    .addComponent(jbttImprimir)
+                    .addComponent(jbttNuevo1))
                 .addContainerGap())
         );
 
@@ -382,13 +428,13 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Title 1", "Title 2"
             }
         ));
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -398,8 +444,9 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         });
         jScrollPane3.setViewportView(jTable1);
 
-        jLabel4.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
-        jLabel4.setText("Consultas");
+        jLabel5.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/magnifying-glass.png"))); // NOI18N
+        jLabel5.setText("Consultas");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -408,23 +455,23 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jTextField1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4)
-                        .addContainerGap())
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)))
+                        .addComponent(jLabel5)))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -463,11 +510,6 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
     private void jbttNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttNuevoActionPerformed
 
         habilitarCampos(true);
-        try {
-            jlblNoReclamacion.setText(afiliadoDao.GenerarContrato());
-        } catch (SQLException ex) {
-            Logger.getLogger(frm_Reclamacion.class.getName()).log(Level.SEVERE, null, ex);
-        }
         afiliadoDto = null;
         prestadorDto = null;
            
@@ -487,12 +529,12 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         List<ServicioDto> serviciosEstudios = new ArrayList<ServicioDto>();
         ReclamacionDto reclamacionEstudio;
         ServicioDto servicioEstudio;
-        int i;
+        int i, idReclamacion;
         reclamacionEstudio = new ReclamacionDto();
-        reclamacionEstudio.setId(Integer.parseInt(jlblNoReclamacion.getText()));
+//        reclamacionEstudio.setId(Integer.parseInt(jlblNoReclamacion.getText()));
         reclamacionEstudio.setId_afiliado(afiliadoDto.getId());
         reclamacionEstudio.setId_prestador(prestadorDto.getId());
-        afiliadoDao.insertReclamacion(reclamacionEstudio);
+        idReclamacion = afiliadoDao.insertReclamacion(reclamacionEstudio);
         
         for(i=0; i<jtblServicio.getRowCount(); i++){
            servicioEstudio = new ServicioDto();
@@ -501,7 +543,7 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
            servicioEstudio.setMonto_reclamado((Float) jtblServicio.getModel().getValueAt(i, 2));
            servicioEstudio.setMonto_doferencia((Float) jtblServicio.getModel().getValueAt(i, 3));
            servicioEstudio.setMonto_pagar((Float) jtblServicio.getModel().getValueAt(i, 4));
-           servicioEstudio.setNo_reclamacion(Integer.parseInt(jlblNoReclamacion.getText()));
+           servicioEstudio.setNo_reclamacion(idReclamacion);
            servicioEstudio.setNo_autorizacion(Integer.parseInt(jlblNoReclamacion.getText()));
            servicioEstudio.setMonto_total((Float) jtblServicio.getModel().getValueAt(i, 2));
            
@@ -515,6 +557,8 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         
         try {
             jTable1.setModel(afiliadoDao.getModelReclamacion(afiliadoDao.GetAllReclamacion()));
+            
+            RedisenarTablaReclamacion();
         } catch (SQLException ex) {
             Logger.getLogger(frm_Reclamacion.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -525,7 +569,9 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbttSalirActionPerformed
 
     private void jbttBuscaEstudio1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttBuscaEstudio1ActionPerformed
-        quitarEstudio((Integer) jtblServicio.getModel().getValueAt(jtblServicio.getSelectedRow(), 1));
+        if(jtblServicio.getRowCount() > 0 && jtblServicio.getSelectedRow() > -1) {
+            quitarEstudio((Integer) jtblServicio.getModel().getValueAt(jtblServicio.getSelectedRow(), 1));
+        }
     }//GEN-LAST:event_jbttBuscaEstudio1ActionPerformed
 
     private void jbttBuscaEstudioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttBuscaEstudioActionPerformed
@@ -549,14 +595,16 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
 
     private void jtxtBuscaEstudioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtBuscaEstudioKeyTyped
         try {
-            jtblListaEstudio.setModel(afiliadoDao.filtraModelEstudio(jtxtBuscaEstudio.getText()));
+            jtblListaEstudio.setModel(afiliadoDao.getModelAnalisis(afiliadoDao.GetAllAnalisisByPrestadorAndNombre(prestadorDto.getId(),jtxtBuscaEstudio.getText())));
         } catch (SQLException ex) {
             Logger.getLogger(frm_Reclamacion.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        jtblListaEstudio.setTableHeader(null);
+        
         jtblListaEstudio.removeColumn(jtblListaEstudio.getColumnModel().getColumn(1));
-        jtblListaEstudio.removeColumn(jtblListaEstudio.getColumnModel().getColumn(1));
+//
+//        jtblListaEstudio.setTableHeader(null);
+//        jtblListaEstudio.removeColumn(jtblListaEstudio.getColumnModel().getColumn(1));
+//        jtblListaEstudio.removeColumn(jtblListaEstudio.getColumnModel().getColumn(1));
     }//GEN-LAST:event_jtxtBuscaEstudioKeyTyped
 
     private void jtxtBuscaEstudioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtBuscaEstudioActionPerformed
@@ -607,7 +655,7 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
     private void jTable1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MousePressed
         habilitarCampos(false);
         try {
-            afiliadoDto = afiliadoDao.GetAfiliadoById((int) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 3));
+            afiliadoDto = afiliadoDao.GetAfiliadoById((int) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 2));
             prestadorDto = afiliadoDao.GetPrestadorById((int) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 4));
             servicios = afiliadoDao.GetAllEstudiosByReclamacion((int) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 0));
         } catch (SQLException ex) {
@@ -620,12 +668,26 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         showServicios(servicios);
     }//GEN-LAST:event_jTable1MousePressed
 
+    private void jbttNuevo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttNuevo1ActionPerformed
+//
+//        afiliadoDao.deleteAnalisis(analisisDto);
+//        try {
+//            jtblAnalisis.setModel(afiliadoDao.getModelAnalisis(afiliadoDao.GetAllAnalisis()));
+//
+//        } catch (SQLException ex) {
+//            Logger.getLogger(frm_Afiliado.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//        RedisenarTablaAnalisis();
+    }//GEN-LAST:event_jbttNuevo1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -639,11 +701,13 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
     private javax.swing.JButton jbttGuardar;
     private javax.swing.JButton jbttImprimir;
     private javax.swing.JButton jbttNuevo;
+    private javax.swing.JButton jbttNuevo1;
     private javax.swing.JButton jbttPrestador;
     private javax.swing.JButton jbttSalir;
     private javax.swing.JLabel jlblNoReclamacion;
     private javax.swing.JLabel jlblPoliza;
     private javax.swing.JLabel jlblReclamacion;
+    private javax.swing.JLabel jlblTotal;
     private javax.swing.JPanel jpnlReclamacion;
     private javax.swing.JTable jtblListaEstudio;
     private javax.swing.JTable jtblServicio;
@@ -671,9 +735,12 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         } catch (SQLException ex) {
             Logger.getLogger(frm_Reclamacion.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        jtblListaEstudio.removeColumn(jtblListaEstudio.getColumnModel().getColumn(1));
     }
 
     private void RedisenarTablaEstudio() {
+        
         //jtblListaEstudio.setTableHeader(null);
         jtblListaEstudio.removeColumn(jtblListaEstudio.getColumnModel().getColumn(1));
         jtblListaEstudio.removeColumn(jtblListaEstudio.getColumnModel().getColumn(1));
@@ -681,6 +748,12 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
     
     private void RedisenarTablaServicio(){
         jtblServicio.removeColumn(jtblServicio.getColumnModel().getColumn(1));
+    }
+    
+    private void RedisenarTablaReclamacion(){
+        jTable1.removeColumn(jTable1.getColumnModel().getColumn(0));
+        jTable1.removeColumn(jTable1.getColumnModel().getColumn(1));
+        jTable1.removeColumn(jTable1.getColumnModel().getColumn(2));
     }
 
     private void quitarEstudio(Integer  idServicio){
@@ -711,12 +784,14 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         
         diferencia = ((porciento*estudioDto.getPrecio())/100);
         apagar = estudioDto.getPrecio()-diferencia;
-                
+       
         registro[3] = diferencia;
         int idSeleccion = estudioDto.getId();
         boolean b=true;
         
         registro[4] = apagar;
+        
+        jlblTotal.setText(Float.toString(Float.parseFloat(jlblTotal.getText()) + apagar));
         //recorre tabla servicios
         for (int i = 1; i <= jtblServicio.getRowCount(); i++) { 
             
@@ -745,11 +820,14 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         
     }    
 
+    private void setModelServicioPrestador(){
+        
+    }
     private void showServicios(List<ServicioDto> servicios) {
         EstudioDto estudio;
         DefaultTableModel dtm = ((DefaultTableModel)jtblServicio.getModel());
         int rowCount  = dtm.getRowCount();
-        
+        jlblTotal.setText("0.0");
         for (int i = rowCount-1; i>=0; i--) {
             dtm.removeRow(i);
         }

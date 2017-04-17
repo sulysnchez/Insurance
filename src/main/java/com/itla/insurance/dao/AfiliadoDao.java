@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -702,8 +703,8 @@ public class AfiliadoDao {
     }
     public List<ReclamacionDto> GetAllReclamacion() throws SQLException{
         PreparedStatement psReclamacion = null;
-        String sqlLlenarAfiliado = "SELECT id, id_tipo_servicio, diagnostico, id_afiliado, id_prestador\n" +
-                                   "  FROM reclamacion;";
+        String sqlLlenarAfiliado = "SELECT r.id, r.id_tipo_servicio, r.diagnostico, r.id_afiliado, r.id_prestador, a.nombre, p.nombre\n" +
+                                   "  FROM reclamacion r JOIN afiliado a ON r.id_afiliado = a.id JOIN prestadores p ON r.id_prestador = p.id ;";
         ResultSet rs = null;
         List<ReclamacionDto> reclamaciones = new ArrayList<ReclamacionDto>();
         ReclamacionDto reclamacion;
@@ -721,6 +722,8 @@ public class AfiliadoDao {
             reclamacion.setDiagnostico(rs.getString(3));
             reclamacion.setId_afiliado(rs.getInt(4));
             reclamacion.setId_prestador(rs.getInt(5));
+            reclamacion.setNombre_afiliado(rs.getString(6));
+            reclamacion.setNombre_prestador(rs.getString(7));
             
             reclamaciones.add(reclamacion);
         }
@@ -841,11 +844,11 @@ public class AfiliadoDao {
     public DefaultTableModel getModelReclamacion(List<ReclamacionDto> lista){
         DefaultTableModel modelo = new DefaultTableModel();
         
-        modelo.addColumn("ID");
-        modelo.addColumn("Tipo Servicio");
-        modelo.addColumn("Diagnostico");
+        modelo.addColumn("Id");
         modelo.addColumn("Afiliado");
+        modelo.addColumn("Id_Afiliado");
         modelo.addColumn("Prestador");
+        modelo.addColumn("Id_Prestador");
     
         Object[] registro = new Object[5];
         
@@ -853,9 +856,9 @@ public class AfiliadoDao {
         for(ReclamacionDto reclamacion: lista){
                
                     registro[0] = reclamacion.getId();
-                    registro[1] = reclamacion.getId_tipo_servicio();
-                    registro[2] = reclamacion.getDiagnostico();
-                    registro[3] = reclamacion.getId_afiliado();
+                    registro[1] = reclamacion.getNombre_afiliado();
+                    registro[2] = reclamacion.getId_afiliado();
+                    registro[3] = reclamacion.getNombre_prestador();
                     registro[4] = reclamacion.getId_prestador();
                 modelo.addRow(registro);
                
@@ -1059,43 +1062,48 @@ public class AfiliadoDao {
         return modelo;
     }
      
-    public DefaultTableModel filtraModelPrestadores(String filtro) throws SQLException{
-        DefaultTableModel modelo = new DefaultTableModel();
-        
-        modelo.addColumn("Código");
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Especialidad");
-        modelo.addColumn("Institución");
-        modelo.addColumn("PSS");
-        modelo.addColumn("Id");
-        modelo.addColumn("Teléfono");
-        
-        PreparedStatement buscarPrestador=null;
-        String sqlBuscarPrestador="SELECT prestadores.codigo, prestadores.nombre, prestadores.id_especialidad, prestadores.id_institucion, prestadores.telefono, prestadores.id, \n" +
-                                    "       prestadores.id_tipo_pss \n" +
+    public List<PrestadoresDto> filtraModelPrestadores(String filtro) throws SQLException{
+        String sqlLlenarPrestador = "SELECT prestadores.id, prestadores.nombre, prestadores.id_especialidad, prestadores.id_institucion,\n"+
+                                    "       prestadores.telefono, prestadores.codigo, prestadores.id_tipo_pss \n" +
                                     "  FROM prestadores where Nombre like '%" + filtro + "%'";
         
-        ResultSet rs = null;
-        
-        DB.conexion.setAutoCommit(false);
-        buscarPrestador = DB.conexion.prepareStatement(sqlBuscarPrestador);
-        rs = buscarPrestador.executeQuery();
+        return GetPrestador(sqlLlenarPrestador);
 
-        while (rs.next()) {
-            
-            Object[] datos = new Object[7];
-                for (int row = 0; row < 7; row++) {
-                    datos[row] = rs.getObject(row+1);
-
-                }
-                modelo.addRow(datos);
-        }
-        
-        return modelo;
+//        DefaultTableModel modelo = new DefaultTableModel();
+//        
+//        modelo.addColumn("Código");
+//        modelo.addColumn("Nombre");
+//        modelo.addColumn("Especialidad");
+//        modelo.addColumn("Institución");
+//        modelo.addColumn("PSS");
+//        modelo.addColumn("Id");
+//        modelo.addColumn("Teléfono");
+//        
+//        PreparedStatement buscarPrestador=null;
+//        String sqlBuscarPrestador="SELECT prestadores.codigo, prestadores.nombre, prestadores.id_especialidad, prestadores.id_institucion, prestadores.telefono, prestadores.id, \n" +
+//                                    "       prestadores.id_tipo_pss \n" +
+//                                    "  FROM prestadores where Nombre like '%" + filtro + "%'";
+//        
+//        ResultSet rs = null;
+//        
+//        DB.conexion.setAutoCommit(false);
+//        buscarPrestador = DB.conexion.prepareStatement(sqlBuscarPrestador);
+//        rs = buscarPrestador.executeQuery();
+//
+//        while (rs.next()) {
+//            
+//            Object[] datos = new Object[7];
+//                for (int row = 0; row < 7; row++) {
+//                    datos[row] = rs.getObject(row+1);
+//
+//                }
+//                modelo.addRow(datos);
+//        }
+//        
+//        return modelo;
     } 
     
     public List<PrestadoresDto> GetAllPrestador() throws SQLException{
-        PreparedStatement LlenarPrestador = null;
 //        String sqlLlenarPrestador = "SELECT prestadores.id, prestadores.nombre, prestadores.id_especialidad, prestadores.id_institucion, prestadores.telefono, prestadores.codigo, \n" +
 //                                    "       prestadores.id_tipo_pss, especialidad.nombre as especialidad, especialidad.id, institucion.nombre as institucion, institucion.id \n" +
 //                                    "  FROM prestadores, especialidad, institucion where prestadores.id_especialidad=especialidad.id and prestadores.id_institucion=institucion.id";
@@ -1104,12 +1112,18 @@ public class AfiliadoDao {
                                     "  FROM prestadores";
         
         
+        return GetPrestador(sqlLlenarPrestador);
+    }
+    
+    public List<PrestadoresDto> GetPrestador(String sqlSelect) throws SQLException{
+        PreparedStatement LlenarPrestador = null;
+        
         ResultSet rs = null;
         List<PrestadoresDto> prestadores = new ArrayList<PrestadoresDto>();
         PrestadoresDto prestador;
         
         DB.conexion.setAutoCommit(false);
-        LlenarPrestador = DB.conexion.prepareStatement(sqlLlenarPrestador);
+        LlenarPrestador = DB.conexion.prepareStatement(sqlSelect);
         
         rs = LlenarPrestador.executeQuery();
         
@@ -1131,6 +1145,7 @@ public class AfiliadoDao {
               
         return prestadores;
     }
+    
     public PrestadoresDto GetPrestadorById(int idPrestador) throws SQLException{
         PreparedStatement LlenarPrestador = null;
 //        String sqlLlenarPrestador = "SELECT prestadores.id, prestadores.nombre, prestadores.id_especialidad, prestadores.id_institucion, prestadores.telefono, prestadores.codigo, \n" +
@@ -1379,6 +1394,34 @@ public class AfiliadoDao {
               
         return analisisr;
     }
+    public List<AnalisisDto> GetAllAnalisisByPrestadorAndNombre(int idPrestador, String nombre) throws SQLException{
+        PreparedStatement LlenarAnalisis = null;
+        String sqlLlenarAnalisis = "select a.nombre, a.id, p.precio from analisis a join prestador_servicio p on a.id=p.id_analisis\n" +
+                                   "where p.id_prestador=? and a.nombre ilike '%"+nombre+"%'\n" +
+                                   "\n" +
+                                   "order by id asc";
+        ResultSet rs = null;
+        List<AnalisisDto> analisisr = new ArrayList<AnalisisDto>();
+        AnalisisDto analisis;
+        
+        DB.conexion.setAutoCommit(false);
+        LlenarAnalisis = DB.conexion.prepareStatement(sqlLlenarAnalisis);
+        LlenarAnalisis.setInt(1, idPrestador);
+//        LlenarAnalisis.setString(2, nombre);
+        rs = LlenarAnalisis.executeQuery();
+        
+        while(rs.next()){
+            analisis = new AnalisisDto();
+            
+            analisis.setNombre(rs.getString(1));
+            analisis.setId(rs.getInt(2));
+            analisis.setPrecio(rs.getFloat(3));
+            
+            analisisr.add(analisis);
+        }
+              
+        return analisisr;
+    }
     
     public AnalisisDto GetAnalisisById(int idAnalisis) throws SQLException{
         PreparedStatement LlenarAnalisis = null;
@@ -1585,23 +1628,26 @@ public class AfiliadoDao {
             }
         }
     }
-    public void insertReclamacion(ReclamacionDto reclamacion){
-        
+    public int insertReclamacion(ReclamacionDto reclamacion){
+        ResultSet rs = null;
+        Integer idReclamacion = 0;
         PreparedStatement insertarReclamacion = null;
+        PreparedStatement psSelect = null;
         String sqlInsert = 
             "INSERT INTO reclamacion(\n" +
-"            id, id_tipo_servicio, diagnostico, id_afiliado, id_prestador)\n" +
-"    VALUES (?, ?, ?, ?, ?);";
+"             id_tipo_servicio, diagnostico, id_afiliado, id_prestador)\n" +
+"    VALUES ( ?, ?, ?, ?);";
+        String sqlSelectId = "select id from reclamacion  order by id desc limit 1;";
         
         try{
             DB.conexion.setAutoCommit(false);
             insertarReclamacion = DB.conexion.prepareStatement(sqlInsert);
             
-            insertarReclamacion.setInt(1,  reclamacion.getId());
-            insertarReclamacion.setInt(2,  reclamacion.getId_tipo_servicio());
-            insertarReclamacion.setString(3,  reclamacion.getDiagnostico());
-            insertarReclamacion.setInt(4,  reclamacion.getId_afiliado());
-            insertarReclamacion.setInt(5,  reclamacion.getId_prestador());
+            
+            insertarReclamacion.setInt(1,  reclamacion.getId_tipo_servicio());
+            insertarReclamacion.setString(2,  reclamacion.getDiagnostico());
+            insertarReclamacion.setInt(3,  reclamacion.getId_afiliado());
+            insertarReclamacion.setInt(4,  reclamacion.getId_prestador());
            
             insertarReclamacion.execute();
             
@@ -1610,6 +1656,17 @@ public class AfiliadoDao {
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
+        try {
+            psSelect = DB.conexion.prepareStatement(sqlSelectId);
+            rs = psSelect.executeQuery();
+            DB.conexion.commit();
+            while(rs.next()){
+                idReclamacion = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AfiliadoDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return idReclamacion;
     }
 }
 
