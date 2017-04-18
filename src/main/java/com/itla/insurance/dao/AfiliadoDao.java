@@ -1148,9 +1148,6 @@ public class AfiliadoDao {
     
     public PrestadoresDto GetPrestadorById(int idPrestador) throws SQLException{
         PreparedStatement LlenarPrestador = null;
-//        String sqlLlenarPrestador = "SELECT prestadores.id, prestadores.nombre, prestadores.id_especialidad, prestadores.id_institucion, prestadores.telefono, prestadores.codigo, \n" +
-//                                    "       prestadores.id_tipo_pss, especialidad.nombre as especialidad, especialidad.id, institucion.nombre as institucion, institucion.id \n" +
-//                                    "  FROM prestadores, especialidad, institucion where prestadores.id_especialidad=especialidad.id and prestadores.id_institucion=institucion.id";
         String sqlLlenarPrestador = "SELECT prestadores.id, prestadores.nombre, prestadores.id_especialidad, prestadores.id_institucion,\n"+
                                     "       prestadores.telefono, prestadores.codigo, prestadores.id_tipo_pss \n" +
                                     "  FROM prestadores WHERE prestadores.id=?";
