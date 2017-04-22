@@ -512,16 +512,16 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         habilitarCampos(true);
         afiliadoDto = null;
         prestadorDto = null;
-           
-        DefaultTableModel dtm = ((DefaultTableModel)jtblServicio.getModel());
-        int rowCount  = dtm.getRowCount();
-        
-        for (int i = rowCount-1; i>=0; i--) {
-            dtm.removeRow(i);
+        while(jtblServicio.getModel().getRowCount() > 0) {
+            ((DefaultTableModel)jtblServicio.getModel()).removeRow(0);
+        }
+        while(jtblListaEstudio.getModel().getRowCount() > 0) {
+            ((DefaultTableModel)jtblListaEstudio.getModel()).removeRow(0);
         }
         jtxtNombrePrestador.setText("");
         jtxtIdPrestador.setText("");
         jtxtNoPoliza.setText("");
+        jlblNoReclamacion.setText("");
         jtxtNombreAfiliado.setText("");
     }//GEN-LAST:event_jbttNuevoActionPerformed
 
@@ -531,7 +531,6 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         Servicio_ReclamacionDto servicioReclamacion;
         int i, idReclamacion;
         reclamacionEstudio = new ReclamacionDto();
-//        reclamacionEstudio.setId(Integer.parseInt(jlblNoReclamacion.getText()));
         reclamacionEstudio.setId_afiliado(afiliadoDto.getId());
         reclamacionEstudio.setId_prestador(prestadorDto.getId());
         idReclamacion = afiliadoDao.insertReclamacion(reclamacionEstudio);

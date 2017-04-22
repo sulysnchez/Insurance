@@ -1529,7 +1529,7 @@ public class AfiliadoDao {
         
         PreparedStatement insertarServicio = null;
         String sqlInsert = 
-             "INSERT INTO servicio_reclamacion(\n" +
+             "INSERT INTO servicios_reclamacion(\n" +
             "             id_reclamacion, id_servicio)\n" +
             "    VALUES (?, ?);";
         
