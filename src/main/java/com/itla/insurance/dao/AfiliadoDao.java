@@ -10,7 +10,6 @@ import com.itla.insurance.dto.AfiliadoDto;
 import com.itla.insurance.dto.AnalisisDto;
 import com.itla.insurance.dto.CiudadDto;
 import com.itla.insurance.dto.EspecialidadDto;
-import com.itla.insurance.dto.EstudioDto;
 import com.itla.insurance.dto.InstitucionDto;
 import com.itla.insurance.dto.OcupacionDto;
 import com.itla.insurance.dto.Prestador_ServicioDto;
@@ -18,6 +17,7 @@ import com.itla.insurance.dto.PrestadoresDto;
 import com.itla.insurance.dto.ProvinciaDto;
 import com.itla.insurance.dto.ReclamacionDto;
 import com.itla.insurance.dto.ServicioDto;
+import com.itla.insurance.dto.Servicio_ReclamacionDto;
 import com.itla.insurance.dto.SexoDto;
 import com.itla.insurance.dto.Tipo_AfiliacionDto;
 import com.itla.insurance.dto.Tipo_CoberturaDto;
@@ -658,19 +658,17 @@ public class AfiliadoDao {
               
         return afiliado;
     }
-    public List<ServicioDto> GetAllEstudiosByReclamacion(Integer idReclamacion){
+    public List<Servicio_ReclamacionDto> GetAllServiciosReclamacionByReclamacion(Integer idReclamacion){
         
-        List<ServicioDto> servicios = new ArrayList<ServicioDto>();
+        List<Servicio_ReclamacionDto> serviciosReclamacion = new ArrayList<Servicio_ReclamacionDto>();
         try {
             PreparedStatement psServicios = null;
-            String sqlServicios = "SELECT id, id_afiliado, id_prestador, monto_reclamado, monto_pagar, \n" +
-                    "       monto_diferencia, id_cobertura, id_servicio, no_autorizacion, \n" +
-                    "       nno_reclamacion, monto_total\n" +
-                    "       FROM servicio\n" +
-                    "       WHERE	 nno_reclamacion= ?";
+            String sqlServicios = "SELECT id, id_reclamacion, id_servicio\n" +
+                    "       FROM servicios_reclamacion\n" +
+                    "       WHERE	 id_reclamacion= ?";
             
             ResultSet rs = null;
-            ServicioDto servicio;
+            Servicio_ReclamacionDto servicioReclamacion;
             
             DB.conexion.setAutoCommit(false);
             psServicios = DB.conexion.prepareStatement(sqlServicios);
@@ -678,28 +676,20 @@ public class AfiliadoDao {
             rs = psServicios.executeQuery();
             
             while(rs.next()){
-                servicio = new ServicioDto();
+                servicioReclamacion = new Servicio_ReclamacionDto();
                 
-                servicio.setId(rs.getInt(1));
-                servicio.setId_afiliado(rs.getInt(2));
-                servicio.setId_prestador(rs.getInt(3));
-                servicio.setMonto_reclamado(rs.getInt(4));
-                servicio.setMonto_pagar(rs.getInt(5));
-                servicio.setMonto_doferencia(rs.getInt(6));
-                servicio.setId_cobertura(rs.getInt(7));
-                servicio.setId_servicio(rs.getInt(8));
-                servicio.setNo_autorizacion(rs.getInt(9));
-                servicio.setNo_reclamacion(rs.getInt(10));
-                servicio.setMonto_total(rs.getInt(11));
+                servicioReclamacion.setId(rs.getInt(1));
+                servicioReclamacion.setId_reclamacion(rs.getInt(2));
+                servicioReclamacion.setId_servicio(rs.getInt(3));
                 
-                servicios.add(servicio);
+                serviciosReclamacion.add(servicioReclamacion);
             }
             
         } catch (SQLException ex) {
             Logger.getLogger(AfiliadoDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-            return servicios;
+            return serviciosReclamacion;
     }
     public List<ReclamacionDto> GetAllReclamacion() throws SQLException{
         PreparedStatement psReclamacion = null;
@@ -866,6 +856,34 @@ public class AfiliadoDao {
         
         return modelo;
     }
+    public ReclamacionDto GetReclamacionById(int reclamacionId) throws SQLException{
+        PreparedStatement psReclamacion = null;
+        String sqlLlenarAfiliado = "SELECT r.id, r.id_tipo_servicio, r.diagnostico, r.id_afiliado, r.id_prestador, a.nombre, p.nombre\n" +
+                                   "  FROM reclamacion r JOIN afiliado a ON r.id_afiliado = a.id JOIN prestadores p ON r.id_prestador = p.id "
+                + "WHERE r.id = ?;";
+        ResultSet rs = null;
+        ReclamacionDto reclamacion = null;
+        
+        DB.conexion.setAutoCommit(false);
+        psReclamacion = DB.conexion.prepareStatement(sqlLlenarAfiliado);
+        psReclamacion.setInt(1, reclamacionId);
+        rs = psReclamacion.executeQuery();
+        
+        while(rs.next()){
+            reclamacion = new ReclamacionDto();
+            
+            reclamacion.setId(rs.getInt(1));
+            reclamacion.setId_tipo_servicio(rs.getInt(2));
+            reclamacion.setDiagnostico(rs.getString(3));
+            reclamacion.setId_afiliado(rs.getInt(4));
+            reclamacion.setId_prestador(rs.getInt(5));
+            reclamacion.setNombre_afiliado(rs.getString(6));
+            reclamacion.setNombre_prestador(rs.getString(7));
+        }
+              
+        return reclamacion;
+    }
+    
     
     public DefaultTableModel filtraModelAfiliado(String filtro) throws SQLException{
         DefaultTableModel modelo = new DefaultTableModel();
@@ -918,30 +936,7 @@ public class AfiliadoDao {
         return modelo;
     }
     
-    public DefaultTableModel getModelEstudio(List<EstudioDto> lista){
-        DefaultTableModel modelo = new DefaultTableModel();
-        
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Id");
-        modelo.addColumn("Precio");
-        
-        Object[] registro = new Object[3];
-        
-        Collections.reverse(lista);
-        for(EstudioDto estudio: lista){
-               
-                    registro[0] = estudio.getNombre();
-                    registro[1] = estudio.getId();
-                    registro[2] = estudio.getPrecio();
-                    
-                modelo.addRow(registro);
-               
-            } 
-        
-        return modelo;
-    }
-    
-    public DefaultTableModel getModelEstudioSeleccionado(){
+    public DefaultTableModel getModelReclamacionAnalisisSeleccionado(){
         DefaultTableModel modelo = new DefaultTableModel();
         
         modelo.addColumn("Nombre");
@@ -953,84 +948,6 @@ public class AfiliadoDao {
         return modelo;
     }
     
-    public DefaultTableModel filtraModelEstudio(String filtro) throws SQLException{
-        DefaultTableModel modelo = new DefaultTableModel();
-        
-        modelo.addColumn("Nombre");
-        modelo.addColumn("ID");
-        modelo.addColumn("Precio");
-        
-        PreparedStatement buscarEstudio=null;
-        String sqlBuscarEstudio="SELECT id, nombre, precio FROM estudio where Nombre like '%" + filtro + "%'";
-        
-        ResultSet rs = null;
-        
-        DB.conexion.setAutoCommit(false);
-        buscarEstudio = DB.conexion.prepareStatement(sqlBuscarEstudio);
-        rs = buscarEstudio.executeQuery();
-
-        while (rs.next()) {
-            
-            Object[] datos = new Object[3];
-//                for (int row = 0; row < 3; row++) {
-//                    datos[row] = rs.getObject(row+1);
-//
-//                }
-                datos[0] = rs.getString(2);
-                datos[1] = rs.getInt(1);
-                datos[2] = rs.getInt(3);
-                modelo.addRow(datos);
-        }
-        
-        return modelo;
-    }
-    
-    public List<EstudioDto> GetAllEstudio() throws SQLException{
-        PreparedStatement LlenarEstudio = null;
-        String sqlLlenarEstudio = "select id, nombre, precio from estudio order by id asc";
-        ResultSet rs = null;
-        List<EstudioDto> estudios = new ArrayList<EstudioDto>();
-        EstudioDto estudio;
-        
-        DB.conexion.setAutoCommit(false);
-        LlenarEstudio = DB.conexion.prepareStatement(sqlLlenarEstudio);
-        
-        rs = LlenarEstudio.executeQuery();
-        
-        while(rs.next()){
-            estudio = new EstudioDto();
-            
-            estudio.setId(rs.getInt(1));
-            estudio.setNombre(rs.getString(2));
-            estudio.setPrecio(rs.getFloat(3));
-            
-            estudios.add(estudio);
-        }
-              
-        return estudios;
-    }
-    public EstudioDto GetEstudioById(Integer idEstudio) throws SQLException{
-        PreparedStatement LlenarEstudio = null;
-        String sqlLlenarEstudio = "select id, nombre, precio from estudio where id = ?";
-        ResultSet rs = null;
-        EstudioDto estudio = null;
-        
-        DB.conexion.setAutoCommit(false);
-        LlenarEstudio = DB.conexion.prepareStatement(sqlLlenarEstudio);
-        LlenarEstudio.setInt(1, idEstudio);
-        rs = LlenarEstudio.executeQuery();
-        
-        while(rs.next()){
-            estudio = new EstudioDto();
-            
-            estudio.setId(rs.getInt(1));
-            estudio.setNombre(rs.getString(2));
-            estudio.setPrecio(rs.getFloat(3));
-            
-        }
-              
-        return estudio;
-    }
     public DefaultTableModel getModelPrestador(List<PrestadoresDto> lista){
         DefaultTableModel modelo = new DefaultTableModel();
         
@@ -1367,7 +1284,7 @@ public class AfiliadoDao {
     public List<AnalisisDto> GetAllAnalisisByPrestador(int idPrestador) throws SQLException{
         PreparedStatement LlenarAnalisis = null;
         String sqlLlenarAnalisis = "select a.nombre, a.id, p.precio from analisis a join prestador_servicio p on a.id=p.id_analisis\n" +
-                                   "where p.id_prestador=?\n" +
+                                   "where p.id_prestador=? \n" +
                                    "\n" +
                                    "order by id asc";
         ResultSet rs = null;
@@ -1489,6 +1406,29 @@ public class AfiliadoDao {
         
         return modelo;
     }
+    
+    public DefaultTableModel getModelPrestador_Servicio(List<Prestador_ServicioDto> lista){
+            DefaultTableModel modelo = new DefaultTableModel();
+        
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Id");
+        modelo.addColumn("Precio");
+          
+        Object[] registro = new Object[3];
+        
+        Collections.reverse(lista);
+        for(Prestador_ServicioDto analisis: lista){
+               
+                    registro[0] = analisis.getNombre_servicio();
+                    registro[1] = analisis.getId_servicio();
+                    registro[2] = analisis.getPrecio();
+                    
+                modelo.addRow(registro);
+               
+            } 
+        
+        return modelo;
+    }
      
     public DefaultTableModel filtraModelAnalisis(String filtro) throws SQLException{
         DefaultTableModel modelo = new DefaultTableModel();
@@ -1585,33 +1525,21 @@ public class AfiliadoDao {
             
         }
     }
-    public void insertListServicio(List<ServicioDto> servicios){
+    public void insertListServiciosReclamacion(List<Servicio_ReclamacionDto> serviciosReclamacion){
         
         PreparedStatement insertarServicio = null;
         String sqlInsert = 
-             "INSERT INTO servicio(\n" +
-"             id_afiliado, id_prestador, monto_reclamado, monto_pagar, \n" +
-"            monto_diferencia, id_cobertura, id_servicio, no_autorizacion, \n" +
-"            nno_reclamacion, monto_total)\n" +
-"    VALUES (?, ?, ?, ?, \n" +
-"            ?, ?, ?, ?, \n" +
-"            ?, ?);";
+             "INSERT INTO servicio_reclamacion(\n" +
+            "             id_reclamacion, id_servicio)\n" +
+            "    VALUES (?, ?);";
         
         try{
-            for (ServicioDto servicio : servicios) {
+            for (Servicio_ReclamacionDto servicioReclamacion : serviciosReclamacion) {
                 DB.conexion.setAutoCommit(false);
                 insertarServicio = DB.conexion.prepareStatement(sqlInsert);
 
-                insertarServicio.setInt(1,  servicio.getId_afiliado());
-                insertarServicio.setInt(2,  servicio.getId_prestador());
-                insertarServicio.setFloat(3,  servicio.getMonto_reclamado());
-                insertarServicio.setFloat(4,  servicio.getMonto_pagar());
-                insertarServicio.setFloat(5,  servicio.getMonto_doferencia());
-                insertarServicio.setInt(6,  servicio.getId_cobertura());
-                insertarServicio.setInt(7,  servicio.getId_servicio());
-                insertarServicio.setInt(8,  servicio.getNo_autorizacion());
-                insertarServicio.setInt(9,  servicio.getNo_reclamacion());
-                insertarServicio.setFloat(10,  servicio.getMonto_total());
+                insertarServicio.setInt(1,  servicioReclamacion.getId_reclamacion());
+                insertarServicio.setInt(2,  servicioReclamacion.getId_servicio());
 
                 insertarServicio.execute();
 
@@ -1625,6 +1553,7 @@ public class AfiliadoDao {
             }
         }
     }
+    
     public int insertReclamacion(ReclamacionDto reclamacion){
         ResultSet rs = null;
         Integer idReclamacion = 0;

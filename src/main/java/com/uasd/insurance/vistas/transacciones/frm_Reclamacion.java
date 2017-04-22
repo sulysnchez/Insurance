@@ -7,7 +7,8 @@ package com.uasd.insurance.vistas.transacciones;
 
 import com.itla.insurance.dao.AfiliadoDao;
 import com.itla.insurance.dto.AfiliadoDto;
-import com.itla.insurance.dto.EstudioDto;
+import com.itla.insurance.dto.AnalisisDto;
+import com.itla.insurance.dto.Servicio_ReclamacionDto;
 import com.itla.insurance.dto.PrestadoresDto;
 import com.itla.insurance.dto.ReclamacionDto;
 import com.itla.insurance.dto.ServicioDto;
@@ -33,9 +34,9 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
 
     AfiliadoDto afiliadoDto;
     AfiliadoDao afiliadoDao;
-    EstudioDto estudioDto;
+    AnalisisDto analisisDto;
     PrestadoresDto prestadorDto;
-    List<ServicioDto> servicios;
+    List<Servicio_ReclamacionDto> serviciosReclamacion;
     
     frm_Principal principal;
     DefaultTableModel modeloServicioPrestador;
@@ -47,7 +48,7 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         //afiliadoDto = new AfiliadoDto();
         jlblNoReclamacion.setText(afiliadoDao.GenerarContrato());
         
-        jtblListaEstudio.setModel(afiliadoDao.getModelEstudio(afiliadoDao.GetAllEstudio()));
+        jtblListaEstudio.setModel(afiliadoDao.getModelAnalisis(afiliadoDao.GetAllAnalisis()));
         RedisenarTablaEstudio();
         RedisenarTablaServicio();
     }
@@ -56,14 +57,13 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         initComponents();
         afiliadoDao = new AfiliadoDao();
         //afiliadoDto = new AfiliadoDto();
-        estudioDto = new EstudioDto();
-        servicios = new ArrayList<ServicioDto>();
+        analisisDto = new AnalisisDto();
+        serviciosReclamacion = new ArrayList<Servicio_ReclamacionDto>();
         this.principal = principal;
         
 //        jlblNoReclamacion.setText(afiliadoDao.GenerarContrato());
         
-        jtblServicio.setModel(afiliadoDao.getModelEstudioSeleccionado());
-//        jtblListaEstudio.setModel(afiliadoDao.getModelEstudio(afiliadoDao.GetAllEstudio()));
+        jtblServicio.setModel(afiliadoDao.getModelReclamacionAnalisisSeleccionado());
         
         RedisenarTablaEstudio();
         RedisenarTablaServicio();
@@ -526,9 +526,9 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbttNuevoActionPerformed
 
     private void jbttGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttGuardarActionPerformed
-        List<ServicioDto> serviciosEstudios = new ArrayList<ServicioDto>();
+        List<Servicio_ReclamacionDto> serviciosReclamacion = new ArrayList<Servicio_ReclamacionDto>();
         ReclamacionDto reclamacionEstudio;
-        ServicioDto servicioEstudio;
+        Servicio_ReclamacionDto servicioReclamacion;
         int i, idReclamacion;
         reclamacionEstudio = new ReclamacionDto();
 //        reclamacionEstudio.setId(Integer.parseInt(jlblNoReclamacion.getText()));
@@ -537,23 +537,16 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         idReclamacion = afiliadoDao.insertReclamacion(reclamacionEstudio);
         
         for(i=0; i<jtblServicio.getRowCount(); i++){
-           servicioEstudio = new ServicioDto();
-           servicioEstudio.setId_servicio((int) jtblServicio.getModel().getValueAt(i, 1));
-           servicioEstudio.setCodigo(jlblNoReclamacion.getText());
-           servicioEstudio.setMonto_reclamado((Float) jtblServicio.getModel().getValueAt(i, 2));
-           servicioEstudio.setMonto_doferencia((Float) jtblServicio.getModel().getValueAt(i, 3));
-           servicioEstudio.setMonto_pagar((Float) jtblServicio.getModel().getValueAt(i, 4));
-           servicioEstudio.setNo_reclamacion(idReclamacion);
-           servicioEstudio.setNo_autorizacion(Integer.parseInt(jlblNoReclamacion.getText()));
-           servicioEstudio.setMonto_total((Float) jtblServicio.getModel().getValueAt(i, 2));
-           
+           servicioReclamacion = new Servicio_ReclamacionDto();
+           servicioReclamacion.setId_reclamacion(idReclamacion);
+           servicioReclamacion.setId_servicio((int) jtblServicio.getModel().getValueAt(i,1));
 
             //apagar
-           serviciosEstudios.add(servicioEstudio);
+           serviciosReclamacion.add(servicioReclamacion);
            
            //codigo para guardar
         }
-        afiliadoDao.insertListServicio(serviciosEstudios);
+        afiliadoDao.insertListServiciosReclamacion(serviciosReclamacion);
         
         try {
             jTable1.setModel(afiliadoDao.getModelReclamacion(afiliadoDao.GetAllReclamacion()));
@@ -585,7 +578,7 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
             jbttPrestador.setSelected(true);
         }else{
             try {
-                this.asignarEstudio(estudioDto);
+                this.asignarAnalisis(analisisDto);
             } catch (Exception ex) {
                 Logger.getLogger(frm_Reclamacion.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -612,9 +605,9 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jtxtBuscaEstudioActionPerformed
 
     private void jtblListaEstudioMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblListaEstudioMousePressed
-        estudioDto.setNombre((String) (jtblListaEstudio.getModel().getValueAt(jtblListaEstudio.getSelectedRow(), 0)));
-        estudioDto.setId((int) (jtblListaEstudio.getModel().getValueAt(jtblListaEstudio.getSelectedRow(), 1)));
-        estudioDto.setPrecio((Float) (jtblListaEstudio.getModel().getValueAt(jtblListaEstudio.getSelectedRow(), 2)));
+        analisisDto.setNombre((String) (jtblListaEstudio.getModel().getValueAt(jtblListaEstudio.getSelectedRow(), 0)));
+        analisisDto.setId((int) (jtblListaEstudio.getModel().getValueAt(jtblListaEstudio.getSelectedRow(), 1)));
+        analisisDto.setPrecio((Float) (jtblListaEstudio.getModel().getValueAt(jtblListaEstudio.getSelectedRow(), 2)));
     }//GEN-LAST:event_jtblListaEstudioMousePressed
 
     private void jbttPrestadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttPrestadorActionPerformed
@@ -657,15 +650,16 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         try {
             afiliadoDto = afiliadoDao.GetAfiliadoById((int) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 2));
             prestadorDto = afiliadoDao.GetPrestadorById((int) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 4));
-            servicios = afiliadoDao.GetAllEstudiosByReclamacion((int) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 0));
+            serviciosReclamacion = afiliadoDao.GetAllServiciosReclamacionByReclamacion((int) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 0));
+            jlblNoReclamacion.setText(Integer.toString((int) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 0)));
         } catch (SQLException ex) {
             Logger.getLogger(frm_Reclamacion.class.getName()).log(Level.SEVERE, null, ex);
             
         }
-        jlblNoReclamacion.setText(Integer.toString(servicios.get(0).getNo_reclamacion()));
+        
         showAfiliado(afiliadoDto);
         showPrestador(prestadorDto);
-        showServicios(servicios);
+        showPrestadorServicios(serviciosReclamacion);
     }//GEN-LAST:event_jTable1MousePressed
 
     private void jbttNuevo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttNuevo1ActionPerformed
@@ -730,7 +724,9 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         this.prestadorDto=prestadorDto;
         
         try {
+            
             //Llenar tabla de analisis que ofrece ese prestador
+            
             jtblListaEstudio.setModel(afiliadoDao.getModelAnalisis(afiliadoDao.GetAllAnalisisByPrestador(prestadorDto.getId())));
         } catch (SQLException ex) {
             Logger.getLogger(frm_Reclamacion.class.getName()).log(Level.SEVERE, null, ex);
@@ -765,14 +761,14 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         }
 //        revalidate();
     }
-    private void asignarEstudio(EstudioDto estudioDto) throws Exception {
+    private void asignarAnalisis(AnalisisDto analisisDto) throws Exception {
  
         this.afiliadoDto.getIdTipoCobertura();
         Object[] registro = new Object[5];
         
-        registro[0] = estudioDto.getNombre();
-        registro[1] = estudioDto.getId();
-        registro[2] = estudioDto.getPrecio();
+        registro[0] = analisisDto.getNombre();
+        registro[1] = analisisDto.getId();
+        registro[2] = analisisDto.getPrecio();
         int porciento;
         float diferencia;
         float apagar;
@@ -782,11 +778,11 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         cober = afiliadoDao.cobertura(this.afiliadoDto.getIdTipoCobertura());
         porciento = cober.getPorciento(); 
         
-        diferencia = ((porciento*estudioDto.getPrecio())/100);
-        apagar = estudioDto.getPrecio()-diferencia;
+        diferencia = ((porciento*analisisDto.getPrecio())/100);
+        apagar = analisisDto.getPrecio()-diferencia;
        
         registro[3] = diferencia;
-        int idSeleccion = estudioDto.getId();
+        int idSeleccion = analisisDto.getId();
         boolean b=true;
         
         registro[4] = apagar;
@@ -823,20 +819,18 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
     private void setModelServicioPrestador(){
         
     }
-    private void showServicios(List<ServicioDto> servicios) {
-        EstudioDto estudio;
+    private void showPrestadorServicios(List<Servicio_ReclamacionDto> serviciosReclamacion) {
+        AnalisisDto analisis;
         DefaultTableModel dtm = ((DefaultTableModel)jtblServicio.getModel());
         int rowCount  = dtm.getRowCount();
         jlblTotal.setText("0.0");
         for (int i = rowCount-1; i>=0; i--) {
             dtm.removeRow(i);
         }
-        for (ServicioDto servicio : servicios) {
-            
-            
+        for (Servicio_ReclamacionDto servicioReclamacion : serviciosReclamacion) {
             try {
-                estudio = afiliadoDao.GetEstudioById(servicio.getId_servicio());
-                asignarEstudio(estudio);
+                analisis = afiliadoDao.GetAnalisisById(servicioReclamacion.getId_servicio());
+                asignarAnalisis(analisis);
             } catch (Exception ex) {
                 Logger.getLogger(frm_Reclamacion.class.getName()).log(Level.SEVERE, null, ex);
             }
