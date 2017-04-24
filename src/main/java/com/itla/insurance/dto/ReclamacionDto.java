@@ -17,6 +17,7 @@ public class ReclamacionDto {
     private String nombre_afiliado;
     private int id_prestador;
     private String nombre_prestador;
+    private boolean pagado;
 
     /**
      * @return the id
@@ -114,5 +115,19 @@ public class ReclamacionDto {
      */
     public void setNombre_prestador(String nombre_prestador) {
         this.nombre_prestador = nombre_prestador;
+    }
+    
+    /**
+     * @return the pagado
+     */
+    public boolean getPagado() {
+        return pagado;
+    }
+
+    /**
+     * @param pagado the pagado to set
+     */
+    public void setPagado(boolean pagado) {
+        this.pagado = pagado;
     }
 }

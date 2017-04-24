@@ -693,8 +693,9 @@ public class AfiliadoDao {
     }
     public List<ReclamacionDto> GetAllReclamacion() throws SQLException{
         PreparedStatement psReclamacion = null;
-        String sqlLlenarAfiliado = "SELECT r.id, r.id_tipo_servicio, r.diagnostico, r.id_afiliado, r.id_prestador, a.nombre, p.nombre\n" +
-                                   "  FROM reclamacion r JOIN afiliado a ON r.id_afiliado = a.id JOIN prestadores p ON r.id_prestador = p.id ;";
+        String sqlLlenarAfiliado = "SELECT r.id, r.id_tipo_servicio, r.diagnostico, r.id_afiliado, r.id_prestador, a.nombre, p.nombre, r.pagado\n" +
+                                   "  FROM reclamacion r JOIN afiliado a ON r.id_afiliado = a.id JOIN prestadores p ON r.id_prestador = p.id "
+                + "                     order by r.id;";
         ResultSet rs = null;
         List<ReclamacionDto> reclamaciones = new ArrayList<ReclamacionDto>();
         ReclamacionDto reclamacion;
@@ -714,6 +715,7 @@ public class AfiliadoDao {
             reclamacion.setId_prestador(rs.getInt(5));
             reclamacion.setNombre_afiliado(rs.getString(6));
             reclamacion.setNombre_prestador(rs.getString(7));
+            reclamacion.setPagado(rs.getBoolean(8));
             
             reclamaciones.add(reclamacion);
         }
@@ -839,8 +841,9 @@ public class AfiliadoDao {
         modelo.addColumn("Id_Afiliado");
         modelo.addColumn("Prestador");
         modelo.addColumn("Id_Prestador");
+        modelo.addColumn("Pagado");
     
-        Object[] registro = new Object[5];
+        Object[] registro = new Object[6];
         
         Collections.reverse(lista);
         for(ReclamacionDto reclamacion: lista){
@@ -850,6 +853,7 @@ public class AfiliadoDao {
                     registro[2] = reclamacion.getId_afiliado();
                     registro[3] = reclamacion.getNombre_prestador();
                     registro[4] = reclamacion.getId_prestador();
+                    registro[5] = reclamacion.getPagado();
                 modelo.addRow(registro);
                
             } 
@@ -958,8 +962,9 @@ public class AfiliadoDao {
         modelo.addColumn("PSS");
         modelo.addColumn("Id");
         modelo.addColumn("Telefono");
+        modelo.addColumn("Direccion");
           
-        Object[] registro = new Object[7];
+        Object[] registro = new Object[8];
         
         Collections.reverse(lista);
         for(PrestadoresDto prestador: lista){
@@ -971,6 +976,7 @@ public class AfiliadoDao {
                     registro[4] = prestador.getId_tipo_pss();
                     registro[5] = prestador.getId();
                     registro[6] = prestador.getTelefono();
+                    registro[7] = prestador.getDireccion();
                     
                 modelo.addRow(registro);
                
@@ -981,7 +987,7 @@ public class AfiliadoDao {
      
     public List<PrestadoresDto> filtraModelPrestadores(String filtro) throws SQLException{
         String sqlLlenarPrestador = "SELECT prestadores.id, prestadores.nombre, prestadores.id_especialidad, prestadores.id_institucion,\n"+
-                                    "       prestadores.telefono, prestadores.codigo, prestadores.id_tipo_pss \n" +
+                                    "       prestadores.telefono, prestadores.codigo, prestadores.id_tipo_pss, prestadores.direccion \n" +
                                     "  FROM prestadores where Nombre like '%" + filtro + "%'";
         
         return GetPrestador(sqlLlenarPrestador);
@@ -1025,7 +1031,7 @@ public class AfiliadoDao {
 //                                    "       prestadores.id_tipo_pss, especialidad.nombre as especialidad, especialidad.id, institucion.nombre as institucion, institucion.id \n" +
 //                                    "  FROM prestadores, especialidad, institucion where prestadores.id_especialidad=especialidad.id and prestadores.id_institucion=institucion.id";
         String sqlLlenarPrestador = "SELECT prestadores.id, prestadores.nombre, prestadores.id_especialidad, prestadores.id_institucion,\n"+
-                                    "       prestadores.telefono, prestadores.codigo, prestadores.id_tipo_pss \n" +
+                                    "       prestadores.telefono, prestadores.codigo, prestadores.id_tipo_pss, prestadores.direccion \n" +
                                     "  FROM prestadores";
         
         
@@ -1054,6 +1060,7 @@ public class AfiliadoDao {
             prestador.setId_tipo_pss(rs.getInt("id_tipo_pss"));
             prestador.setId(rs.getInt("id"));
             prestador.setTelefono(rs.getString("telefono"));
+            prestador.setDireccion(rs.getString("direccion"));
              
             prestador.setServicios(GetAllPrestadorServicioByPrestador(prestador.getId()));
             
@@ -1066,7 +1073,7 @@ public class AfiliadoDao {
     public PrestadoresDto GetPrestadorById(int idPrestador) throws SQLException{
         PreparedStatement LlenarPrestador = null;
         String sqlLlenarPrestador = "SELECT prestadores.id, prestadores.nombre, prestadores.id_especialidad, prestadores.id_institucion,\n"+
-                                    "       prestadores.telefono, prestadores.codigo, prestadores.id_tipo_pss \n" +
+                                    "       prestadores.telefono, prestadores.codigo, prestadores.id_tipo_pss, prestadores.direccion \n" +
                                     "  FROM prestadores WHERE prestadores.id=?";
         
         
@@ -1217,7 +1224,7 @@ public class AfiliadoDao {
             actualizaAnalisis.setString(5, prestador.getCodigo());
             actualizaAnalisis.setInt(6, prestador.getId_tipo_pss());
             actualizaAnalisis.setInt(7, prestador.getId());
-            
+                    
             actualizaAnalisis.executeUpdate();
             
             DB.conexion.commit(); 
@@ -1234,7 +1241,7 @@ public class AfiliadoDao {
         
         sqlUpdate = "INSERT INTO prestadores\n" +
                     "(nombre, id_especialidad, id_institucion, telefono, codigo, \n" +
-                    "id_tipo_pss) values(?,?,?,?,?,?)";
+                    "id_tipo_pss, direccion) values(?,?,?,?,?,?, ?)";
         
         try {
             DB.conexion.setAutoCommit(false);
@@ -1245,6 +1252,7 @@ public class AfiliadoDao {
             psInsertar.setString(4, prestador.getTelefono());
             psInsertar.setString(5, prestador.getCodigo());
             psInsertar.setInt(6, prestador.getId_tipo_pss());
+            psInsertar.setString(7, prestador.getDireccion());
             
             psInsertar.execute();
             
@@ -1551,6 +1559,29 @@ public class AfiliadoDao {
             } catch (SQLException ex) {
                 Logger.getLogger(AfiliadoDao.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+    }
+    
+    public void setReclamacionPaidStatus(int idReclamacion, boolean status){
+        String sqlUpdate = 
+            "Update reclamacion SET \n" +
+            "       pagado  = ? \n" +
+            "   WHERE id = ?;";
+        ResultSet rs = null;
+        PreparedStatement actualizarReclamacion = null;
+        try{
+            DB.conexion.setAutoCommit(false);
+            actualizarReclamacion = DB.conexion.prepareStatement(sqlUpdate);
+            
+            
+            actualizarReclamacion.setBoolean(1, status);
+            actualizarReclamacion.setInt(2, idReclamacion);
+           
+            actualizarReclamacion.execute();
+            DB.conexion.commit();
+            
+        }catch(Exception e){
+            System.out.println(e.getMessage());
         }
     }
     

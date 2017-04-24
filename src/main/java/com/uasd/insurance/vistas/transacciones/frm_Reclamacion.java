@@ -18,12 +18,15 @@ import com.uasd.insurance.vistas.mantenimientos.frm_BuscarAfiliado;
 import com.uasd.insurance.vistas.mantenimientos.frm_BuscarPrestador;
 import com.uasd.insurance.vistas.principal.frm_Principal;
 import java.awt.Component;
+import java.awt.event.ItemEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Alert;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -81,6 +84,7 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        grupoEstadoReclamacion = new javax.swing.ButtonGroup();
         jpnlReclamacion = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -103,6 +107,8 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         jbttBuscaEstudio1 = new javax.swing.JButton();
         jlblTotal = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        rbtnPagado = new javax.swing.JRadioButton();
+        rbtnPendiente = new javax.swing.JRadioButton();
         jPanel1 = new javax.swing.JPanel();
         jbttImprimir = new javax.swing.JButton();
         jbttNuevo = new javax.swing.JButton();
@@ -244,6 +250,17 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         jLabel4.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
         jLabel4.setText("Total:");
 
+        grupoEstadoReclamacion.add(rbtnPagado);
+        rbtnPagado.setText("Pagado");
+        rbtnPagado.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                rbtnPagadoItemStateChanged(evt);
+            }
+        });
+
+        grupoEstadoReclamacion.add(rbtnPendiente);
+        rbtnPendiente.setText("Pendiente de Pago");
+
         javax.swing.GroupLayout jpnlReclamacionLayout = new javax.swing.GroupLayout(jpnlReclamacion);
         jpnlReclamacion.setLayout(jpnlReclamacionLayout);
         jpnlReclamacionLayout.setHorizontalGroup(
@@ -252,10 +269,27 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jpnlReclamacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpnlReclamacionLayout.createSequentialGroup()
+                        .addGroup(jpnlReclamacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jpnlReclamacionLayout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtxtBuscaEstudio, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbttBuscaEstudio, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jpnlReclamacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbttBuscaEstudio1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnlReclamacionLayout.createSequentialGroup()
                         .addComponent(jlblReclamacion)
                         .addGap(22, 22, 22)
                         .addComponent(jlblNoReclamacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(353, 353, 353))
+                        .addGap(155, 155, 155)
+                        .addComponent(rbtnPendiente)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(rbtnPagado))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnlReclamacionLayout.createSequentialGroup()
                         .addGroup(jpnlReclamacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -271,32 +305,15 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jpnlReclamacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jbttPrestador, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbttAfiliado, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())
-                    .addGroup(jpnlReclamacionLayout.createSequentialGroup()
-                        .addGroup(jpnlReclamacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jpnlReclamacionLayout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jtxtBuscaEstudio, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jbttBuscaEstudio, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jpnlReclamacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbttBuscaEstudio1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())
+                            .addComponent(jbttAfiliado, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnlReclamacionLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addContainerGap())))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnlReclamacionLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jlblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jpnlReclamacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnlReclamacionLayout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jlblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         jpnlReclamacionLayout.setVerticalGroup(
@@ -305,9 +322,15 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jpnlReclamacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlblReclamacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jlblNoReclamacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jpnlReclamacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpnlReclamacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jlblReclamacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jlblNoReclamacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnlReclamacionLayout.createSequentialGroup()
+                        .addGap(0, 7, Short.MAX_VALUE)
+                        .addGroup(jpnlReclamacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rbtnPagado)
+                            .addComponent(rbtnPendiente))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jpnlReclamacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpnlReclamacionLayout.createSequentialGroup()
@@ -437,6 +460,7 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2"
             }
         ));
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jTable1MousePressed(evt);
@@ -510,6 +534,9 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
     private void jbttNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttNuevoActionPerformed
 
         habilitarCampos(true);
+        grupoEstadoReclamacion.setSelected(rbtnPendiente.getModel(), true);
+        grupoEstadoReclamacion.setSelected(rbtnPagado.getModel(), false);
+        
         afiliadoDto = null;
         prestadorDto = null;
         while(jtblServicio.getModel().getRowCount() > 0) {
@@ -548,11 +575,14 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         afiliadoDao.insertListServiciosReclamacion(serviciosReclamacion);
         
         try {
+            jTable1.setEnabled(false);
             jTable1.setModel(afiliadoDao.getModelReclamacion(afiliadoDao.GetAllReclamacion()));
             
             RedisenarTablaReclamacion();
         } catch (SQLException ex) {
             Logger.getLogger(frm_Reclamacion.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            jTable1.setEnabled(true);
         }
     }//GEN-LAST:event_jbttGuardarActionPerformed
 
@@ -645,12 +675,17 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jtxtNombreAfiliadoActionPerformed
 
     private void jTable1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MousePressed
+        ListSelectionModel selectionModel = jTable1.getSelectionModel();
+        if(selectionModel.isSelectionEmpty()) return;
         habilitarCampos(false);
         try {
             afiliadoDto = afiliadoDao.GetAfiliadoById((int) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 2));
             prestadorDto = afiliadoDao.GetPrestadorById((int) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 4));
             serviciosReclamacion = afiliadoDao.GetAllServiciosReclamacionByReclamacion((int) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 0));
             jlblNoReclamacion.setText(Integer.toString((int) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 0)));
+            boolean pagado = (boolean) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 5);
+            grupoEstadoReclamacion.setSelected(rbtnPendiente.getModel(), !pagado);
+            grupoEstadoReclamacion.setSelected(rbtnPagado.getModel(), pagado);
         } catch (SQLException ex) {
             Logger.getLogger(frm_Reclamacion.class.getName()).log(Level.SEVERE, null, ex);
             
@@ -674,8 +709,27 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
 //        RedisenarTablaAnalisis();
     }//GEN-LAST:event_jbttNuevo1ActionPerformed
 
+    private void rbtnPagadoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbtnPagadoItemStateChanged
+        final int idReclamacion = Integer.parseInt(jlblNoReclamacion.getText());
+        if(evt.getStateChange() == ItemEvent.SELECTED){
+            afiliadoDao.setReclamacionPaidStatus(idReclamacion, true);
+        }else if(evt.getStateChange() == ItemEvent.DESELECTED) {
+            afiliadoDao.setReclamacionPaidStatus(idReclamacion, false);
+        }
+        try {
+            jTable1.setEnabled(false);
+            jTable1.setModel(afiliadoDao.getModelReclamacion(afiliadoDao.GetAllReclamacion()));
+            RedisenarTablaReclamacion();
+        } catch (SQLException ex) {
+            Logger.getLogger(frm_Reclamacion.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            jTable1.setEnabled(true);
+        }
+    }//GEN-LAST:event_rbtnPagadoItemStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup grupoEstadoReclamacion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -709,6 +763,8 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtxtNoPoliza;
     private javax.swing.JTextField jtxtNombreAfiliado;
     private javax.swing.JTextField jtxtNombrePrestador;
+    private javax.swing.JRadioButton rbtnPagado;
+    private javax.swing.JRadioButton rbtnPendiente;
     // End of variables declaration//GEN-END:variables
 
     public void showAfiliado(AfiliadoDto afiliadoDto) {
@@ -748,6 +804,7 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
     private void RedisenarTablaReclamacion(){
         jTable1.removeColumn(jTable1.getColumnModel().getColumn(0));
         jTable1.removeColumn(jTable1.getColumnModel().getColumn(1));
+        jTable1.removeColumn(jTable1.getColumnModel().getColumn(2));
         jTable1.removeColumn(jTable1.getColumnModel().getColumn(2));
     }
 
@@ -844,5 +901,7 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         jbttPrestador.setEnabled(b);
         jbttGuardar.setEnabled(b);
         jtxtBuscaEstudio.setEnabled(b);
+        rbtnPagado.setEnabled(!b);
+        rbtnPendiente.setEnabled(!b);
     }
 }

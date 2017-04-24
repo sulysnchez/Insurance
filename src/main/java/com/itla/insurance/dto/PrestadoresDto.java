@@ -18,6 +18,7 @@ public class PrestadoresDto {
     private int id_especialidad;
     private int id_institucion;
     private String telefono;
+    private String direccion;
     private String codigo;
     private int id_tipo_pss;
     private List<Prestador_ServicioDto> Servicios;
@@ -53,6 +54,20 @@ public class PrestadoresDto {
      */
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+    
+    /**
+     * @return the direccion
+     */
+    public String getDireccion() {
+        return direccion;
+    }
+
+    /**
+     * @param direccion the direccion to set
+     */
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
     /**
