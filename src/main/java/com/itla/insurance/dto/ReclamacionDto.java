@@ -18,6 +18,7 @@ public class ReclamacionDto {
     private int id_prestador;
     private String nombre_prestador;
     private boolean pagado;
+    private float totalAPagar;
 
     /**
      * @return the id
@@ -129,5 +130,19 @@ public class ReclamacionDto {
      */
     public void setPagado(boolean pagado) {
         this.pagado = pagado;
+    }
+    
+    /**
+     * @return the totalAPagar
+     */
+    public float getTotalAPagar() {
+        return totalAPagar;
+    }
+
+    /**
+     * @param totalAPagar the totalAPagar to set
+     */
+    public void setTotalAPagar(float totalAPagar) {
+        this.totalAPagar = totalAPagar;
     }
 }

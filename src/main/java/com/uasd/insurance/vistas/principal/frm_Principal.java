@@ -9,6 +9,7 @@ import com.uasd.insurance.utilitario.ReportGenerator;
 import com.uasd.insurance.vistas.mantenimientos.frm_Afiliado;
 import com.uasd.insurance.vistas.mantenimientos.frm_Analisis;
 import com.uasd.insurance.vistas.mantenimientos.frm_Prestadores;
+import com.uasd.insurance.vistas.transacciones.frm_Pago;
 import com.uasd.insurance.vistas.transacciones.frm_Reclamacion;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -59,6 +60,7 @@ public class frm_Principal extends javax.swing.JFrame {
         jMnPrestador = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItemPagos = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -141,6 +143,16 @@ public class frm_Principal extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jMenuItem2);
+
+        jMenuItemPagos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_MASK));
+        jMenuItemPagos.setFont(new java.awt.Font("Palatino Linotype", 2, 14)); // NOI18N
+        jMenuItemPagos.setText("Pagos");
+        jMenuItemPagos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPagosActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItemPagos);
 
         jMenuBar1.add(jMenu2);
 
@@ -272,6 +284,22 @@ public class frm_Principal extends javax.swing.JFrame {
         agregarFormulario(frmPrestador);
     }//GEN-LAST:event_jMnPrestadorActionPerformed
 
+    private void jMenuItemPagosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPagosActionPerformed
+        frm_Pago pago = null;
+        try {
+            pago = new frm_Pago();
+        } catch (Exception ex) {
+            Logger.getLogger(frm_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        jDesktopPane1.add(pago);
+        pago.setVisible(true);
+        
+        Dimension desktopSize = jDesktopPane1.getSize();
+        Dimension FrameSize = pago.getSize();
+        pago.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
+        pago.show();
+    }//GEN-LAST:event_jMenuItemPagosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -323,6 +351,7 @@ public class frm_Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItemPagos;
     private javax.swing.JMenuItem jMnPrestador;
     // End of variables declaration//GEN-END:variables
 }

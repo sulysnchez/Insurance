@@ -691,17 +691,29 @@ public class AfiliadoDao {
         
             return serviciosReclamacion;
     }
+        
+    public List<ReclamacionDto> GetAllReclamacion(boolean paga) throws SQLException {
+        return GetAllReclamacion("WHERE r.pagado = " + (paga? "true" : "false"));
+    }
+    
     public List<ReclamacionDto> GetAllReclamacion() throws SQLException{
+        return GetAllReclamacion("");
+    }
+    
+    private List<ReclamacionDto> GetAllReclamacion(String extraFilters) throws SQLException{
         PreparedStatement psReclamacion = null;
-        String sqlLlenarAfiliado = "SELECT r.id, r.id_tipo_servicio, r.diagnostico, r.id_afiliado, r.id_prestador, a.nombre, p.nombre, r.pagado\n" +
-                                   "  FROM reclamacion r JOIN afiliado a ON r.id_afiliado = a.id JOIN prestadores p ON r.id_prestador = p.id "
-                + "                     order by r.id;";
         ResultSet rs = null;
         List<ReclamacionDto> reclamaciones = new ArrayList<ReclamacionDto>();
         ReclamacionDto reclamacion;
+        String sqlReclamacion = "SELECT r.id, r.id_tipo_servicio, r.diagnostico, r.id_afiliado, r.id_prestador, a.nombre, p.nombre, r.pagado, COALESCE(total.total_analisis - (total.total_analisis * t.porciento / 100.0), 0)::real \n" +
+                        "   FROM reclamacion r JOIN afiliado a ON r.id_afiliado = a.id JOIN prestadores p ON r.id_prestador = p.id	\n" +
+                        "   JOIN tipo_cobertura t ON a.id_tipo_cobertura = t.id\n" +
+                        "   Left JOIN (SELECT sr.id_reclamacion, sum(a.precio)::real AS total_analisis FROM Servicios_Reclamacion sr JOIN analisis a ON sr.id_servicio = a.id group by sr.id_reclamacion) total\n" +
+                        "	ON r.id = total.id_reclamacion  "
+                + extraFilters + "                     order by r.id;";
         
         DB.conexion.setAutoCommit(false);
-        psReclamacion = DB.conexion.prepareStatement(sqlLlenarAfiliado);
+        psReclamacion = DB.conexion.prepareStatement(sqlReclamacion);
         
         rs = psReclamacion.executeQuery();
         
@@ -716,7 +728,7 @@ public class AfiliadoDao {
             reclamacion.setNombre_afiliado(rs.getString(6));
             reclamacion.setNombre_prestador(rs.getString(7));
             reclamacion.setPagado(rs.getBoolean(8));
-            
+            reclamacion.setTotalAPagar(rs.getFloat(9));
             reclamaciones.add(reclamacion);
         }
               
@@ -841,9 +853,11 @@ public class AfiliadoDao {
         modelo.addColumn("Id_Afiliado");
         modelo.addColumn("Prestador");
         modelo.addColumn("Id_Prestador");
-        modelo.addColumn("Pagado");
+        modelo.addColumn("Pagado");        
+        modelo.addColumn("Total a Pagar");
+
     
-        Object[] registro = new Object[6];
+        Object[] registro = new Object[7];
         
         Collections.reverse(lista);
         for(ReclamacionDto reclamacion: lista){
@@ -854,6 +868,7 @@ public class AfiliadoDao {
                     registro[3] = reclamacion.getNombre_prestador();
                     registro[4] = reclamacion.getId_prestador();
                     registro[5] = reclamacion.getPagado();
+                    registro[6] = reclamacion.getTotalAPagar();
                 modelo.addRow(registro);
                
             } 

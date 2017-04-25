@@ -806,6 +806,7 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
         jTable1.removeColumn(jTable1.getColumnModel().getColumn(1));
         jTable1.removeColumn(jTable1.getColumnModel().getColumn(2));
         jTable1.removeColumn(jTable1.getColumnModel().getColumn(2));
+        jTable1.removeColumn(jTable1.getColumnModel().getColumn(2));
     }
 
     private void quitarEstudio(Integer  idServicio){
