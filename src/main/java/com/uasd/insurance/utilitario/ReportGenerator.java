@@ -22,7 +22,7 @@ public class ReportGenerator {
     public static void allAnalisis(){
         try {
             JasperReport jr = (JasperReport)JRLoader.
-            loadObject("C:\\Users\\Sulenni\\Documents\\NetBeansProjects\\Insurance\\src\\main\\java\\com\\uasd\\insurance\\vistas\\reportes\\reporteAnalisis.jasper");
+            loadObject("C:\\Users\\Sulenni\\Repos\\Insurance\\src\\main\\java\\com\\uasd\\insurance\\vistas\\reportes\\reporteAnalisis.jasper");
             Map param = new HashMap();
             param.put(" ", 1);
             DB db = new DB();
@@ -37,7 +37,7 @@ public class ReportGenerator {
     public static void allAfiliado(){
         try {
             JasperReport jr = (JasperReport)JRLoader.
-            loadObject("C:\\Users\\Sulenni\\Documents\\NetBeansProjects\\Insurance\\src\\main\\java\\com\\uasd\\insurance\\vistas\\reportes\\reporteAfiliado.jasper");
+            loadObject("C:\\Users\\Sulenni\\Repos\\Insurance\\src\\main\\java\\com\\uasd\\insurance\\vistas\\reportes\\reporteAfiliado.jasper");
             Map param = new HashMap();
             param.put(" ", 1);
             DB db = new DB();
@@ -52,7 +52,7 @@ public class ReportGenerator {
     public static void allPrestadores(){
         try {
             JasperReport jr = (JasperReport)JRLoader.
-            loadObject("C:\\Users\\Sulenni\\Documents\\NetBeansProjects\\Insurance\\src\\main\\java\\com\\uasd\\insurance\\vistas\\reportes\\reportPrestador.jasper");
+            loadObject("C:\\Users\\Sulenni\\Repos\\Insurance\\src\\main\\java\\com\\uasd\\insurance\\vistas\\reportes\\reportPrestador.jasper");
             Map param = new HashMap();
             param.put(" ", 1);
             DB db = new DB();
@@ -67,13 +67,29 @@ public class ReportGenerator {
     public static void allPrestadores2(){
         try {
             JasperReport jr = (JasperReport)JRLoader.
-            loadObject("C:\\Users\\Sulenni\\Documents\\NetBeansProjects\\Insurance\\src\\main\\java\\com\\uasd\\insurance\\vistas\\reportes\\reportPrestadoresInstitucion.jasper");
+            loadObject("C:\\Users\\Sulenni\\Repos\\Insurance\\src\\main\\java\\com\\uasd\\insurance\\vistas\\reportes\\Pagos.jasper");
             Map param = new HashMap();
             param.put(" ", 1);
             DB db = new DB();
             JasperPrint jp = JasperFillManager.fillReport(jr, param,DB.conexion);
             JasperViewer jv = new JasperViewer(jp,false);
             jv.setTitle("Prestadores");
+            jv.setVisible(true);
+        } catch (Exception e) {
+           
+        }
+    }
+    
+    public static void pagosPorPrestador(Integer idPrestador){
+        try {
+            JasperReport jr = (JasperReport)JRLoader.
+            loadObject("C:\\Users\\Sulenni\\Repos\\Insurance\\src\\main\\java\\com\\uasd\\insurance\\vistas\\reportes\\PagoPorPrestador.jasper");
+            Map param = new HashMap();
+            param.put("idPrestador", idPrestador);
+            DB db = new DB();
+            JasperPrint jp = JasperFillManager.fillReport(jr, param,DB.conexion);
+            JasperViewer jv = new JasperViewer(jp,false);
+            jv.setTitle("Pago por prestadores");
             jv.setVisible(true);
         } catch (Exception e) {
            

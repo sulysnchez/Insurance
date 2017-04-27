@@ -12,6 +12,7 @@ import com.itla.insurance.dto.CiudadDto;
 import com.itla.insurance.dto.EspecialidadDto;
 import com.itla.insurance.dto.InstitucionDto;
 import com.itla.insurance.dto.OcupacionDto;
+import com.itla.insurance.dto.Origen_PadecimientoDto;
 import com.itla.insurance.dto.Prestador_ServicioDto;
 import com.itla.insurance.dto.PrestadoresDto;
 import com.itla.insurance.dto.ProvinciaDto;
@@ -22,10 +23,12 @@ import com.itla.insurance.dto.SexoDto;
 import com.itla.insurance.dto.Tipo_AfiliacionDto;
 import com.itla.insurance.dto.Tipo_CoberturaDto;
 import com.itla.insurance.dto.Tipo_IdentificacionDto;
+import com.itla.insurance.dto.Tipo_PagoDto;
 import com.itla.insurance.dto.Tipo_ParentezcoDto;
 import com.itla.insurance.dto.Tipo_PlanDto;
 import com.itla.insurance.dto.Tipo_PssDto;
 import com.itla.insurance.dto.Tipo_SangreDto;
+import com.itla.insurance.dto.Tipo_servicioDto;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -855,9 +858,10 @@ public class AfiliadoDao {
         modelo.addColumn("Id_Prestador");
         modelo.addColumn("Pagado");        
         modelo.addColumn("Total a Pagar");
+        modelo.addColumn("Diagnostico");
 
     
-        Object[] registro = new Object[7];
+        Object[] registro = new Object[8];
         
         Collections.reverse(lista);
         for(ReclamacionDto reclamacion: lista){
@@ -869,6 +873,7 @@ public class AfiliadoDao {
                     registro[4] = reclamacion.getId_prestador();
                     registro[5] = reclamacion.getPagado();
                     registro[6] = reclamacion.getTotalAPagar();
+                    registro[7] = reclamacion.getDiagnostico();
                 modelo.addRow(registro);
                
             } 
@@ -1639,6 +1644,1687 @@ public class AfiliadoDao {
             Logger.getLogger(AfiliadoDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return idReclamacion;
+    }
+    
+        //TIPO SERVICIO
+    public List<Tipo_servicioDto> GetAllTipoServicio() throws SQLException{
+        PreparedStatement LlenarAnalisis = null;
+        String sqlLlenarAnalisis = "SELECT id, nombre, nombre_abreviado FROM tipo_servicio order by id asc";
+        ResultSet rs = null;
+        List<Tipo_servicioDto> tiposServicio = new ArrayList<Tipo_servicioDto>();
+        Tipo_servicioDto tipoServicio;
+        
+        DB.conexion.setAutoCommit(false);
+        LlenarAnalisis = DB.conexion.prepareStatement(sqlLlenarAnalisis);
+        
+        rs = LlenarAnalisis.executeQuery();
+        
+        while(rs.next()){
+            tipoServicio = new Tipo_servicioDto();
+            
+            tipoServicio.setNombre(rs.getString("nombre"));
+            tipoServicio.setId(rs.getInt("id"));
+            tipoServicio.setNombre_abreviado(rs.getString("nombre_abreviado"));
+            
+            tiposServicio.add(tipoServicio);
+        }
+              
+        return tiposServicio;
+    }
+    
+    public DefaultTableModel getModelTipoServicio(List<Tipo_servicioDto> lista){
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Id");
+        modelo.addColumn("NombreAbreviado");
+          
+        Object[] registro = new Object[3];
+        
+        Collections.reverse(lista);
+        for(Tipo_servicioDto tipoServicio: lista){
+               
+                    registro[0] = tipoServicio.getNombre();
+                    registro[1] = tipoServicio.getId();
+                    registro[2] = tipoServicio.getNombre_abreviado();
+                    
+                modelo.addRow(registro);
+               
+            } 
+        
+        return modelo;
+    }
+    
+    public String insertTipoServicio( Tipo_servicioDto tipoServicio) throws Exception{
+    
+        PreparedStatement nuevoAnalisis = null;
+        String sqlInsertar = "INSERT INTO tipo_servicio (nombre,nombre_abreviado) VALUES (?,?)";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            nuevoAnalisis = DB.conexion.prepareStatement(sqlInsertar);
+            nuevoAnalisis.setString(1,  tipoServicio.getNombre());
+            nuevoAnalisis.setString(2,  tipoServicio.getNombre_abreviado());
+            
+            nuevoAnalisis.executeUpdate();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        
+        return null;
+    }
+    
+    public String updateTipoServicio(Tipo_servicioDto tipoServicio) throws Exception{
+    
+        PreparedStatement actualizaAnalisis = null;
+        String sqlUpdate = null;
+        
+        sqlUpdate = "UPDATE tipo_servicio SET nombre=?,nombre_abreviado=? WHERE id=?;";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            actualizaAnalisis = DB.conexion.prepareStatement(sqlUpdate);
+            actualizaAnalisis.setString(1,  tipoServicio.getNombre());
+            actualizaAnalisis.setString(2, tipoServicio.getNombre_abreviado());
+            actualizaAnalisis.setInt(3, tipoServicio.getId());
+            
+            actualizaAnalisis.executeUpdate();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        
+        return null;
+    }
+    
+    public DefaultTableModel filtraModelTipoServicio(String filtro) throws SQLException{
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Id");
+        modelo.addColumn("NombreAbreviado");
+        
+        PreparedStatement buscarAnalisis = null;
+        String sqlBuscarAnalisis = "SELECT Nombre, id, nombre_abreviado from tipo_servicio where Nombre like '%" + filtro + "%'";
+        
+        ResultSet rs = null;
+        
+        DB.conexion.setAutoCommit(false);
+        buscarAnalisis = DB.conexion.prepareStatement(sqlBuscarAnalisis);
+        rs = buscarAnalisis.executeQuery();
+
+        while (rs.next()) {
+            
+            Object[] datos = new Object[3];
+                for (int row = 0; row < 3; row++) {
+                    datos[row] = rs.getObject(row+1);
+
+                }
+                modelo.addRow(datos);
+        }
+        
+        return modelo;
+    } 
+    
+    public void deleteTipoServicio(Tipo_servicioDto tipoServicio){
+        PreparedStatement ps = null;
+        String sqlDelete="DELETE FROM tipo_servicio\n" +
+                         " WHERE id=?";
+        try {
+            DB.conexion.setAutoCommit(false);
+            
+            ps = DB.conexion.prepareStatement(sqlDelete);
+            ps.setInt(1, tipoServicio.getId());
+            ps.execute();
+            
+            DB.conexion.commit();
+        } catch (Exception e) {
+            try {
+                DB.conexion.rollback();
+            } catch (SQLException ex) {
+                Logger.getLogger(AfiliadoDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    //TIPO DE SANGRE
+    public List<Tipo_SangreDto> GetAllTipoSangre() throws SQLException{
+        PreparedStatement LlenarAnalisis = null;
+        String sqlLlenarAnalisis = "SELECT id, nombre FROM tipo_sangre order by id asc";
+        ResultSet rs = null;
+        List<Tipo_SangreDto> tiposSangre = new ArrayList<Tipo_SangreDto>();
+        Tipo_SangreDto tipoSangre;
+        
+        DB.conexion.setAutoCommit(false);
+        LlenarAnalisis = DB.conexion.prepareStatement(sqlLlenarAnalisis);
+        
+        rs = LlenarAnalisis.executeQuery();
+        
+        while(rs.next()){
+            tipoSangre = new Tipo_SangreDto();
+            
+            tipoSangre.setNombre(rs.getString("nombre"));
+            tipoSangre.setId(rs.getInt("id"));
+            
+            tiposSangre.add(tipoSangre);
+        }
+              
+        return tiposSangre;
+    }
+    
+    public DefaultTableModel getModelTipoSangre(List<Tipo_SangreDto> lista){
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Id");
+          
+        Object[] registro = new Object[2];
+        
+        Collections.reverse(lista);
+        for(Tipo_SangreDto tipoSangre: lista){
+               
+                    registro[0] = tipoSangre.getNombre();
+                    registro[1] = tipoSangre.getId();
+                    
+                modelo.addRow(registro);
+               
+            } 
+        
+        return modelo;
+    }
+    
+    public String insertTipoSangre( Tipo_SangreDto tipoSangre) throws Exception{
+    
+        PreparedStatement nuevoAnalisis = null;
+        String sqlInsertar = "INSERT INTO tipo_sangre (nombre) VALUES (?)";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            nuevoAnalisis = DB.conexion.prepareStatement(sqlInsertar);
+            nuevoAnalisis.setString(1,  tipoSangre.getNombre());
+            
+            nuevoAnalisis.executeUpdate();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        
+        return null;
+    }
+    
+    public String updateTipoSangre(Tipo_SangreDto tipoSangre) throws Exception{
+    
+        PreparedStatement actualizaTipoSangre = null;
+        String sqlUpdate = null;
+        
+        sqlUpdate = "UPDATE tipo_sangre SET nombre=?WHERE id=?;";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            actualizaTipoSangre = DB.conexion.prepareStatement(sqlUpdate);
+            actualizaTipoSangre.setString(1,  tipoSangre.getNombre());
+            actualizaTipoSangre.setInt(2, tipoSangre.getId());
+            
+            actualizaTipoSangre.executeUpdate();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        
+        return null;
+    }
+    
+    public DefaultTableModel filtraModelTipoSangre(String filtro) throws SQLException{
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Id");
+        
+        PreparedStatement buscarAnalisis = null;
+        String sqlBuscarAnalisis = "SELECT Nombre, id from tipo_sangre where Nombre like '%" + filtro + "%'";
+        
+        ResultSet rs = null;
+        
+        DB.conexion.setAutoCommit(false);
+        buscarAnalisis = DB.conexion.prepareStatement(sqlBuscarAnalisis);
+        rs = buscarAnalisis.executeQuery();
+
+        while (rs.next()) {
+            
+            Object[] datos = new Object[2];
+                for (int row = 0; row < 2; row++) {
+                    datos[row] = rs.getObject(row+1);
+
+                }
+                modelo.addRow(datos);
+        }
+        
+        return modelo;
+    } 
+    
+    public void deleteTipoSangre(Tipo_SangreDto tipoSangre){
+        PreparedStatement ps = null;
+        String sqlDelete="DELETE FROM tipo_sangre\n" +
+                         " WHERE id=?";
+        try {
+            DB.conexion.setAutoCommit(false);
+            
+            ps = DB.conexion.prepareStatement(sqlDelete);
+            ps.setInt(1, tipoSangre.getId());
+            ps.execute();
+            
+            DB.conexion.commit();
+        } catch (Exception e) {
+            try {
+                DB.conexion.rollback();
+            } catch (SQLException ex) {
+                Logger.getLogger(AfiliadoDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    //TIPO PSS
+    public DefaultTableModel getModelTipoPss(List<Tipo_PssDto> lista){
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Id");
+          
+        Object[] registro = new Object[2];
+        
+        Collections.reverse(lista);
+        for(Tipo_PssDto tipoSangre: lista){
+               
+                    registro[0] = tipoSangre.getNombre();
+                    registro[1] = tipoSangre.getId();
+                    
+                modelo.addRow(registro);
+               
+            } 
+        
+        return modelo;
+    }
+    
+    public String insertTipoPss(Tipo_PssDto tipoPss) throws Exception{
+    
+        PreparedStatement nuevoAnalisis = null;
+        String sqlInsertar = "INSERT INTO tipo_pss (nombre) VALUES (?)";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            nuevoAnalisis = DB.conexion.prepareStatement(sqlInsertar);
+            nuevoAnalisis.setString(1,  tipoPss.getNombre());
+            
+            nuevoAnalisis.executeUpdate();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        
+        return null;
+    }
+    
+    public String updateTipoPss(Tipo_PssDto tipoPss) throws Exception{
+    
+        PreparedStatement actualizaTipoPss = null;
+        String sqlUpdate = null;
+        
+        sqlUpdate = "UPDATE tipo_pss SET nombre=? WHERE id=?;";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            actualizaTipoPss = DB.conexion.prepareStatement(sqlUpdate);
+            actualizaTipoPss.setString(1,  tipoPss.getNombre());
+            actualizaTipoPss.setInt(2, tipoPss.getId());
+            
+            actualizaTipoPss.executeUpdate();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        
+        return null;
+    }
+    
+    public DefaultTableModel filtraModelTipoPss(String filtro) throws SQLException{
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Id");
+        
+        PreparedStatement buscarAnalisis = null;
+        String sqlBuscarAnalisis = "SELECT Nombre, id from tipo_pss where Nombre like '%" + filtro + "%'";
+        
+        ResultSet rs = null;
+        
+        DB.conexion.setAutoCommit(false);
+        buscarAnalisis = DB.conexion.prepareStatement(sqlBuscarAnalisis);
+        rs = buscarAnalisis.executeQuery();
+
+        while (rs.next()) {
+            
+            Object[] datos = new Object[2];
+                for (int row = 0; row < 2; row++) {
+                    datos[row] = rs.getObject(row+1);
+
+                }
+                modelo.addRow(datos);
+        }
+        
+        return modelo;
+    } 
+    
+    public void deleteTipoPss(Tipo_PssDto tipoPss){
+        PreparedStatement ps = null;
+        String sqlDelete="DELETE FROM tipo_pss\n" +
+                         " WHERE id=?";
+        try {
+            DB.conexion.setAutoCommit(false);
+            
+            ps = DB.conexion.prepareStatement(sqlDelete);
+            ps.setInt(1, tipoPss.getId());
+            ps.execute();
+            
+            DB.conexion.commit();
+        } catch (Exception e) {
+            try {
+                DB.conexion.rollback();
+            } catch (SQLException ex) {
+                Logger.getLogger(AfiliadoDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    //TIPO DE PLAN
+    public List<Tipo_PlanDto> GetAllTipoPlan() throws SQLException{
+        PreparedStatement LlenarAnalisis = null;
+        String sqlLlenarAnalisis = "SELECT id, nombre, id_tipo_cobertura FROM tipo_plan order by id asc";
+        ResultSet rs = null;
+        List<Tipo_PlanDto> tiposPlan = new ArrayList<Tipo_PlanDto>();
+        Tipo_PlanDto tipoPlan;
+        
+        DB.conexion.setAutoCommit(false);
+        LlenarAnalisis = DB.conexion.prepareStatement(sqlLlenarAnalisis);
+        
+        rs = LlenarAnalisis.executeQuery();
+        
+        while(rs.next()){
+            tipoPlan = new Tipo_PlanDto();
+            
+            tipoPlan.setNombre(rs.getString("nombre"));
+            tipoPlan.setId(rs.getInt("id"));
+            tipoPlan.setId_cobertura(rs.getInt("id_tipo_cobertura"));
+            
+            tiposPlan.add(tipoPlan);
+        }
+              
+        return tiposPlan;
+    }
+    
+    public DefaultTableModel getModelTipoPlan(List<Tipo_PlanDto> lista){
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Id");
+        modelo.addColumn("IdTipoCobertura");
+          
+        Object[] registro = new Object[3];
+        
+        Collections.reverse(lista);
+        for(Tipo_PlanDto tipoPlan: lista){
+               
+                    registro[0] = tipoPlan.getNombre();
+                    registro[1] = tipoPlan.getId();
+                    registro[2] = tipoPlan.getId_cobertura();
+                    
+                modelo.addRow(registro);
+               
+            } 
+        
+        return modelo;
+    }
+    
+    public String insertTipoPlan(Tipo_PlanDto tipoPlan) throws Exception{
+    
+        PreparedStatement nuevoAnalisis = null;
+        String sqlInsertar = "INSERT INTO tipo_plan (nombre,id_tipo_cobertura) VALUES (?,?)";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            nuevoAnalisis = DB.conexion.prepareStatement(sqlInsertar);
+            nuevoAnalisis.setString(1,  tipoPlan.getNombre());
+            nuevoAnalisis.setInt(2,  tipoPlan.getId_cobertura());
+            
+            nuevoAnalisis.executeUpdate();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        
+        return null;
+    }
+    
+    public String updateTipoPlan(Tipo_PlanDto tipoPlan) throws Exception{
+    
+        PreparedStatement actualizaTipoSangre = null;
+        String sqlUpdate = null;
+        
+        sqlUpdate = "UPDATE tipo_plan SET nombre=? ,id_tipo_cobertura=? WHERE id=?;";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            actualizaTipoSangre = DB.conexion.prepareStatement(sqlUpdate);
+            actualizaTipoSangre.setString(1,  tipoPlan.getNombre());
+            actualizaTipoSangre.setInt(2, tipoPlan.getId_cobertura());
+            actualizaTipoSangre.setInt(3, tipoPlan.getId());
+            
+            actualizaTipoSangre.executeUpdate();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        
+        return null;
+    }
+    
+    public DefaultTableModel filtraModelTipoPlan(String filtro) throws SQLException{
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Id");
+        modelo.addColumn("IdTipoCobertura");
+        
+        PreparedStatement buscarAnalisis = null;
+        String sqlBuscarAnalisis = "SELECT Nombre, id, id_tipo_cobertura from tipo_plan where Nombre like '%" + filtro + "%'";
+        
+        ResultSet rs = null;
+        
+        DB.conexion.setAutoCommit(false);
+        buscarAnalisis = DB.conexion.prepareStatement(sqlBuscarAnalisis);
+        rs = buscarAnalisis.executeQuery();
+
+        while (rs.next()) {
+            
+            Object[] datos = new Object[3];
+                for (int row = 0; row < 3; row++) {
+                    datos[row] = rs.getObject(row+1);
+
+                }
+                modelo.addRow(datos);
+        }
+        
+        return modelo;
+    } 
+    
+    public void deleteTipoPlan(Tipo_PlanDto tipoPlan){
+        PreparedStatement ps = null;
+        String sqlDelete="DELETE FROM tipo_plan\n" +
+                         " WHERE id=?";
+        try {
+            DB.conexion.setAutoCommit(false);
+            
+            ps = DB.conexion.prepareStatement(sqlDelete);
+            ps.setInt(1, tipoPlan.getId());
+            ps.execute();
+            
+            DB.conexion.commit();
+        } catch (Exception e) {
+            try {
+                DB.conexion.rollback();
+            } catch (SQLException ex) {
+                Logger.getLogger(AfiliadoDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    //TIPO DE PARENTEZCO
+    public List<Tipo_ParentezcoDto> GetAllTipoParentezco() throws SQLException{
+        PreparedStatement LlenarParentezco = null;
+        String sqlLlenarParentezco = "SELECT id, nombre FROM tipo_parentezco order by id asc";
+        ResultSet rs = null;
+        List<Tipo_ParentezcoDto> tiposParentezco = new ArrayList<Tipo_ParentezcoDto>();
+        Tipo_ParentezcoDto tipoParentezco;
+        
+        DB.conexion.setAutoCommit(false);
+        LlenarParentezco = DB.conexion.prepareStatement(sqlLlenarParentezco);
+        
+        rs = LlenarParentezco.executeQuery();
+        
+        while(rs.next()){
+            tipoParentezco = new Tipo_ParentezcoDto();
+            
+            tipoParentezco.setNombre(rs.getString("nombre"));
+            tipoParentezco.setId(rs.getInt("id"));
+            
+            tiposParentezco.add(tipoParentezco);
+        }
+              
+        return tiposParentezco;
+    }
+    
+    public DefaultTableModel getModelTipoParentezco(List<Tipo_ParentezcoDto> lista){
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Id");
+          
+        Object[] registro = new Object[2];
+        
+        Collections.reverse(lista);
+        for(Tipo_ParentezcoDto tipoSangre: lista){
+               
+                    registro[0] = tipoSangre.getNombre();
+                    registro[1] = tipoSangre.getId();
+                    
+                modelo.addRow(registro);
+               
+            } 
+        
+        return modelo;
+    }
+    
+    public String insertTipoParentezco(Tipo_ParentezcoDto tipoParentezco) throws Exception{
+    
+        PreparedStatement nuevoParentezco = null;
+        String sqlInsertar = "INSERT INTO tipo_parentezco (nombre) VALUES (?)";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            nuevoParentezco = DB.conexion.prepareStatement(sqlInsertar);
+            nuevoParentezco.setString(1,  tipoParentezco.getNombre());
+            
+            nuevoParentezco.executeUpdate();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        
+        return null;
+    }
+    
+    public String updateTipoParentezco(Tipo_ParentezcoDto tipoParentezco) throws Exception{
+    
+        PreparedStatement actualizaTipoParentezco = null;
+        String sqlUpdate = null;
+        
+        sqlUpdate = "UPDATE tipo_parentezco SET nombre=? WHERE id=?;";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            actualizaTipoParentezco = DB.conexion.prepareStatement(sqlUpdate);
+            actualizaTipoParentezco.setString(1,  tipoParentezco.getNombre());
+            actualizaTipoParentezco.setInt(2, tipoParentezco.getId());
+            
+            actualizaTipoParentezco.executeUpdate();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        
+        return null;
+    }
+    
+    public DefaultTableModel filtraModelTipoParentezco(String filtro) throws SQLException{
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Id");
+        
+        PreparedStatement buscarAnalisis = null;
+        String sqlBuscarAnalisis = "SELECT Nombre, id from tipo_parentezco where Nombre like '%" + filtro + "%'";
+        
+        ResultSet rs = null;
+        
+        DB.conexion.setAutoCommit(false);
+        buscarAnalisis = DB.conexion.prepareStatement(sqlBuscarAnalisis);
+        rs = buscarAnalisis.executeQuery();
+
+        while (rs.next()) {
+            
+            Object[] datos = new Object[2];
+                for (int row = 0; row < 2; row++) {
+                    datos[row] = rs.getObject(row+1);
+
+                }
+                modelo.addRow(datos);
+        }
+        
+        return modelo;
+    } 
+    
+    public void deleteTipoParentezco(Tipo_ParentezcoDto tipoParentezco){
+        PreparedStatement ps = null;
+        String sqlDelete="DELETE FROM tipo_parentezco\n" +
+                         " WHERE id=?";
+        try {
+            DB.conexion.setAutoCommit(false);
+            
+            ps = DB.conexion.prepareStatement(sqlDelete);
+            ps.setInt(1, tipoParentezco.getId());
+            ps.execute();
+            
+            DB.conexion.commit();
+        } catch (Exception e) {
+            try {
+                DB.conexion.rollback();
+            } catch (SQLException ex) {
+                Logger.getLogger(AfiliadoDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    //TIPO DE PAGO
+    public List<Tipo_PagoDto> GetAllTipoPago() throws SQLException{
+        PreparedStatement LlenarPago = null;
+        String sqlLlenarPago = "SELECT id, nombre FROM tipo_pago order by id asc";
+        ResultSet rs = null;
+        List<Tipo_PagoDto> tiposPago = new ArrayList<Tipo_PagoDto>();
+        Tipo_PagoDto tipoPago;
+        
+        DB.conexion.setAutoCommit(false);
+        LlenarPago = DB.conexion.prepareStatement(sqlLlenarPago);
+        
+        rs = LlenarPago.executeQuery();
+        
+        while(rs.next()){
+            tipoPago = new Tipo_PagoDto();
+            
+            tipoPago.setNombre(rs.getString("nombre"));
+            tipoPago.setId(rs.getInt("id"));
+            
+            tiposPago.add(tipoPago);
+        }
+              
+        return tiposPago;
+    }
+    
+    public DefaultTableModel getModelTipoPago(List<Tipo_PagoDto> lista){
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Id");
+          
+        Object[] registro = new Object[2];
+        
+        Collections.reverse(lista);
+        for(Tipo_PagoDto tipoPago: lista){
+               
+                    registro[0] = tipoPago.getNombre();
+                    registro[1] = tipoPago.getId();
+                    
+                modelo.addRow(registro);
+               
+            } 
+        
+        return modelo;
+    }
+    
+    public String insertTipoPago(Tipo_PagoDto tipoPago) throws Exception{
+    
+        PreparedStatement nuevoParentezco = null;
+        String sqlInsertar = "INSERT INTO tipo_pago (nombre) VALUES (?)";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            nuevoParentezco = DB.conexion.prepareStatement(sqlInsertar);
+            nuevoParentezco.setString(1,  tipoPago.getNombre());
+            
+            nuevoParentezco.executeUpdate();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        
+        return null;
+    }
+    
+    public String updateTipoPago(Tipo_PagoDto tipoPago) throws Exception{
+    
+        PreparedStatement actualizaTipoParentezco = null;
+        String sqlUpdate = null;
+        
+        sqlUpdate = "UPDATE tipo_pago SET nombre=? WHERE id=?;";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            actualizaTipoParentezco = DB.conexion.prepareStatement(sqlUpdate);
+            actualizaTipoParentezco.setString(1,  tipoPago.getNombre());
+            actualizaTipoParentezco.setInt(2, tipoPago.getId());
+            
+            actualizaTipoParentezco.executeUpdate();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        
+        return null;
+    }
+    
+    public DefaultTableModel filtraModelTipoPago(String filtro) throws SQLException{
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Id");
+        
+        PreparedStatement buscarAnalisis = null;
+        String sqlBuscarAnalisis = "SELECT Nombre, id from tipo_pago where Nombre like '%" + filtro + "%'";
+        
+        ResultSet rs = null;
+        
+        DB.conexion.setAutoCommit(false);
+        buscarAnalisis = DB.conexion.prepareStatement(sqlBuscarAnalisis);
+        rs = buscarAnalisis.executeQuery();
+
+        while (rs.next()) {
+            
+            Object[] datos = new Object[2];
+                for (int row = 0; row < 2; row++) {
+                    datos[row] = rs.getObject(row+1);
+
+                }
+                modelo.addRow(datos);
+        }
+        
+        return modelo;
+    } 
+    
+    public void deleteTipoPago(Tipo_PagoDto tipoPago){
+        PreparedStatement ps = null;
+        String sqlDelete="DELETE FROM tipo_pago\n" +
+                         " WHERE id=?";
+        try {
+            DB.conexion.setAutoCommit(false);
+            
+            ps = DB.conexion.prepareStatement(sqlDelete);
+            ps.setInt(1, tipoPago.getId());
+            ps.execute();
+            
+            DB.conexion.commit();
+        } catch (Exception e) {
+            try {
+                DB.conexion.rollback();
+            } catch (SQLException ex) {
+                Logger.getLogger(AfiliadoDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    //TIPO DE Cobertura
+    public List<Tipo_CoberturaDto> GetAllTipoCobertura() throws SQLException{
+        PreparedStatement LlenarTipoCobertura = null;
+        String sqlLlenarPago = "SELECT id, porciento FROM tipo_cobertura order by id asc";
+        ResultSet rs = null;
+        List<Tipo_CoberturaDto> tiposCobertura = new ArrayList<Tipo_CoberturaDto>();
+        Tipo_CoberturaDto tipoCobertura;
+        
+        DB.conexion.setAutoCommit(false);
+        LlenarTipoCobertura = DB.conexion.prepareStatement(sqlLlenarPago);
+        
+        rs = LlenarTipoCobertura.executeQuery();
+        
+        while(rs.next()){
+            tipoCobertura = new Tipo_CoberturaDto();
+            
+            tipoCobertura.setPorciento(rs.getInt("porciento"));
+            tipoCobertura.setId(rs.getInt("id"));
+            
+            tiposCobertura.add(tipoCobertura);
+        }
+              
+        return tiposCobertura;
+    }
+    
+    public DefaultTableModel getModelTipoCobertura(List<Tipo_CoberturaDto> lista){
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        modelo.addColumn("porciento");
+        modelo.addColumn("Id");
+          
+        Object[] registro = new Object[2];
+        
+        Collections.reverse(lista);
+        for(Tipo_CoberturaDto tipoCobertura: lista){
+               
+                    registro[0] = tipoCobertura.getPorciento();
+                    registro[1] = tipoCobertura.getId();
+                    
+                modelo.addRow(registro);
+               
+            } 
+        
+        return modelo;
+    }
+    
+    public String insertTipoCobertura(Tipo_CoberturaDto tipoCobertura) throws Exception{
+    
+        PreparedStatement nuevoParentezco = null;
+        String sqlInsertar = "INSERT INTO tipo_cobertura (porciento) VALUES (?)";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            nuevoParentezco = DB.conexion.prepareStatement(sqlInsertar);
+            nuevoParentezco.setInt(1,  tipoCobertura.getPorciento());
+            
+            nuevoParentezco.executeUpdate();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        
+        return null;
+    }
+    
+    public String updateTipoCobertura(Tipo_CoberturaDto tipoCobertura) throws Exception{
+    
+        PreparedStatement actualizaTipoCobertura = null;
+        String sqlUpdate = null;
+        
+        sqlUpdate = "UPDATE tipo_cobertura SET porciento=? WHERE id=?;";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            actualizaTipoCobertura = DB.conexion.prepareStatement(sqlUpdate);
+            actualizaTipoCobertura.setInt(1,  tipoCobertura.getPorciento());
+            actualizaTipoCobertura.setInt(2, tipoCobertura.getId());
+            
+            actualizaTipoCobertura.executeUpdate();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        
+        return null;
+    }
+    
+    public DefaultTableModel filtraModelTipoCobertura(String filtro) throws SQLException{
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        modelo.addColumn("porciento");
+        modelo.addColumn("Id");
+        
+        PreparedStatement buscarAnalisis = null;
+        String sqlBuscarAnalisis = "SELECT porciento, id from tipo_cobertura where porciento = " + filtro;
+        
+        ResultSet rs = null;
+        
+        DB.conexion.setAutoCommit(false);
+        buscarAnalisis = DB.conexion.prepareStatement(sqlBuscarAnalisis);
+        rs = buscarAnalisis.executeQuery();
+
+        while (rs.next()) {
+            
+            Object[] datos = new Object[2];
+                for (int row = 0; row < 2; row++) {
+                    datos[row] = rs.getObject(row+1);
+
+                }
+                modelo.addRow(datos);
+        }
+        
+        return modelo;
+    } 
+    
+    public void deleteTipoCobertura(Tipo_CoberturaDto tipoCobertura){
+        PreparedStatement ps = null;
+        String sqlDelete="DELETE FROM tipo_cobertura\n" +
+                         " WHERE id=?";
+        try {
+            DB.conexion.setAutoCommit(false);
+            
+            ps = DB.conexion.prepareStatement(sqlDelete);
+            ps.setInt(1, tipoCobertura.getId());
+            ps.execute();
+            
+            DB.conexion.commit();
+        } catch (Exception e) {
+            try {
+                DB.conexion.rollback();
+            } catch (SQLException ex) {
+                Logger.getLogger(AfiliadoDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    //TIPO DE AFILIACION
+    public List<Tipo_AfiliacionDto> GetAllTipoAfiliacion() throws SQLException{
+        PreparedStatement LlenarPago = null;
+        String sqlLlenarPago = "SELECT id, nombre FROM tipo_afiliacion order by id asc";
+        ResultSet rs = null;
+        List<Tipo_AfiliacionDto> tiposAfiliacion = new ArrayList<Tipo_AfiliacionDto>();
+        Tipo_AfiliacionDto tipoAfilicion;
+        
+        DB.conexion.setAutoCommit(false);
+        LlenarPago = DB.conexion.prepareStatement(sqlLlenarPago);
+        
+        rs = LlenarPago.executeQuery();
+        
+        while(rs.next()){
+            tipoAfilicion = new Tipo_AfiliacionDto();
+            
+            tipoAfilicion.setNombre(rs.getString("nombre"));
+            tipoAfilicion.setId(rs.getInt("id"));
+            
+            tiposAfiliacion.add(tipoAfilicion);
+        }
+              
+        return tiposAfiliacion;
+    }
+    
+    public DefaultTableModel getModelTipoAfiliacion(List<Tipo_AfiliacionDto> lista){
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Id");
+          
+        Object[] registro = new Object[2];
+        
+        Collections.reverse(lista);
+        for(Tipo_AfiliacionDto tipoAfiliacion: lista){
+               
+                    registro[0] = tipoAfiliacion.getNombre();
+                    registro[1] = tipoAfiliacion.getId();
+                    
+                modelo.addRow(registro);
+               
+            } 
+        
+        return modelo;
+    }
+    
+    public String insertTipoAfiliacion(Tipo_AfiliacionDto tipoAfiliacion) throws Exception{
+    
+        PreparedStatement ps = null;
+        String sqlInsertar = "INSERT INTO tipo_afiliacion (nombre) VALUES (?)";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            ps = DB.conexion.prepareStatement(sqlInsertar);
+            ps.setString(1,  tipoAfiliacion.getNombre());
+            
+            ps.executeUpdate();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        
+        return null;
+    }
+    
+    public String updateTipoAfiliacion(Tipo_AfiliacionDto tipoAfiliacion) throws Exception{
+    
+        PreparedStatement actualizaTipoParentezco = null;
+        String sqlUpdate = null;
+        
+        sqlUpdate = "UPDATE tipo_afiliacion SET nombre=? WHERE id=?;";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            actualizaTipoParentezco = DB.conexion.prepareStatement(sqlUpdate);
+            actualizaTipoParentezco.setString(1,  tipoAfiliacion.getNombre());
+            actualizaTipoParentezco.setInt(2, tipoAfiliacion.getId());
+            
+            actualizaTipoParentezco.executeUpdate();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        
+        return null;
+    }
+    
+    public DefaultTableModel filtraModelTipoAfiliacion(String filtro) throws SQLException{
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Id");
+        
+        PreparedStatement buscarAnalisis = null;
+        String sqlBuscarAnalisis = "SELECT Nombre, id from tipo_afiliacion where Nombre like '%" + filtro + "%'";
+        
+        ResultSet rs = null;
+        
+        DB.conexion.setAutoCommit(false);
+        buscarAnalisis = DB.conexion.prepareStatement(sqlBuscarAnalisis);
+        rs = buscarAnalisis.executeQuery();
+
+        while (rs.next()) {
+            
+            Object[] datos = new Object[2];
+                for (int row = 0; row < 2; row++) {
+                    datos[row] = rs.getObject(row+1);
+
+                }
+                modelo.addRow(datos);
+        }
+        
+        return modelo;
+    } 
+    
+    public void deleteTipoAfiliacion(Tipo_AfiliacionDto tipoAfiliacion){
+        PreparedStatement ps = null;
+        String sqlDelete="DELETE FROM tipo_afiliacion\n" +
+                         " WHERE id=?";
+        try {
+            DB.conexion.setAutoCommit(false);
+            
+            ps = DB.conexion.prepareStatement(sqlDelete);
+            ps.setInt(1, tipoAfiliacion.getId());
+            ps.execute();
+            
+            DB.conexion.commit();
+        } catch (Exception e) {
+            try {
+                DB.conexion.rollback();
+            } catch (SQLException ex) {
+                Logger.getLogger(AfiliadoDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    //ORIGEN PADECIMIENTO
+    public List<Origen_PadecimientoDto> GetAllOrigenPadecimiento() throws SQLException{
+        PreparedStatement ps = null;
+        String sqlLlenarPago = "SELECT id, nombre FROM origen_padecimiento order by id asc";
+        ResultSet rs = null;
+        List<Origen_PadecimientoDto> origenesPadecimiento = new ArrayList<Origen_PadecimientoDto>();
+        Origen_PadecimientoDto origenPadecimiento;
+        
+        DB.conexion.setAutoCommit(false);
+        ps = DB.conexion.prepareStatement(sqlLlenarPago);
+        
+        rs = ps.executeQuery();
+        
+        while(rs.next()){
+            origenPadecimiento = new Origen_PadecimientoDto();
+            
+            origenPadecimiento.setNombre(rs.getString("nombre"));
+            origenPadecimiento.setId(rs.getInt("id"));
+            
+            origenesPadecimiento.add(origenPadecimiento);
+        }
+              
+        return origenesPadecimiento;
+    }
+    
+    public DefaultTableModel getModelOrigenPadecimiento(List<Origen_PadecimientoDto> lista){
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Id");
+          
+        Object[] registro = new Object[2];
+        
+        Collections.reverse(lista);
+        for(Origen_PadecimientoDto tipoAfiliacion: lista){
+               
+                    registro[0] = tipoAfiliacion.getNombre();
+                    registro[1] = tipoAfiliacion.getId();
+                    
+                modelo.addRow(registro);
+               
+            } 
+        
+        return modelo;
+    }
+    
+    public String insertOrigenPadecimiento(Origen_PadecimientoDto origenPadecimiento) throws Exception{
+    
+        PreparedStatement ps = null;
+        String sqlInsertar = "INSERT INTO origen_padecimiento (nombre) VALUES (?)";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            ps = DB.conexion.prepareStatement(sqlInsertar);
+            ps.setString(1,  origenPadecimiento.getNombre());
+            
+            ps.executeUpdate();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        
+        return null;
+    }
+    
+    public String updateOrigenPadecimiento(Origen_PadecimientoDto origenPadecimiento) throws Exception{
+    
+        PreparedStatement ps = null;
+        String sqlUpdate = null;
+        
+        sqlUpdate = "UPDATE origen_padecimiento SET nombre=? WHERE id=?;";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            ps = DB.conexion.prepareStatement(sqlUpdate);
+            ps.setString(1,  origenPadecimiento.getNombre());
+            ps.setInt(2, origenPadecimiento.getId());
+            
+            ps.executeUpdate();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        
+        return null;
+    }
+    
+    public DefaultTableModel filtraModelOrigenPadecimiento(String filtro) throws SQLException{
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Id");
+        
+        PreparedStatement ps = null;
+        String sqlBuscar = "SELECT Nombre, id from origen_padecimiento where Nombre like '%" + filtro + "%'";
+        
+        ResultSet rs = null;
+        
+        DB.conexion.setAutoCommit(false);
+        ps = DB.conexion.prepareStatement(sqlBuscar);
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            
+            Object[] datos = new Object[2];
+                for (int row = 0; row < 2; row++) {
+                    datos[row] = rs.getObject(row+1);
+
+                }
+                modelo.addRow(datos);
+        }
+        
+        return modelo;
+    } 
+    
+    public void deleteOrigenPadecimiento(Origen_PadecimientoDto tipoAfiliacion){
+        PreparedStatement ps = null;
+        String sqlDelete="DELETE FROM origen_padecimiento\n" +
+                         " WHERE id=?";
+        try {
+            DB.conexion.setAutoCommit(false);
+            
+            ps = DB.conexion.prepareStatement(sqlDelete);
+            ps.setInt(1, tipoAfiliacion.getId());
+            ps.execute();
+            
+            DB.conexion.commit();
+        } catch (Exception e) {
+            try {
+                DB.conexion.rollback();
+            } catch (SQLException ex) {
+                Logger.getLogger(AfiliadoDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    //OCUPACION
+    public List<OcupacionDto> GetAllOcupacion2() throws SQLException{
+        PreparedStatement ps = null;
+        String sqlLlenarPago = "SELECT id, nombre FROM ocupacion order by id asc";
+        ResultSet rs = null;
+        List<OcupacionDto> ocupaciones = new ArrayList<OcupacionDto>();
+        OcupacionDto ocupacion;
+        
+        DB.conexion.setAutoCommit(false);
+        ps = DB.conexion.prepareStatement(sqlLlenarPago);
+        
+        rs = ps.executeQuery();
+        
+        while(rs.next()){
+            ocupacion = new OcupacionDto();
+            
+            ocupacion.setNombre(rs.getString("nombre"));
+            ocupacion.setId(rs.getInt("id"));
+            
+            ocupaciones.add(ocupacion);
+        }
+              
+        return ocupaciones;
+    }
+    
+    public DefaultTableModel getModelOcupacion(List<OcupacionDto> lista){
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Id");
+          
+        Object[] registro = new Object[2];
+        
+        Collections.reverse(lista);
+        for(OcupacionDto ocupacion: lista){
+               
+                    registro[0] = ocupacion.getNombre();
+                    registro[1] = ocupacion.getId();
+                    
+                modelo.addRow(registro);
+               
+            } 
+        
+        return modelo;
+    }
+    
+    public String insertOcupacion(OcupacionDto ocupacion) throws Exception{
+    
+        PreparedStatement ps = null;
+        String sqlInsertar = "INSERT INTO ocupacion (nombre) VALUES (?)";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            ps = DB.conexion.prepareStatement(sqlInsertar);
+            ps.setString(1,  ocupacion.getNombre());
+            
+            ps.executeUpdate();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        
+        return null;
+    }
+    
+    public String updateOcupacion(OcupacionDto ocupacion) throws Exception{
+    
+        PreparedStatement ps = null;
+        String sqlUpdate = null;
+        
+        sqlUpdate = "UPDATE ocupacion SET nombre=? WHERE id=?;";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            ps = DB.conexion.prepareStatement(sqlUpdate);
+            ps.setString(1,  ocupacion.getNombre());
+            ps.setInt(2, ocupacion.getId());
+            
+            ps.executeUpdate();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        
+        return null;
+    }
+    
+    public DefaultTableModel filtraModelOcupacion(String filtro) throws SQLException{
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Id");
+        
+        PreparedStatement ps = null;
+        String sqlBuscar = "SELECT Nombre, id from ocupacion where Nombre like '%" + filtro + "%'";
+        
+        ResultSet rs = null;
+        
+        DB.conexion.setAutoCommit(false);
+        ps = DB.conexion.prepareStatement(sqlBuscar);
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            
+            Object[] datos = new Object[2];
+                for (int row = 0; row < 2; row++) {
+                    datos[row] = rs.getObject(row+1);
+
+                }
+                modelo.addRow(datos);
+        }
+        
+        return modelo;
+    } 
+    
+    public void deleteOcupacion(OcupacionDto ocupacion){
+        PreparedStatement ps = null;
+        String sqlDelete="DELETE FROM ocupacion\n" +
+                         " WHERE id=?";
+        try {
+            DB.conexion.setAutoCommit(false);
+            
+            ps = DB.conexion.prepareStatement(sqlDelete);
+            ps.setInt(1, ocupacion.getId());
+            ps.execute();
+            
+            DB.conexion.commit();
+        } catch (Exception e) {
+            try {
+                DB.conexion.rollback();
+            } catch (SQLException ex) {
+                Logger.getLogger(AfiliadoDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    //ESPECIALIDAD
+    public List<EspecialidadDto> GetAllEspecialidad2() throws SQLException{
+        PreparedStatement ps = null;
+        String sqlLlenarPago = "SELECT id, nombre FROM especialidad order by id asc";
+        ResultSet rs = null;
+        List<EspecialidadDto> especialidades = new ArrayList<EspecialidadDto>();
+        EspecialidadDto especialidad;
+        
+        DB.conexion.setAutoCommit(false);
+        ps = DB.conexion.prepareStatement(sqlLlenarPago);
+        
+        rs = ps.executeQuery();
+        
+        while(rs.next()){
+            especialidad = new EspecialidadDto();
+            
+            especialidad.setNombre(rs.getString("nombre"));
+            especialidad.setId(rs.getInt("id"));
+            
+            especialidades.add(especialidad);
+        }
+              
+        return especialidades;
+    }
+    
+    public DefaultTableModel getModelEspecialidad(List<EspecialidadDto> lista){
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Id");
+          
+        Object[] registro = new Object[2];
+        
+        Collections.reverse(lista);
+        for(EspecialidadDto ocupacion: lista){
+               
+                    registro[0] = ocupacion.getNombre();
+                    registro[1] = ocupacion.getId();
+                    
+                modelo.addRow(registro);
+               
+            } 
+        
+        return modelo;
+    }
+    
+    public String insertEspecialidad(EspecialidadDto especialidad) throws Exception{
+    
+        PreparedStatement ps = null;
+        String sqlInsertar = "INSERT INTO especialidad (nombre) VALUES (?)";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            ps = DB.conexion.prepareStatement(sqlInsertar);
+            ps.setString(1,  especialidad.getNombre());
+            
+            ps.executeUpdate();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        
+        return null;
+    }
+    
+    public String updateEspecialidad(EspecialidadDto especialidad) throws Exception{
+    
+        PreparedStatement ps = null;
+        String sqlUpdate = null;
+        
+        sqlUpdate = "UPDATE especialidad SET nombre=? WHERE id=?;";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            ps = DB.conexion.prepareStatement(sqlUpdate);
+            ps.setString(1,  especialidad.getNombre());
+            ps.setInt(2, especialidad.getId());
+            
+            ps.executeUpdate();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        
+        return null;
+    }
+    
+    public DefaultTableModel filtraModelEspecialidad(String filtro) throws SQLException{
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Id");
+        
+        PreparedStatement ps = null;
+        String sqlBuscar = "SELECT Nombre, id from especialidad where Nombre like '%" + filtro + "%'";
+        
+        ResultSet rs = null;
+        
+        DB.conexion.setAutoCommit(false);
+        ps = DB.conexion.prepareStatement(sqlBuscar);
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            
+            Object[] datos = new Object[2];
+                for (int row = 0; row < 2; row++) {
+                    datos[row] = rs.getObject(row+1);
+
+                }
+                modelo.addRow(datos);
+        }
+        
+        return modelo;
+    } 
+    
+    public void deleteEspecialidad(EspecialidadDto especialidad){
+        PreparedStatement ps = null;
+        String sqlDelete="DELETE FROM especialidad\n" +
+                         " WHERE id=?";
+        try {
+            DB.conexion.setAutoCommit(false);
+            
+            ps = DB.conexion.prepareStatement(sqlDelete);
+            ps.setInt(1, especialidad.getId());
+            ps.execute();
+            
+            DB.conexion.commit();
+        } catch (Exception e) {
+            try {
+                DB.conexion.rollback();
+            } catch (SQLException ex) {
+                Logger.getLogger(AfiliadoDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    //INSTITUCION
+    public List<InstitucionDto> GetAllInstitucion2() throws SQLException{
+        PreparedStatement ps = null;
+        String sqlLlenarPago = "SELECT id, nombre, telefono, direccion FROM institucion order by id asc";
+        ResultSet rs = null;
+        List<InstitucionDto> instituciones = new ArrayList<InstitucionDto>();
+        InstitucionDto institucion;
+        
+        DB.conexion.setAutoCommit(false);
+        ps = DB.conexion.prepareStatement(sqlLlenarPago);
+        
+        rs = ps.executeQuery();
+        
+        while(rs.next()){
+            institucion = new InstitucionDto();
+            
+            institucion.setNombre(rs.getString("nombre"));
+            institucion.setDireccion(rs.getString("direccion"));
+            institucion.setTelefono(rs.getString("telefono"));
+            institucion.setId(rs.getInt("id"));
+            
+            instituciones.add(institucion);
+        }
+              
+        return instituciones;
+    }
+    
+    public DefaultTableModel getModelInstitucion(List<InstitucionDto> lista){
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Id");
+        
+        modelo.addColumn("Telefono");
+        modelo.addColumn("Direccion");
+          
+        Object[] registro = new Object[4];
+        
+        Collections.reverse(lista);
+        for(InstitucionDto ocupacion: lista){
+               
+                    registro[0] = ocupacion.getNombre();
+                    registro[1] = ocupacion.getId();
+                    registro[2] = ocupacion.getTelefono();
+                    registro[3] = ocupacion.getDireccion();
+                    
+                modelo.addRow(registro);
+               
+            } 
+        
+        return modelo;
+    }
+    
+    public String insertInstitucion(InstitucionDto institucion) throws Exception{
+    
+        PreparedStatement ps = null;
+        String sqlInsertar = "INSERT INTO institucion (nombre,telefono,direccion) VALUES (?,?,?)";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            ps = DB.conexion.prepareStatement(sqlInsertar);
+            ps.setString(1,  institucion.getNombre());
+            ps.setString(2,  institucion.getTelefono());
+            ps.setString(3,  institucion.getDireccion());
+            
+            ps.executeUpdate();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        
+        return null;
+    }
+    
+    public String updateInstitucion(InstitucionDto institucion) throws Exception{
+    
+        PreparedStatement ps = null;
+        String sqlUpdate = null;
+        
+        sqlUpdate = "UPDATE institucion SET nombre=?, telefono=?, direccion=? WHERE id=?;";
+        
+        try {
+            DB.conexion.setAutoCommit(false);
+            ps = DB.conexion.prepareStatement(sqlUpdate);
+            ps.setString(1,  institucion.getNombre());
+            ps.setString(2,  institucion.getTelefono());
+            ps.setString(3,  institucion.getDireccion());
+            ps.setInt(4, institucion.getId());
+            
+            ps.executeUpdate();
+            
+            DB.conexion.commit(); 
+     
+        } catch (Exception exc) {
+            throw exc;
+        }
+        
+        return null;
+    }
+    
+    public DefaultTableModel filtraModelInstitucion(String filtro) throws SQLException{
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Id");
+        modelo.addColumn("Telefono");
+        modelo.addColumn("Direccion");
+        
+        PreparedStatement ps = null;
+        String sqlBuscar = "SELECT Nombre, id , telefono, direccion from institucion where Nombre like '%" + filtro + "%'";
+        
+        ResultSet rs = null;
+        
+        DB.conexion.setAutoCommit(false);
+        ps = DB.conexion.prepareStatement(sqlBuscar);
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            
+            Object[] datos = new Object[4];
+                for (int row = 0; row < 4; row++) {
+                    datos[row] = rs.getObject(row+1);
+
+                }
+                modelo.addRow(datos);
+        }
+        
+        return modelo;
+    } 
+    
+    public void deleteInstitucion(InstitucionDto institucion){
+        PreparedStatement ps = null;
+        String sqlDelete="DELETE FROM institucion\n" +
+                         " WHERE id=?";
+        try {
+            DB.conexion.setAutoCommit(false);
+            
+            ps = DB.conexion.prepareStatement(sqlDelete);
+            ps.setInt(1, institucion.getId());
+            ps.execute();
+            
+            DB.conexion.commit();
+        } catch (Exception e) {
+            try {
+                DB.conexion.rollback();
+            } catch (SQLException ex) {
+                Logger.getLogger(AfiliadoDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }
 

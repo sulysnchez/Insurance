@@ -15,6 +15,7 @@ import com.itla.insurance.dto.PrestadoresDto;
 import com.itla.insurance.dto.Tipo_IdentificacionDto;
 import com.itla.insurance.dto.Tipo_PssDto;
 import com.uasd.insurance.utilitario.MyListRendeder;
+import com.uasd.insurance.utilitario.ReportGenerator;
 import com.uasd.insurance.vistas.principal.frm_Principal;
 import java.awt.Dimension;
 import java.sql.SQLException;
@@ -275,6 +276,7 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
         jbttNuevo3 = new javax.swing.JButton();
         jbttGuardar1 = new javax.swing.JButton();
         jbttSalir = new javax.swing.JButton();
+        jbttImprimir = new javax.swing.JButton();
 
         pnPrincipal.setLayout(new java.awt.BorderLayout());
 
@@ -601,12 +603,23 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
             }
         });
 
+        jbttImprimir.setFont(new java.awt.Font("Palatino Linotype", 1, 14)); // NOI18N
+        jbttImprimir.setIcon(new javax.swing.ImageIcon("C:\\Users\\Sulenni\\Downloads\\printer.png")); // NOI18N
+        jbttImprimir.setText("Imprimir");
+        jbttImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbttImprimirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(377, 377, 377)
+                .addContainerGap()
+                .addComponent(jbttImprimir)
+                .addGap(238, 238, 238)
                 .addComponent(jbttNuevo2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jbttNuevo3)
@@ -624,7 +637,9 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
                     .addComponent(jbttSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbttGuardar1)
                     .addComponent(jbttNuevo3)
-                    .addComponent(jbttNuevo2))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jbttNuevo2)
+                        .addComponent(jbttImprimir)))
                 .addContainerGap())
         );
 
@@ -647,12 +662,11 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
             .addGroup(pnServiciosLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnServiciosLayout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(pnServiciosLayout.createSequentialGroup()
                         .addComponent(pnDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 539, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19))
         );
@@ -797,6 +811,10 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
             PasarATablaServicios();
     }//GEN-LAST:event_jtxtBuscaPrestadoresKeyTyped
 
+    private void jbttImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttImprimirActionPerformed
+        ReportGenerator.pagosPorPrestador(prestadorSeleccionado.getId());
+    }//GEN-LAST:event_jbttImprimirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -811,6 +829,7 @@ public class frm_Prestadores extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JButton jbttGuardar1;
+    private javax.swing.JButton jbttImprimir;
     private javax.swing.JButton jbttNuevo2;
     private javax.swing.JButton jbttNuevo3;
     private javax.swing.JButton jbttSalir;

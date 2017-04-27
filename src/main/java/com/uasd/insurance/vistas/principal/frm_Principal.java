@@ -8,7 +8,18 @@ package com.uasd.insurance.vistas.principal;
 import com.uasd.insurance.utilitario.ReportGenerator;
 import com.uasd.insurance.vistas.mantenimientos.frm_Afiliado;
 import com.uasd.insurance.vistas.mantenimientos.frm_Analisis;
+import com.uasd.insurance.vistas.mantenimientos.frm_Institucion;
+import com.uasd.insurance.vistas.mantenimientos.frm_Ocupacion;
+import com.uasd.insurance.vistas.mantenimientos.frm_OrigenParentezco;
 import com.uasd.insurance.vistas.mantenimientos.frm_Prestadores;
+import com.uasd.insurance.vistas.mantenimientos.frm_TipoAfiliacion;
+import com.uasd.insurance.vistas.mantenimientos.frm_TipoCobertura;
+import com.uasd.insurance.vistas.mantenimientos.frm_TipoPago;
+import com.uasd.insurance.vistas.mantenimientos.frm_TipoParentezco;
+import com.uasd.insurance.vistas.mantenimientos.frm_TipoPlan;
+import com.uasd.insurance.vistas.mantenimientos.frm_TipoPss;
+import com.uasd.insurance.vistas.mantenimientos.frm_TipoSangre;
+import com.uasd.insurance.vistas.mantenimientos.frm_TipoServicio;
 import com.uasd.insurance.vistas.transacciones.frm_Pago;
 import com.uasd.insurance.vistas.transacciones.frm_Reclamacion;
 import java.awt.Dimension;
@@ -58,6 +69,17 @@ public class frm_Principal extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMnPrestador = new javax.swing.JMenuItem();
+        jMnPrestador1 = new javax.swing.JMenuItem();
+        jMnPrestador2 = new javax.swing.JMenuItem();
+        jMnPrestador3 = new javax.swing.JMenuItem();
+        jMnPrestador4 = new javax.swing.JMenuItem();
+        jMnPrestador5 = new javax.swing.JMenuItem();
+        jMnPrestador6 = new javax.swing.JMenuItem();
+        jMnPrestador7 = new javax.swing.JMenuItem();
+        jMnPrestador8 = new javax.swing.JMenuItem();
+        jMnPrestador9 = new javax.swing.JMenuItem();
+        jMnPrestador10 = new javax.swing.JMenuItem();
+        jMnPrestador11 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItemPagos = new javax.swing.JMenuItem();
@@ -128,6 +150,116 @@ public class frm_Principal extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMnPrestador);
+
+        jMnPrestador1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.ALT_MASK));
+        jMnPrestador1.setFont(new java.awt.Font("Palatino Linotype", 2, 14)); // NOI18N
+        jMnPrestador1.setText("Institución");
+        jMnPrestador1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnPrestador1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMnPrestador1);
+
+        jMnPrestador2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.ALT_MASK));
+        jMnPrestador2.setFont(new java.awt.Font("Palatino Linotype", 2, 14)); // NOI18N
+        jMnPrestador2.setText("Ocupación");
+        jMnPrestador2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnPrestador2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMnPrestador2);
+
+        jMnPrestador3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        jMnPrestador3.setFont(new java.awt.Font("Palatino Linotype", 2, 14)); // NOI18N
+        jMnPrestador3.setText("Origen parentezco");
+        jMnPrestador3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnPrestador3ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMnPrestador3);
+
+        jMnPrestador4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.CTRL_MASK));
+        jMnPrestador4.setFont(new java.awt.Font("Palatino Linotype", 2, 14)); // NOI18N
+        jMnPrestador4.setText("Tipo afiliación");
+        jMnPrestador4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnPrestador4ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMnPrestador4);
+
+        jMnPrestador5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_2, java.awt.event.InputEvent.CTRL_MASK));
+        jMnPrestador5.setFont(new java.awt.Font("Palatino Linotype", 2, 14)); // NOI18N
+        jMnPrestador5.setText("Tipo cobertura");
+        jMnPrestador5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnPrestador5ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMnPrestador5);
+
+        jMnPrestador6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_3, java.awt.event.InputEvent.CTRL_MASK));
+        jMnPrestador6.setFont(new java.awt.Font("Palatino Linotype", 2, 14)); // NOI18N
+        jMnPrestador6.setText("Tipo pago");
+        jMnPrestador6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnPrestador6ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMnPrestador6);
+
+        jMnPrestador7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_4, java.awt.event.InputEvent.CTRL_MASK));
+        jMnPrestador7.setFont(new java.awt.Font("Palatino Linotype", 2, 14)); // NOI18N
+        jMnPrestador7.setText("Tipo parentezco");
+        jMnPrestador7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnPrestador7ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMnPrestador7);
+
+        jMnPrestador8.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_5, java.awt.event.InputEvent.CTRL_MASK));
+        jMnPrestador8.setFont(new java.awt.Font("Palatino Linotype", 2, 14)); // NOI18N
+        jMnPrestador8.setText("Tipo plan");
+        jMnPrestador8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnPrestador8ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMnPrestador8);
+
+        jMnPrestador9.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_6, java.awt.event.InputEvent.CTRL_MASK));
+        jMnPrestador9.setFont(new java.awt.Font("Palatino Linotype", 2, 14)); // NOI18N
+        jMnPrestador9.setText("Tipo PSS");
+        jMnPrestador9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnPrestador9ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMnPrestador9);
+
+        jMnPrestador10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_7, java.awt.event.InputEvent.CTRL_MASK));
+        jMnPrestador10.setFont(new java.awt.Font("Palatino Linotype", 2, 14)); // NOI18N
+        jMnPrestador10.setText("Tipo Sangre");
+        jMnPrestador10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnPrestador10ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMnPrestador10);
+
+        jMnPrestador11.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_8, java.awt.event.InputEvent.CTRL_MASK));
+        jMnPrestador11.setFont(new java.awt.Font("Palatino Linotype", 2, 14)); // NOI18N
+        jMnPrestador11.setText("Tipo Servicio");
+        jMnPrestador11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnPrestador11ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMnPrestador11);
 
         jMenuBar1.add(jMenu1);
 
@@ -300,6 +432,116 @@ public class frm_Principal extends javax.swing.JFrame {
         pago.show();
     }//GEN-LAST:event_jMenuItemPagosActionPerformed
 
+    private void jMnPrestador1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnPrestador1ActionPerformed
+        frm_Institucion frmInstitucion = null;
+        try {
+            frmInstitucion = new frm_Institucion();
+        } catch (Exception ex) {
+            Logger.getLogger(frm_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        agregarFormulario(frmInstitucion);
+    }//GEN-LAST:event_jMnPrestador1ActionPerformed
+
+    private void jMnPrestador2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnPrestador2ActionPerformed
+        frm_Ocupacion frmOcupacion = null;
+        try {
+            frmOcupacion = new frm_Ocupacion();
+        } catch (Exception ex) {
+            Logger.getLogger(frm_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        agregarFormulario(frmOcupacion);
+    }//GEN-LAST:event_jMnPrestador2ActionPerformed
+
+    private void jMnPrestador3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnPrestador3ActionPerformed
+        frm_OrigenParentezco frmOrigenParentezco = null;
+        try {
+            frmOrigenParentezco = new frm_OrigenParentezco();
+        } catch (Exception ex) {
+            Logger.getLogger(frm_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        agregarFormulario(frmOrigenParentezco);
+    }//GEN-LAST:event_jMnPrestador3ActionPerformed
+
+    private void jMnPrestador4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnPrestador4ActionPerformed
+        frm_TipoAfiliacion frmTipoAfiliacion = null;
+        try {
+            frmTipoAfiliacion = new frm_TipoAfiliacion();
+        } catch (Exception ex) {
+            Logger.getLogger(frm_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        agregarFormulario(frmTipoAfiliacion);
+    }//GEN-LAST:event_jMnPrestador4ActionPerformed
+
+    private void jMnPrestador5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnPrestador5ActionPerformed
+        frm_TipoCobertura frmTipoCobertura = null;
+        try {
+            frmTipoCobertura = new frm_TipoCobertura();
+        } catch (Exception ex) {
+            Logger.getLogger(frm_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        agregarFormulario(frmTipoCobertura);
+    }//GEN-LAST:event_jMnPrestador5ActionPerformed
+
+    private void jMnPrestador6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnPrestador6ActionPerformed
+        frm_TipoPago frmTipoPago = null;
+        try {
+            frmTipoPago = new frm_TipoPago();
+        } catch (Exception ex) {
+            Logger.getLogger(frm_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        agregarFormulario(frmTipoPago);
+    }//GEN-LAST:event_jMnPrestador6ActionPerformed
+
+    private void jMnPrestador7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnPrestador7ActionPerformed
+        frm_TipoParentezco frmTipoParentezco = null;
+        try {
+            frmTipoParentezco = new frm_TipoParentezco();
+        } catch (Exception ex) {
+            Logger.getLogger(frm_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        agregarFormulario(frmTipoParentezco);
+    }//GEN-LAST:event_jMnPrestador7ActionPerformed
+
+    private void jMnPrestador8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnPrestador8ActionPerformed
+        frm_TipoPlan frmTipoPlan = null;
+        try {
+            frmTipoPlan = new frm_TipoPlan();
+        } catch (Exception ex) {
+            Logger.getLogger(frm_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        agregarFormulario(frmTipoPlan);
+    }//GEN-LAST:event_jMnPrestador8ActionPerformed
+
+    private void jMnPrestador9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnPrestador9ActionPerformed
+        frm_TipoPss frmTipoPss = null;
+        try {
+            frmTipoPss = new frm_TipoPss();
+        } catch (Exception ex) {
+            Logger.getLogger(frm_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        agregarFormulario(frmTipoPss);
+    }//GEN-LAST:event_jMnPrestador9ActionPerformed
+
+    private void jMnPrestador10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnPrestador10ActionPerformed
+        frm_TipoSangre frmTipoSangre = null;
+        try {
+            frmTipoSangre = new frm_TipoSangre();
+        } catch (Exception ex) {
+            Logger.getLogger(frm_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        agregarFormulario(frmTipoSangre);
+    }//GEN-LAST:event_jMnPrestador10ActionPerformed
+
+    private void jMnPrestador11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnPrestador11ActionPerformed
+        frm_TipoServicio frmTipoServicio = null;
+        try {
+            frmTipoServicio = new frm_TipoServicio();
+        } catch (Exception ex) {
+            Logger.getLogger(frm_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        agregarFormulario(frmTipoServicio);
+    }//GEN-LAST:event_jMnPrestador11ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -353,5 +595,16 @@ public class frm_Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItemPagos;
     private javax.swing.JMenuItem jMnPrestador;
+    private javax.swing.JMenuItem jMnPrestador1;
+    private javax.swing.JMenuItem jMnPrestador10;
+    private javax.swing.JMenuItem jMnPrestador11;
+    private javax.swing.JMenuItem jMnPrestador2;
+    private javax.swing.JMenuItem jMnPrestador3;
+    private javax.swing.JMenuItem jMnPrestador4;
+    private javax.swing.JMenuItem jMnPrestador5;
+    private javax.swing.JMenuItem jMnPrestador6;
+    private javax.swing.JMenuItem jMnPrestador7;
+    private javax.swing.JMenuItem jMnPrestador8;
+    private javax.swing.JMenuItem jMnPrestador9;
     // End of variables declaration//GEN-END:variables
 }
