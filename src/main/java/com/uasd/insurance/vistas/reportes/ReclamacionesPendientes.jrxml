@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d13dab7b-2f3c-42cf-9da3-a85ea4825931">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT r.id, r.id_tipo_servicio, r.diagnostico, r.id_afiliado, r.id_prestador, a.nombre as nombreAfiliado, p.nombre as nombrePrestador, r.pagado, COALESCE(total.total_analisis - (total.total_analisis * t.porciento / 100.0), 0)::real  as totalPendiente
+                           FROM reclamacion r JOIN afiliado a ON r.id_afiliado = a.id JOIN prestadores p ON r.id_prestador = p.id	
+                           JOIN tipo_cobertura t ON a.id_tipo_cobertura = t.id
+                          Left JOIN (SELECT sr.id_reclamacion, sum(a.precio)::real AS total_analisis FROM Servicios_Reclamacion sr JOIN analisis a ON sr.id_servicio = a.id group by sr.id_reclamacion) total
+                        ON r.id = total.id_reclamacion  where r.pagado = false]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="id_tipo_servicio" class="java.lang.Integer"/>
+	<field name="diagnostico" class="java.lang.String"/>
+	<field name="id_afiliado" class="java.lang.Integer"/>
+	<field name="id_prestador" class="java.lang.Integer"/>
+	<field name="nombreafiliado" class="java.lang.String"/>
+	<field name="nombreprestador" class="java.lang.String"/>
+	<field name="pagado" class="java.lang.Boolean"/>
+	<field name="totalpendiente" class="java.lang.Float"/>
+	<group name="id">
+		<groupExpression><![CDATA[$F{id}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="51" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="41" uuid="26a8eba0-c525-430e-b567-ba4d8bce1334"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RECLAMACIONES PENDIENTES DE PAGO]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="155" y="0" width="135" height="20" uuid="80ec0355-45a1-4a90-8914-edce927ce0f2"/>
+				<textElement>
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AFILIADO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="135" height="20" uuid="fcf47344-59ce-419f-b92f-297f90d73659"/>
+				<textElement>
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRESTADOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="311" y="0" width="135" height="20" uuid="5b7be527-5b8d-4a41-b78e-4f29a3ef65f8"/>
+				<textElement>
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MONTO PENDIENTE]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="135" height="20" forecolor="#333333" uuid="cce1282d-0a13-4748-a4a6-2b789510b50d"/>
+				<textElement>
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreprestador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="155" y="0" width="135" height="20" forecolor="#333333" uuid="a252c446-2357-4a5b-97ff-1292268056b9"/>
+				<textElement>
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreafiliado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="311" y="0" width="135" height="20" forecolor="#333333" uuid="73e98263-2ddd-4bdc-b2fe-5e7bc54eb9ea"/>
+				<textElement>
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalpendiente}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
