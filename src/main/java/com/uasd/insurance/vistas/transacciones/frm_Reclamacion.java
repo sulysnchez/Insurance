@@ -13,6 +13,7 @@ import com.itla.insurance.dto.PrestadoresDto;
 import com.itla.insurance.dto.ReclamacionDto;
 import com.itla.insurance.dto.ServicioDto;
 import com.itla.insurance.dto.Tipo_CoberturaDto;
+import com.uasd.insurance.utilitario.ReportGenerator;
 import com.uasd.insurance.vistas.mantenimientos.frm_Afiliado;
 import com.uasd.insurance.vistas.mantenimientos.frm_BuscarAfiliado;
 import com.uasd.insurance.vistas.mantenimientos.frm_BuscarPrestador;
@@ -541,7 +542,7 @@ public class frm_Reclamacion extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbttImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttImprimirActionPerformed
-
+        ReportGenerator.pagosPorPrestador(prestadorDto.getId());
     }//GEN-LAST:event_jbttImprimirActionPerformed
 
     private void jbttNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbttNuevoActionPerformed
