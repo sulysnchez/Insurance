@@ -24,13 +24,26 @@ public class frm_Pago extends javax.swing.JInternalFrame {
      */
     public frm_Pago() throws Exception {
         initComponents();
+        jtxtReclamacionesPendientes.setText("");
+        jtxtReclamacionesPagas.setText("");
         afiliadoDao = new AfiliadoDao();
         btnMarcarPago.setEnabled(false);
-        jtblReclamacionesPendientes.setModel(afiliadoDao.getModelReclamacion(afiliadoDao.GetAllReclamacion(false)));
-        jtblReclamacionesPagas.setModel(afiliadoDao.getModelReclamacion(afiliadoDao.GetAllReclamacion(true)));
+        RefrescarTablas();
+    }
+    
+    private void RefrescarTablas() throws SQLException {
+        RefrescarTablaPendientes();
+        RefrescarTablapagas();
+    }
+    
+    private void RefrescarTablaPendientes() throws SQLException{
+        jtblReclamacionesPendientes.setModel(afiliadoDao.getModelReclamacion(afiliadoDao.GetAllReclamacion(false, jtxtReclamacionesPendientes.getText())));
         RedisenarTablaReclamacionesPendientes();
+    }
+    
+    private void RefrescarTablapagas() throws SQLException{
+        jtblReclamacionesPagas.setModel(afiliadoDao.getModelReclamacion(afiliadoDao.GetAllReclamacion(true, jtxtReclamacionesPagas.getText())));
         RedisenarTablaReclamacionesPagas();
-
     }
     
     private void RedisenarTablaReclamacionesPendientes(){
@@ -62,10 +75,14 @@ public class frm_Pago extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jtblReclamacionesPendientes = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        jtxtReclamacionesPendientes = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtblReclamacionesPagas = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jtxtReclamacionesPagas = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         btnMarcarPago = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
@@ -103,6 +120,16 @@ public class frm_Pago extends javax.swing.JInternalFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/doctor (2).png"))); // NOI18N
         jLabel1.setText("Reclamaciones Pendientes de Pago");
 
+        jtxtReclamacionesPendientes.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtxtReclamacionesPendientesKeyTyped(evt);
+            }
+        });
+
+        jLabel6.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/magnifying-glass.png"))); // NOI18N
+        jLabel6.setText("Consultas");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -111,7 +138,11 @@ public class frm_Pago extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jtxtReclamacionesPendientes)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -119,8 +150,12 @@ public class frm_Pago extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jtxtReclamacionesPendientes, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -152,6 +187,16 @@ public class frm_Pago extends javax.swing.JInternalFrame {
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/doctor (2).png"))); // NOI18N
         jLabel2.setText("Reclamaciones Pagas");
 
+        jLabel5.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/magnifying-glass.png"))); // NOI18N
+        jLabel5.setText("Consultas");
+
+        jtxtReclamacionesPagas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtxtReclamacionesPagasKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -160,7 +205,11 @@ public class frm_Pago extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jtxtReclamacionesPagas)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -168,7 +217,11 @@ public class frm_Pago extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jtxtReclamacionesPagas, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -221,7 +274,7 @@ public class frm_Pago extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 750, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 726, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -272,16 +325,29 @@ public class frm_Pago extends javax.swing.JInternalFrame {
             }
         }
         try{
-        jtblReclamacionesPendientes.setModel(afiliadoDao.getModelReclamacion(afiliadoDao.GetAllReclamacion(false)));
-        RedisenarTablaReclamacionesPendientes();
-        btnMarcarPago.setEnabled(false);
-        jtblReclamacionesPagas.setModel(afiliadoDao.getModelReclamacion(afiliadoDao.GetAllReclamacion(true)));
-        RedisenarTablaReclamacionesPagas();
+            btnMarcarPago.setEnabled(false);
+            RefrescarTablas();
         }catch(Exception e){
                 Logger.getLogger(frm_Pago.class.getName()).log(Level.SEVERE, null, e);
         }
         jtblReclamacionesPendientes.setEnabled(true);
     }//GEN-LAST:event_btnMarcarPagoActionPerformed
+
+    private void jtxtReclamacionesPagasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtReclamacionesPagasKeyTyped
+        try {
+            RefrescarTablapagas();
+        } catch (SQLException ex) {
+            Logger.getLogger(frm_Pago.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jtxtReclamacionesPagasKeyTyped
+
+    private void jtxtReclamacionesPendientesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtReclamacionesPendientesKeyTyped
+        try {
+            RefrescarTablaPendientes();
+        } catch (SQLException ex) {
+            Logger.getLogger(frm_Pago.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jtxtReclamacionesPendientesKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -289,6 +355,8 @@ public class frm_Pago extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -296,5 +364,7 @@ public class frm_Pago extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jtblReclamacionesPagas;
     private javax.swing.JTable jtblReclamacionesPendientes;
+    private javax.swing.JTextField jtxtReclamacionesPagas;
+    private javax.swing.JTextField jtxtReclamacionesPendientes;
     // End of variables declaration//GEN-END:variables
 }

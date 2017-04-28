@@ -695,8 +695,8 @@ public class AfiliadoDao {
             return serviciosReclamacion;
     }
         
-    public List<ReclamacionDto> GetAllReclamacion(boolean paga) throws SQLException {
-        return GetAllReclamacion("WHERE r.pagado = " + (paga? "true" : "false"));
+    public List<ReclamacionDto> GetAllReclamacion(boolean paga, String nombre) throws SQLException {
+        return GetAllReclamacion("WHERE r.pagado = " + (paga ? "true" : "false") + " and (p.nombre like '%" + nombre + "%' or a.nombre like '%" + nombre + "%')");
     }
     
     public List<ReclamacionDto> GetAllReclamacion() throws SQLException{
