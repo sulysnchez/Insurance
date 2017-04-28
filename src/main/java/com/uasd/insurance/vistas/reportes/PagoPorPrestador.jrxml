@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="91bd2b13-d043-41d5-9799-334e77a98234">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="idPrestador" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select
+    p.id, 
+    p.nombre PRESTADOR, 
+    a.nombre AFILIADO,
+    an.nombre ANALISIS,
+    an.precio PRECIO,
+    tc.porciento PORCIENTO
+from 
+    prestadores p
+
+inner join reclamacion r
+on p.id = r.id_prestador
+inner join afiliado a
+on a.id = r.id_afiliado
+inner join tipo_cobertura tc
+on tc.id = a.id_tipo_cobertura
+inner join servicios_reclamacion sr
+on sr.id_reclamacion = r.id
+inner join analisis an
+on an.id = sr.id_servicio
+
+WHERE
+    p.id = $P{idPrestador}
+AND
+    r.pagado = false]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="prestador" class="java.lang.String"/>
+	<field name="afiliado" class="java.lang.String"/>
+	<field name="analisis" class="java.lang.String"/>
+	<field name="precio" class="java.lang.Float"/>
+	<field name="porciento" class="java.lang.Integer"/>
+	<variable name="diferencia" class="java.lang.Float">
+		<variableExpression><![CDATA[($F{porciento}*$F{precio})/100]]></variableExpression>
+	</variable>
+	<variable name="suma" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$V{diferencia}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="130" y="12" width="301" height="41" uuid="54c9022d-621e-4824-9c39-7ed11a103162"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PAGOS POR PRESTADOR]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<textField>
+				<reportElement x="104" y="0" width="451" height="20" forecolor="#333333" uuid="aebd96da-6874-4511-a5bc-20265b9d7b40"/>
+				<textElement>
+					<font fontName="Serif" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prestador}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="0" width="100" height="20" uuid="0756afcb-2764-4539-bd4a-6ea050fb2d2c"/>
+				<textElement>
+					<font fontName="Serif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRESTADOR:	]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="3" width="555" height="20" forecolor="#E9E9E9" backcolor="#E9E8E8" uuid="0071132a-4044-4f5c-8daa-21020ecc401c"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="381" y="2" width="79" height="20" backcolor="#E9E7E7" uuid="d80e6501-4c7e-4df2-83b9-2985a2344269"/>
+				<textElement>
+					<font fontName="Serif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRECIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="2" width="268" height="20" backcolor="#E9E7E7" uuid="fe5bc613-3f4e-4131-a356-051cd53e7485"/>
+				<textElement>
+					<font fontName="Serif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AFILIADO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="267" y="2" width="118" height="20" backcolor="#E9E7E7" uuid="307baf32-c5bf-4151-9533-08de9d60cd0d"/>
+				<textElement>
+					<font fontName="Serif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ANALISIS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="2" width="95" height="20" backcolor="#E9E7E7" uuid="e22d0554-f1ca-4ae2-804a-a280b025c711"/>
+				<textElement>
+					<font fontName="Serif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIFERENCIA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="28" splitType="Stretch">
+			<textField>
+				<reportElement x="385" y="8" width="75" height="20" forecolor="#333333" uuid="b2eec8d0-13c0-4f29-8988-135c581ac8a1"/>
+				<textElement>
+					<font fontName="Serif" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="4" y="8" width="264" height="20" forecolor="#333333" uuid="7db6873c-b0ba-419e-a627-4a9b40369ea9"/>
+				<textElement>
+					<font fontName="Serif" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{afiliado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="271" y="8" width="114" height="20" forecolor="#333333" uuid="09a36c25-ea4a-439c-9045-8aed91c5919d"/>
+				<textElement>
+					<font fontName="Serif" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{analisis}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="460" y="8" width="95" height="20" forecolor="#333333" uuid="ee97a7f7-6df0-4b15-8ad8-6116069fdd0e"/>
+				<textElement>
+					<font fontName="Serif" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{diferencia}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="4" y="4" width="551" height="1" forecolor="#CCCCCC" uuid="2d591118-cfa7-4ac6-8aa8-63148d2715e6"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<rectangle>
+				<reportElement x="331" y="11" width="213" height="28" uuid="3eafb713-f314-4a11-9f9e-5944c1a65ab5"/>
+			</rectangle>
+			<textField>
+				<reportElement x="444" y="15" width="100" height="20" forecolor="#333333" uuid="9b95bd3b-5815-431e-9949-630e3d34ec06"/>
+				<textElement>
+					<font fontName="Serif" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{suma}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="331" y="15" width="100" height="20" uuid="ec4f1ec9-d2c8-4159-bb04-3f2470ec55a9"/>
+				<textElement textAlignment="Right">
+					<font fontName="Serif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<line>
+				<reportElement x="3" y="2" width="551" height="1" forecolor="#CCCCCC" uuid="b4ac88c8-58a3-4db9-9541-b7b0b98a99b0"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>
